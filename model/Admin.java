@@ -1,20 +1,12 @@
 package com.employee.model;
 
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "admin_data")
 public class Admin {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private int id;
 
-    @Column(name = "name")
     private String name;
 
-    // No-arg constructor (IMPORTANT for Hibernate)
+    // No-arg constructor
     public Admin() {
     }
 

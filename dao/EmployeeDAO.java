@@ -1,11 +1,12 @@
 package com.employee.dao;
 
 import com.employee.model.Employee;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.query.Query;
-import com.employee.util.HibernateUtil;
+import com.employee.util.DBUtil;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeeDAO {
@@ -15,15 +16,15 @@ public class EmployeeDAO {
      * @param employee Employee object to save
      */
     public void addEmployee(Employee employee) {
-        Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            transaction = session.beginTransaction();
-            session.save(employee);
-            transaction.commit();
+        String sql = "INSERT INTO employee_data (id, name, department, salary) VALUES (?, ?, ?, ?)";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, employee.getId());
+            ps.setString(2, employee.getName());
+            ps.setString(3, employee.getDepartment());
+            ps.setDouble(4, employee.getSalary());
+            ps.executeUpdate();
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             e.printStackTrace();
         }
     }
@@ -36,26 +37,22 @@ public class EmployeeDAO {
      * @return true if update is successful, false otherwise
      */
     public boolean updateEmployee(int id, String field, String newValue) {
-        Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            transaction = session.beginTransaction();
-            Employee employee = session.get(Employee.class, id);
-            if (employee != null) {
-                if ("salary".equalsIgnoreCase(field)) {
-                    employee.setSalary(Double.parseDouble(newValue));
-                } else if ("department".equalsIgnoreCase(field)) {
-                    employee.setDepartment(newValue);
-                } else {
-                    return false;
-                }
-                session.update(employee);
-                transaction.commit();
-                return true;
+        try (Connection conn = DBUtil.getConnection()) {
+            PreparedStatement ps;
+            if ("salary".equalsIgnoreCase(field)) {
+                ps = conn.prepareStatement("UPDATE employee_data SET salary = ? WHERE id = ?");
+                ps.setDouble(1, Double.parseDouble(newValue));
+            } else if ("department".equalsIgnoreCase(field)) {
+                ps = conn.prepareStatement("UPDATE employee_data SET department = ? WHERE id = ?");
+                ps.setString(1, newValue);
+            } else {
+                return false;
+            }
+            try (ps) {
+                ps.setInt(2, id);
+                return ps.executeUpdate() > 0;
             }
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             e.printStackTrace();
         }
         return false;
@@ -68,19 +65,13 @@ public class EmployeeDAO {
      * @return true if deletion is successful, false otherwise
      */
     public boolean deleteEmployee(int id, String name) {
-        Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            transaction = session.beginTransaction();
-            Query query = session.createQuery("DELETE FROM Employee WHERE id = :id AND name = :name");
-            query.setParameter("id", id);
-            query.setParameter("name", name);
-            int result = query.executeUpdate();
-            transaction.commit();
-            return result > 0;
+        String sql = "DELETE FROM employee_data WHERE id = ? AND name = ?";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ps.setString(2, name);
+            return ps.executeUpdate() > 0;
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             e.printStackTrace();
         }
         return false;
@@ -91,8 +82,17 @@ public class EmployeeDAO {
      * @return List of Employee objects
      */
     public List<Employee> getAllEmployees() {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.createQuery("FROM Employee", Employee.class).list();
+        String sql = "SELECT id, name, department, salary FROM employee_data";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            List<Employee> employees = new ArrayList<>();
+            while (rs.next()) {
+                Employee employee = new Employee(rs.getString("name"), rs.getString("department"), rs.getDouble("salary"));
+                employee.setId(rs.getInt("id"));
+                employees.add(employee);
+            }
+            return employees;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -106,12 +106,14 @@ public class EmployeeDAO {
      * @return true if employee exists, false otherwise
      */
     public boolean validateEmployee(int id, String name) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query<Employee> query = session.createQuery("FROM Employee WHERE id = :id AND name = :name", Employee.class);
-            query.setParameter("id", id);
-            query.setParameter("name", name);
-            Employee employee = query.uniqueResult();
-            return employee != null;
+        String sql = "SELECT 1 FROM employee_data WHERE id = ? AND name = ?";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ps.setString(2, name);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

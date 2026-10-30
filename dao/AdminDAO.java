@@ -1,52 +1,43 @@
 package com.employee.dao;
 
 import com.employee.model.Admin;
-import com.employee.util.HibernateUtil;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.query.Query;
+import com.employee.util.DBUtil;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 public class AdminDAO {
 
     // Add Admin (Sign Up)
     public void addAdmin(Admin admin) {
-        Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            transaction = session.beginTransaction();
-            session.save(admin);
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            e.printStackTrace();
-        }
+        saveAdmin(admin);
     }
-    
-    
+
+
     // Save admin details to the database
     public static void saveAdmin(Admin admin) {
-        Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            transaction = session.beginTransaction();
-            session.save(admin);   // Save the admin object
-            transaction.commit();
+        String sql = "INSERT INTO admin_data (id, name) VALUES (?, ?)";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, admin.getId());
+            ps.setString(2, admin.getName());
+            ps.executeUpdate();
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             e.printStackTrace();
         }
     }
 
     // Check Admin Login
     public boolean validateAdmin(int id, String name) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query<Admin> query = session.createQuery("from Admin where id = :id and name = :name", Admin.class);
-            query.setParameter("id", id);
-            query.setParameter("name", name);
-            Admin admin = query.uniqueResult();
-            return admin != null;
+        String sql = "SELECT 1 FROM admin_data WHERE id = ? AND name = ?";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ps.setString(2, name);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -55,12 +46,22 @@ public class AdminDAO {
 
     // Get Admin by ID
     public Admin getAdminById(int id) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.get(Admin.class, id);
+        String sql = "SELECT id, name FROM admin_data WHERE id = ?";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next()) {
+                    return null;
+                }
+                Admin admin = new Admin();
+                admin.setId(rs.getInt("id"));
+                admin.setName(rs.getString("name"));
+                return admin;
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
 }
-
