@@ -1,7 +1,7 @@
 # Employee Management App
 
 A full-stack Java EE web application for managing employee records, built with 
-JDBC, Jakarta Servlets, JSP, and Maven. Supports complete CRUD operations 
+JDBC, Jakarta Servlets, JSP, and Apache Ant. Supports complete CRUD operations 
 through a clean web interface with admin authentication.
 
 ## 🚀 Features
@@ -18,7 +18,7 @@ through a clean web interface with admin authentication.
 | Language | Java |
 | Web Framework | Jakarta Servlets + JSP |
 | Data Access | JDBC + Tomcat connection pool |
-| Build Tool | Maven |
+| Build Tool | Apache Ant |
 | Server | Apache Tomcat |
 | Database | MySQL |
 | Architecture | MVC + DAO Pattern |
@@ -52,7 +52,8 @@ EmployeeManagementApp/
 │           ├── showEmployee.jsp
 │           ├── deleteEmployee.jsp
 │           └── editEmployee.jsp
-└── pom.xml
+├── lib/provided/          # servlet-api + MySQL driver (supplied by Tomcat at runtime)
+└── build.xml
 ```
 
 ## ⚙️ Setup & Installation
@@ -61,7 +62,7 @@ EmployeeManagementApp/
 - Java 17+
 - Apache Tomcat 10+
 - MySQL
-- Maven
+- Apache Ant 1.10+
 
 ### Steps
 
@@ -87,14 +88,14 @@ url="jdbc:mysql://localhost:3306/employee"
 username="root"
 password="your_password"
 ```
-   Copy the MySQL driver jar (`mysql-connector-j-8.4.0.jar`) into Tomcat's `lib/` folder — the pool is created by Tomcat, so the driver must be on Tomcat's classpath.
+   Copy the MySQL driver jar (`lib/provided/mysql-connector-j-8.4.0.jar`) into Tomcat's `lib/` folder — the pool is created by Tomcat, so the driver must be on Tomcat's classpath.
 
 4. **Build the project**
 ```bash
-mvn clean install
+ant clean war
 ```
 
-5. **Deploy** the generated `.war` file to Tomcat's `webapps/` directory
+5. **Deploy** the generated `dist/EmployeeManagementApp.war` to Tomcat's `webapps/` directory
 
 6. **Access the app** at:http://localhost:8080/EmployeeManagementApp/
 

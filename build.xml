@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="EmployeeManagementApp" default="war" basedir=".">
+
+    <property name="app.name"    value="EmployeeManagementApp"/>
+    <property name="web.dir"     value="webapp"/>
+    <property name="build.dir"   value="build"/>
+    <property name="classes.dir" value="${build.dir}/classes"/>
+    <property name="dist.dir"    value="dist"/>
+
+    <!-- Jars needed to compile but supplied by Tomcat at runtime (not packaged) -->
+    <path id="provided.classpath">
+        <fileset dir="lib/provided" includes="*.jar"/>
+    </path>
+
+    <!-- Jars packaged inside the WAR -->
+    <path id="compile.classpath">
+        <path refid="provided.classpath"/>
+        <fileset dir="${web.dir}/WEB-INF/lib" includes="*.jar"/>
+    </path>
+
+    <target name="clean" description="Delete build output">
+        <delete dir="${build.dir}"/>
+        <delete dir="${dist.dir}"/>
+    </target>
+
+    <target name="compile" description="Compile Java sources">
+        <mkdir dir="${classes.dir}"/>
+        <javac srcdir="." destdir="${classes.dir}" release="17"
+               encoding="UTF-8" includeantruntime="false" debug="true">
+            <include name="dao/**/*.java"/>
+            <include name="model/**/*.java"/>
+            <include name="servlet/**/*.java"/>
+            <include name="util/**/*.java"/>
+            <classpath refid="compile.classpath"/>
+        </javac>
+    </target>
+
+    <target name="war" depends="compile" description="Package the WAR">
+        <mkdir dir="${dist.dir}"/>
+        <war destfile="${dist.dir}/${app.name}.war" needxmlfile="false">
+            <fileset dir="${web.dir}" excludes="WEB-INF/lib/**"/>
+            <lib dir="${web.dir}/WEB-INF/lib" includes="*.jar"/>
+            <classes dir="${classes.dir}"/>
+        </war>
+    </target>
+
+</project>
