@@ -2,13 +2,13 @@
 <Context path="/EmployeeManagmentApp">
 
     <!-- Connection pool managed by Tomcat. Update url/username/password for your database.
-         The MySQL driver jar (mysql-connector-j) must be in Tomcat's lib/ folder. -->
+         The PostgreSQL driver jar (lib/provided/postgresql-42.7.4.jar) must be in Tomcat's lib/ folder. -->
     <Resource name="jdbc/EmployeeDB"
               auth="Container"
               type="javax.sql.DataSource"
-              driverClassName="com.mysql.cj.jdbc.Driver"
-              url="jdbc:mysql://localhost:3306/employee"
-              username="root"
+              driverClassName="org.postgresql.Driver"
+              url="jdbc:postgresql://localhost:5432/employee"
+              username="employee_app"
               password=""
               maxTotal="20"
               maxIdle="5"

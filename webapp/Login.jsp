@@ -1,4 +1,4 @@
-<%@ page import="java.sql.*" %>
+<%@ page import="com.employee.dao.AdminDAO" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -74,42 +74,20 @@
         </form>
 
         <%
-            // Database connection and authentication logic
+            // Authenticate via AdminDAO (uses the Tomcat connection pool)
             String id = request.getParameter("id");
             String name = request.getParameter("name");
 
             if (id != null && name != null) {
-                Connection conn = null;
-                PreparedStatement stmt = null;
-                ResultSet rs = null;
-
                 try {
-                    // Load MySQL JDBC driver
-                    Class.forName("com.mysql.cj.jdbc.Driver");
-                    
-                    // Connect to the database
-                    conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/employee", "root", "");
-
-                    // Prepare SQL query to check the employee
-                    String sql = "SELECT * FROM admin_data WHERE id = ? AND name = ?";
-                    stmt = conn.prepareStatement(sql);
-                    stmt.setString(1, id);
-                    stmt.setString(2, name);
-                    rs = stmt.executeQuery();
-
-                    // Check if employee exists
-                    if (rs.next()) {
+                    // Check if admin exists
+                    if (new AdminDAO().validateAdmin(Integer.parseInt(id.trim()), name)) {
                         response.sendRedirect("Welcome.jsp");
                     } else {
                         out.println("<p class='error'>Invalid ID or Name. Please try again.</p>");
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    out.println("<p class='error'>Error: " + e.getMessage() + "</p>");
-                } finally {
-                    if (rs != null) rs.close();
-                    if (stmt != null) stmt.close();
-                    if (conn != null) conn.close();
+                } catch (NumberFormatException e) {
+                    out.println("<p class='error'>Invalid ID or Name. Please try again.</p>");
                 }
             }
         %>

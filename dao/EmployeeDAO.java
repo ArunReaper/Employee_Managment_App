@@ -48,9 +48,9 @@ public class EmployeeDAO {
             } else {
                 return false;
             }
-            try (ps) {
-                ps.setInt(2, id);
-                return ps.executeUpdate() > 0;
+            try (PreparedStatement update = ps) {
+                update.setInt(2, id);
+                return update.executeUpdate() > 0;
             }
         } catch (Exception e) {
             e.printStackTrace();

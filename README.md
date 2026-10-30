@@ -1,7 +1,7 @@
 # Employee Management App
 
 A full-stack Java EE web application for managing employee records, built with 
-JDBC, Jakarta Servlets, JSP, and Apache Ant. Supports complete CRUD operations 
+JDBC, Java Servlets, JSP, and Apache Ant. Supports complete CRUD operations 
 through a clean web interface with admin authentication.
 
 ## 🚀 Features
@@ -15,12 +15,12 @@ through a clean web interface with admin authentication.
 ## 🛠️ Tech Stack
 | Layer | Technology |
 |-------|------------|
-| Language | Java |
-| Web Framework | Jakarta Servlets + JSP |
+| Language | Java 8 |
+| Web Framework | Java Servlets 4.0 (javax) + JSP |
 | Data Access | JDBC + Tomcat connection pool |
 | Build Tool | Apache Ant |
-| Server | Apache Tomcat |
-| Database | MySQL |
+| Server | Apache Tomcat 9 |
+| Database | PostgreSQL |
 | Architecture | MVC + DAO Pattern |
 
 ## 📁 Project Structure
@@ -52,16 +52,16 @@ EmployeeManagementApp/
 │           ├── showEmployee.jsp
 │           ├── deleteEmployee.jsp
 │           └── editEmployee.jsp
-├── lib/provided/          # servlet-api + MySQL driver (supplied by Tomcat at runtime)
+├── lib/provided/          # servlet-api + PostgreSQL driver (supplied by Tomcat at runtime)
 └── build.xml
 ```
 
 ## ⚙️ Setup & Installation
 
 ### Prerequisites
-- Java 17+
-- Apache Tomcat 10+
-- MySQL
+- Java 8 (JDK 1.8)
+- Apache Tomcat 9 (Tomcat 10+ requires Java 11 and the jakarta namespace)
+- PostgreSQL
 - Apache Ant 1.10+
 
 ### Steps
@@ -72,27 +72,24 @@ git clone https://github.com/your-username/employee-management-app.git
 cd employee-management-app
 ```
 
-2. **Create the database**
-```sql
-CREATE DATABASE employee;
-```
-
-   Then create the tables by running `schema.sql`:
+2. **Create the database** — a login role, the `employee` database, and its tables:
 ```bash
-mysql -u root -p < schema.sql
+psql -d postgres -c "CREATE ROLE employee_app LOGIN"
+psql -d postgres -c "CREATE DATABASE employee OWNER employee_app"
+psql -h localhost -U employee_app -d employee -f schema.sql
 ```
 
 3. **Configure the connection pool** — update the `<Resource>` in `webapp/META-INF/context.xml` with your DB credentials:
 ```xml
-url="jdbc:mysql://localhost:3306/employee"
-username="root"
+url="jdbc:postgresql://localhost:5432/employee"
+username="employee_app"
 password="your_password"
 ```
-   Copy the MySQL driver jar (`lib/provided/mysql-connector-j-8.4.0.jar`) into Tomcat's `lib/` folder — the pool is created by Tomcat, so the driver must be on Tomcat's classpath.
+   Copy the PostgreSQL driver jar (`lib/provided/postgresql-42.7.4.jar`) into Tomcat's `lib/` folder — the pool is created by Tomcat, so the driver must be on Tomcat's classpath.
 
 4. **Build the project**
 ```bash
-ant clean war
+JAVA_HOME=$(/usr/libexec/java_home -v 1.8) ant clean war
 ```
 
 5. **Deploy** the generated `dist/EmployeeManagementApp.war` to Tomcat's `webapps/` directory
