@@ -7,6 +7,9 @@
     <property name="classes.dir" value="${build.dir}/classes"/>
     <property name="dist.dir"    value="dist"/>
 
+    <!-- Tomcat 9 installed by Homebrew; override with -Dtomcat.home=... -->
+    <property name="tomcat.home" value="/opt/homebrew/opt/tomcat@9/libexec"/>
+
     <!-- Jars needed to compile but supplied by Tomcat at runtime (not packaged) -->
     <path id="provided.classpath">
         <fileset dir="lib/provided" includes="*.jar"/>
@@ -42,6 +45,10 @@
             <lib dir="${web.dir}/WEB-INF/lib" includes="*.jar"/>
             <classes dir="${classes.dir}"/>
         </war>
+    </target>
+
+    <target name="deploy" depends="war" description="Build and copy the WAR to Tomcat (auto-redeploys)">
+        <copy file="${dist.dir}/${app.name}.war" todir="${tomcat.home}/webapps" overwrite="true"/>
     </target>
 
 </project>
