@@ -35,7 +35,7 @@
             font-weight: bold;
         }
 
-        input[type="text"], input[type="submit"] {
+        input[type="text"], input[type="number"], input[type="submit"] {
             width: 100%;
             padding: 10px;
             margin: 10px 0;
@@ -65,7 +65,7 @@
         <h2>Admin Login</h2>
         <form method="post" action="Login.jsp">
             <label for="id">Admin ID:</label>
-            <input type="text" name="id" required>
+            <input type="number" name="id" min="1" step="1" required>
 
             <label for="name">Admin Name:</label>
             <input type="text" name="name" required>

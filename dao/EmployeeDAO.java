@@ -6,6 +6,7 @@ import com.employee.util.DBUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,8 +15,9 @@ public class EmployeeDAO {
     /**
      * Save an employee to the database.
      * @param employee Employee object to save
+     * @throws SQLException if the insert fails, so the caller can report it
      */
-    public void addEmployee(Employee employee) {
+    public void addEmployee(Employee employee) throws SQLException {
         String sql = "INSERT INTO employee_data (id, name, department, salary) VALUES (?, ?, ?, ?)";
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -24,8 +26,6 @@ public class EmployeeDAO {
             ps.setString(3, employee.getDepartment());
             ps.setDouble(4, employee.getSalary());
             ps.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 

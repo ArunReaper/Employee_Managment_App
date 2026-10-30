@@ -55,7 +55,7 @@
     
     <a href="addEmployee.jsp" class="btn add-btn">Add Employee</a>
     <a href="deleteEmployee.jsp" class="btn remove-btn">Remove Employee</a>
-    <a href="showEmployee.jsp" class="btn show-btn">Show List of Employees</a>
+    <a href="ShowEmployeeServlet" class="btn show-btn">Show List of Employees</a>
     <a href="editEmployee.jsp" class="btn update-btn">Update Employee Details</a>
     
     <br><br>

@@ -6,25 +6,24 @@ import com.employee.util.DBUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class AdminDAO {
 
     // Add Admin (Sign Up)
-    public void addAdmin(Admin admin) {
+    public void addAdmin(Admin admin) throws SQLException {
         saveAdmin(admin);
     }
 
 
-    // Save admin details to the database
-    public static void saveAdmin(Admin admin) {
+    // Save admin details to the database; failures are thrown so the caller can report them
+    public static void saveAdmin(Admin admin) throws SQLException {
         String sql = "INSERT INTO admin_data (id, name) VALUES (?, ?)";
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, admin.getId());
             ps.setString(2, admin.getName());
             ps.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 

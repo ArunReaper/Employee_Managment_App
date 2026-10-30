@@ -25,7 +25,7 @@
         h2 {
             color: #333;
         }
-        input[type="text"], input[type="submit"] {
+        input[type="text"], input[type="number"], input[type="submit"] {
             width: 100%;
             padding: 10px;
             margin: 10px 0;
@@ -53,7 +53,7 @@
     <div class="container">
         <h2>Admin Sign Up</h2>
         <form action="SignupServlet" method="post">
-            <input type="text" name="id" placeholder="Admin ID" required>
+            <input type="number" name="id" min="1" step="1" placeholder="Admin ID" required>
             <input type="text" name="name" placeholder="Admin Name" required>
             <input type="submit" value="Sign Up">
         </form>

@@ -17,7 +17,7 @@
         <h2>Add Employee</h2>
         <form action="AddEmployeeServlet" method="post">
             <label for="id">Employee ID:</label>
-            <input type="text" id="id" name="id" required>
+            <input type="number" id="id" name="id" min="1" step="1" required>
 
             <label for="name">Employee Name:</label>
             <input type="text" id="name" name="name" required>
@@ -26,7 +26,7 @@
             <input type="text" id="department" name="department" required>
 
             <label for="salary">Salary:</label>
-            <input type="number" id="salary" name="salary" required>
+            <input type="number" id="salary" name="salary" min="0" step="0.01" required>
 
             <button type="submit">Add Employee</button>
         </form>
