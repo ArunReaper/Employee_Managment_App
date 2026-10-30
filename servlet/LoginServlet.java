@@ -29,7 +29,7 @@ public class LoginServlet extends HttpServlet {
             request.getSession().setAttribute("adminName", name);
             response.sendRedirect("Welcome.jsp");
         } else {
-            response.getWriter().println("<script>alert('Incorrect name or id');window.location='login.jsp';</script>");
+            response.getWriter().println("<script>alert('Incorrect name or id');window.location='Login.jsp';</script>");
         }
     }
 }

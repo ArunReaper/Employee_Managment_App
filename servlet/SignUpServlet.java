@@ -28,7 +28,7 @@ public class SignUpServlet extends HttpServlet {
             AdminDAO.saveAdmin(admin);
 
             // Show success alert and redirect to login page
-            response.getWriter().println("<script>alert('Sign up successful! Please log in.'); window.location='login.jsp';</script>");
+            response.getWriter().println("<script>alert('Sign up successful! Please log in.'); window.location='Login.jsp';</script>");
         } catch (Exception e) {
             e.printStackTrace();
             response.getWriter().println("<script>alert('Error during sign up. Please try again.'); window.location='signup.jsp';</script>");

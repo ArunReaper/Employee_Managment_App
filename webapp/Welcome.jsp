@@ -1,4 +1,5 @@
 <%@ page session="true" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="java.sql.*" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -49,7 +50,7 @@
 <body>
 
 <div class="container">
-    <h1>Welcome, <%= session.getAttribute("username") %>!</h1>
+    <h1>Welcome, <c:out value="${sessionScope.adminName}"/>!</h1>
     <p>Choose an action below:</p>
     
     <a href="addEmployee.jsp" class="btn add-btn">Add Employee</a>

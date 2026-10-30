@@ -82,6 +82,7 @@
                 try {
                     // Check if admin exists
                     if (new AdminDAO().validateAdmin(Integer.parseInt(id.trim()), name)) {
+                        session.setAttribute("adminName", name);
                         response.sendRedirect("Welcome.jsp");
                     } else {
                         out.println("<p class='error'>Invalid ID or Name. Please try again.</p>");
