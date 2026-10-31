@@ -1,0 +1,39 @@
+# Replaces webapp/META-INF/context.xml (Tomcat JNDI pool jdbc/EmployeeDB) and util/DBUtil.java.
+# Connection details come from the environment; the defaults point at the local development database.
+spring:
+  application:
+    name: employee-app
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/employee}
+    username: ${SPRING_DATASOURCE_USERNAME:employee_app}
+    password: ${SPRING_DATASOURCE_PASSWORD:}
+    hikari:
+      # legacy pool: maxTotal=20, maxWaitMillis=10000 (Hikari recommends a fixed-size pool, so no minimum-idle)
+      maximum-pool-size: 20
+      connection-timeout: 10000
+      # a hung connection or a locked row fails the request instead of blocking it for ever
+      data-source-properties:
+        connectTimeout: 5
+        socketTimeout: 30
+      # fail at request time (503), not at startup, when the database is down
+      initialization-fail-timeout: -1
+
+app:
+  security:
+    # SEC-007: false (default) = anonymous sign-up only until the first admin exists, then only a logged-in
+    # admin can add admins. true = anyone may sign up at any time (legacy RULE-009; not for production).
+    # Set with APP_SECURITY_OPEN_SIGNUP=true or --app.security.open-signup=true.
+    open-signup: ${APP_SECURITY_OPEN_SIGNUP:false}
+
+server:
+  # 8080 is the legacy Tomcat during the strangler period
+  port: ${PORT:8091}
+  error:
+    include-stacktrace: never
+    include-message: never
+  servlet:
+    session:
+      cookie:
+        # SEC-014: the session cookie is not sent on cross-site POST, PATCH or DELETE (CSRF)
+        same-site: lax
+        http-only: true
