@@ -2,6 +2,7 @@
 
 Captured 2026-10-31 with headless Chrome (Playwright), 1280×800, full page, logged in as admin 1 / Arun.
 Live `employee` database; no records were created or changed (forms were opened, not submitted).
+The legacy side is the **security-patched** WAR (`legacy/employee-app`, with `AuthFilter`), redeployed to Tomcat before capture.
 
 | # | Page | Legacy (JSP, Tomcat 9 :8080) | Modernized (React 18 + Spring Boot 3.4 :8091) |
 |---|---|---|---|
@@ -15,4 +16,8 @@ Live `employee` database; no records were created or changed (forms were opened,
 | 08 | Delete employee | `deleteEmployee.jsp` | `/employees/delete` |
 
 Matching file names in `legacy/` and `modernized/` show the same page.
+
+**02-signup differs.** Since admin 1 already exists, both apps close anonymous sign-up (SEC-007), but in different ways:
+the legacy `AuthFilter` redirects `signup.jsp` to the login page, so the legacy screenshot shows the login form; the
+modernized app shows the sign-up form and rejects the submit with "Sign-up is closed".
 Re-capture with both apps running: `npm i playwright-core && node capture.js "$PWD"`.
