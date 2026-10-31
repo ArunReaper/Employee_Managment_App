@@ -1,0 +1,6 @@
+message: Sign up successful! Please log in.
+page: login
+admin_data:
+2147483647|Zoë
+employee_data:
+(empty)

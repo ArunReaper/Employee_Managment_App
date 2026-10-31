@@ -1,0 +1,412 @@
+{
+  "system": "employee-app",
+  "generated": "2026-10-31T07:53:52Z",
+  "legacy": {
+    "label": "Servlet/JSP WAR on Tomcat 9, JDK 8",
+    "command": "fresh/run_fresh.py (port 8090)"
+  },
+  "new": {
+    "label": "Spring Boot 3.4 on Java 21, outcomes per React navigation",
+    "command": "fresh/run_fresh.py (port 8091)"
+  },
+  "selfCheck": {
+    "passed": true,
+    "detail": "each legacy output was compared with a copy changed by one byte and reported as different"
+  },
+  "totals": {
+    "cases": 15,
+    "executed": 15,
+    "same": 7,
+    "differs": 0,
+    "differsApproved": 8,
+    "missing": 0
+  },
+  "cases": [
+    {
+      "id": "F01-out",
+      "title": "List: 12 rows with boundary salaries, non-ASCII names, max and negative ids",
+      "verdict": "same",
+      "reason": "Identical, 751 bytes.",
+      "legacyPath": "fresh/legacy/F01/out.txt",
+      "newPath": "fresh/new/F01/out.txt",
+      "legacySha256": "498c49531ab35750741030ee9935cec4cf955f263579db8ac4b3cefe6ed58c52",
+      "newSha256": "498c49531ab35750741030ee9935cec4cf955f263579db8ac4b3cefe6ed58c52",
+      "masked": [],
+      "approvedDifference": "",
+      "note": "",
+      "bytes": {
+        "legacy": 751,
+        "new": 751
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false
+    },
+    {
+      "id": "F02-out",
+      "title": "Add: non-ASCII name and department",
+      "verdict": "differs-approved",
+      "reason": "The outputs first differ at line 6, byte 94. A person approved this difference: Approved by the user on 2026-10-31 (\"Decided, move ahead\"). Legacy decodes form posts as ISO-8859-1, so non-ASCII text is garbled (stored as 'Jos\u00c3\u00a9'); the new app stores UTF-8 correctly. Intended fix ",
+      "legacyPath": "fresh/legacy/F02/out.txt",
+      "newPath": "fresh/new/F02/out.txt",
+      "legacySha256": "48f6698d03e6f0dd6b8cc3eed4b1372fb3404a0b7d0c58627e044afb91065678",
+      "newSha256": "333c196a6159739ad7ccd239131d283c9544468470b967c1c0555a4c2f459460",
+      "masked": [],
+      "approvedDifference": "Approved by the user on 2026-10-31 (\"Decided, move ahead\"). Legacy decodes form posts as ISO-8859-1, so non-ASCII text is garbled (stored as 'Jos\u00c3\u00a9'); the new app stores UTF-8 correctly. Intended fix of a legacy defect.",
+      "note": "",
+      "bytes": {
+        "legacy": 131,
+        "new": 125
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false,
+      "firstDiff": {
+        "offset": 94,
+        "line": 6,
+        "legacy": "\\n42|Jos\\xc3\\x83\\xc2\\xa9 M\\xc3\\x83\\xc2\\x",
+        "new": "\\n42|Jos\\xc3\\xa9 M\\xc3\\xbcller|Ingenier\\",
+        "at": 12
+      }
+    },
+    {
+      "id": "F03-out",
+      "title": "Add: largest int id, smallest cent salary",
+      "verdict": "same",
+      "reason": "Identical, 111 bytes.",
+      "legacyPath": "fresh/legacy/F03/out.txt",
+      "newPath": "fresh/new/F03/out.txt",
+      "legacySha256": "8856595d65c1de5fa04c08e50609517881a087a5aeb7dee7b76ce4d792946f82",
+      "newSha256": "8856595d65c1de5fa04c08e50609517881a087a5aeb7dee7b76ce4d792946f82",
+      "masked": [],
+      "approvedDifference": "",
+      "note": "",
+      "bytes": {
+        "legacy": 111,
+        "new": 111
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false
+    },
+    {
+      "id": "F04-out",
+      "title": "Add: id one above the largest int",
+      "verdict": "same",
+      "reason": "Identical, 116 bytes.",
+      "legacyPath": "fresh/legacy/F04/out.txt",
+      "newPath": "fresh/new/F04/out.txt",
+      "legacySha256": "28b74c5fcbd0e63fabea20ae9af4c8a8cab1b85ab577fd0f0b2d6abca281e463",
+      "newSha256": "28b74c5fcbd0e63fabea20ae9af4c8a8cab1b85ab577fd0f0b2d6abca281e463",
+      "masked": [],
+      "approvedDifference": "",
+      "note": "",
+      "bytes": {
+        "legacy": 116,
+        "new": 116
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false
+    },
+    {
+      "id": "F05-out",
+      "title": "Add: padded id, apostrophe in name, zero salary",
+      "verdict": "same",
+      "reason": "Identical, 106 bytes.",
+      "legacyPath": "fresh/legacy/F05/out.txt",
+      "newPath": "fresh/new/F05/out.txt",
+      "legacySha256": "8bff41a0fb5efc8ae4a91e6a510cac98149a8433da4c5b8388d33d28dd24228f",
+      "newSha256": "8bff41a0fb5efc8ae4a91e6a510cac98149a8433da4c5b8388d33d28dd24228f",
+      "masked": [],
+      "approvedDifference": "",
+      "note": "",
+      "bytes": {
+        "legacy": 106,
+        "new": 106
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false
+    },
+    {
+      "id": "F06-out",
+      "title": "Add: name of exactly 255 characters",
+      "verdict": "same",
+      "reason": "Identical, 351 bytes.",
+      "legacyPath": "fresh/legacy/F06/out.txt",
+      "newPath": "fresh/new/F06/out.txt",
+      "legacySha256": "5f0b66bc2f2b60061031e9f30f05230c1bac2993d6cb7117f8cd7ff6fed75fe3",
+      "newSha256": "5f0b66bc2f2b60061031e9f30f05230c1bac2993d6cb7117f8cd7ff6fed75fe3",
+      "masked": [],
+      "approvedDifference": "",
+      "note": "",
+      "bytes": {
+        "legacy": 351,
+        "new": 351
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false
+    },
+    {
+      "id": "F07-out",
+      "title": "Edit: non-ASCII department",
+      "verdict": "differs-approved",
+      "reason": "The outputs first differ at line 1, byte 9. A person approved this difference: Approved by the user on 2026-10-31 (\"Decided, move ahead\"). Legacy decodes form posts as ISO-8859-1, so non-ASCII text is garbled (stored as 'Jos\u00c3\u00a9'); the new app stores UTF-8 correctly. Intended fix ",
+      "legacyPath": "fresh/legacy/F07/out.txt",
+      "newPath": "fresh/new/F07/out.txt",
+      "legacySha256": "b6145eef0405bd567685af30478c72b0a447a0b2b1656a7e019fb0ec6b8ef66e",
+      "newSha256": "56fb59dba5f95dffda509c072b71e6e0764aaf73cef389cabd89990d44a7a3e1",
+      "masked": [],
+      "approvedDifference": "Approved by the user on 2026-10-31 (\"Decided, move ahead\"). Legacy decodes form posts as ISO-8859-1, so non-ASCII text is garbled (stored as 'Jos\u00c3\u00a9'); the new app stores UTF-8 correctly. Intended fix of a legacy defect. Success message shown as a toast after edit/delete; legacy stored it but never displayed it (RULE-024), same as the approved development cases.",
+      "note": "",
+      "bytes": {
+        "legacy": 113,
+        "new": 141
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false,
+      "firstDiff": {
+        "offset": 9,
+        "line": 1,
+        "legacy": "message: (none)\\npage: welcome\\nadmin",
+        "new": "message: Employee details updated suc",
+        "at": 9
+      }
+    },
+    {
+      "id": "F08-out",
+      "title": "Edit: salary 9999999 (just below the 1.0E7 notation switch)",
+      "verdict": "differs-approved",
+      "reason": "The outputs first differ at line 1, byte 9. A person approved this difference: Approved by the user on 2026-10-31 (\"Decided, move ahead\"). Success message shown as a toast after edit/delete; legacy stored it but never displayed it (RULE-024), same as the approved development cas",
+      "legacyPath": "fresh/legacy/F08/out.txt",
+      "newPath": "fresh/new/F08/out.txt",
+      "legacySha256": "e22fc5665f5ea83a9d55c9a2ab9dd271f0d2ed6deb8f5225d5c52432aa280652",
+      "newSha256": "60bbff64bd29b66e4fd983fe7d08cb1e78dfa6ef7e129f701085da9999f72812",
+      "masked": [],
+      "approvedDifference": "Approved by the user on 2026-10-31 (\"Decided, move ahead\"). Success message shown as a toast after edit/delete; legacy stored it but never displayed it (RULE-024), same as the approved development cases.",
+      "note": "",
+      "bytes": {
+        "legacy": 102,
+        "new": 134
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false,
+      "firstDiff": {
+        "offset": 9,
+        "line": 1,
+        "legacy": "message: (none)\\npage: welcome\\nadmin",
+        "new": "message: Employee details updated suc",
+        "at": 9
+      }
+    },
+    {
+      "id": "F09-out",
+      "title": "Edit: department of exactly 255 characters",
+      "verdict": "differs-approved",
+      "reason": "The outputs first differ at line 1, byte 9. A person approved this difference: Approved by the user on 2026-10-31 (\"Decided, move ahead\"). Success message shown as a toast after edit/delete; legacy stored it but never displayed it (RULE-024), same as the approved development cas",
+      "legacyPath": "fresh/legacy/F09/out.txt",
+      "newPath": "fresh/new/F09/out.txt",
+      "legacySha256": "43c56ab9ed69a14c2345c244eeb348680643276aec5467c703bd688a00be4823",
+      "newSha256": "bdeec6b2efe59325eb04d516bd5eb5683fc3974d998d1c4afc1c8cd722a4c505",
+      "masked": [],
+      "approvedDifference": "Approved by the user on 2026-10-31 (\"Decided, move ahead\"). Success message shown as a toast after edit/delete; legacy stored it but never displayed it (RULE-024), same as the approved development cases.",
+      "note": "",
+      "bytes": {
+        "legacy": 343,
+        "new": 375
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false,
+      "firstDiff": {
+        "offset": 9,
+        "line": 1,
+        "legacy": "message: (none)\\npage: welcome\\nadmin",
+        "new": "message: Employee details updated suc",
+        "at": 9
+      }
+    },
+    {
+      "id": "F10-out",
+      "title": "Delete: non-ASCII name, exact match",
+      "verdict": "differs-approved",
+      "reason": "The outputs first differ at line 1, byte 9. A person approved this difference: Approved by the user on 2026-10-31 (\"Decided, move ahead\"). Legacy decodes form posts as ISO-8859-1, so non-ASCII text is garbled (stored as 'Jos\u00c3\u00a9'); the new app stores UTF-8 correctly. Intended fix ",
+      "legacyPath": "fresh/legacy/F10/out.txt",
+      "newPath": "fresh/new/F10/out.txt",
+      "legacySha256": "887722682889b1b52b97408d3d00485b89a669b2bcd5f5e18645bec75e7438a2",
+      "newSha256": "bc7cb4b8244ba5d56ad2b901e99ad2250835df0f1b9c1e21b3b0bde0298a3fd3",
+      "masked": [],
+      "approvedDifference": "Approved by the user on 2026-10-31 (\"Decided, move ahead\"). Legacy decodes form posts as ISO-8859-1, so non-ASCII text is garbled (stored as 'Jos\u00c3\u00a9'); the new app stores UTF-8 correctly. Intended fix of a legacy defect. Legacy could not match the accented name, so nothing was deleted. Success message shown as a toast after edit/delete; legacy stored it but never displayed it (RULE-024), same as the approved development cases.",
+      "note": "",
+      "bytes": {
+        "legacy": 99,
+        "new": 97
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false,
+      "firstDiff": {
+        "offset": 9,
+        "line": 1,
+        "legacy": "message: (none)\\npage: welcome\\nadmin",
+        "new": "message: Employee deleted successfull",
+        "at": 9
+      }
+    },
+    {
+      "id": "F11-out",
+      "title": "Delete: one of two employees with the same name",
+      "verdict": "differs-approved",
+      "reason": "The outputs first differ at line 1, byte 9. A person approved this difference: Approved by the user on 2026-10-31 (\"Decided, move ahead\"). Success message shown as a toast after edit/delete; legacy stored it but never displayed it (RULE-024), same as the approved development cas",
+      "legacyPath": "fresh/legacy/F11/out.txt",
+      "newPath": "fresh/new/F11/out.txt",
+      "legacySha256": "42ee34192043cc758c203fe101c46b54bfacdc23c68c0780c627efde8e67e77a",
+      "newSha256": "55a4939575a835cc190df57d84c3348d1094b82d693e029b1ebda9e2460df214",
+      "masked": [],
+      "approvedDifference": "Approved by the user on 2026-10-31 (\"Decided, move ahead\"). Success message shown as a toast after edit/delete; legacy stored it but never displayed it (RULE-024), same as the approved development cases.",
+      "note": "",
+      "bytes": {
+        "legacy": 76,
+        "new": 100
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false,
+      "firstDiff": {
+        "offset": 9,
+        "line": 1,
+        "legacy": "message: (none)\\npage: welcome\\nadmin",
+        "new": "message: Employee deleted successfull",
+        "at": 9
+      }
+    },
+    {
+      "id": "F12-out",
+      "title": "Sign-up: largest int id, non-ASCII name",
+      "verdict": "differs-approved",
+      "reason": "The outputs first differ at line 4, byte 82. A person approved this difference: Approved by the user on 2026-10-31 (\"Decided, move ahead\"). Legacy decodes form posts as ISO-8859-1, so non-ASCII text is garbled (stored as 'Jos\u00c3\u00a9'); the new app stores UTF-8 correctly. Intended fix ",
+      "legacyPath": "fresh/legacy/F12/out.txt",
+      "newPath": "fresh/new/F12/out.txt",
+      "legacySha256": "8b2ebea25bbf48836bfb139f9aa87836b1e67501bd8e2eef84c9000b43a3b6cb",
+      "newSha256": "c5c10c0ff1203b6297a97faa7d588fca5c1ec6c821453202a4d983084a769016",
+      "masked": [],
+      "approvedDifference": "Approved by the user on 2026-10-31 (\"Decided, move ahead\"). Legacy decodes form posts as ISO-8859-1, so non-ASCII text is garbled (stored as 'Jos\u00c3\u00a9'); the new app stores UTF-8 correctly. Intended fix of a legacy defect.",
+      "note": "",
+      "bytes": {
+        "legacy": 109,
+        "new": 107
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false,
+      "firstDiff": {
+        "offset": 82,
+        "line": 4,
+        "legacy": "83647|Zo\\xc3\\x83\\xc2\\xab\\nemployee_data:",
+        "new": "83647|Zo\\xc3\\xab\\nemployee_data:\\n(empty",
+        "at": 12
+      }
+    },
+    {
+      "id": "F13-out",
+      "title": "Login: non-ASCII admin name",
+      "verdict": "differs-approved",
+      "reason": "The outputs first differ at line 1, byte 9. A person approved this difference: Approved by the user on 2026-10-31 (\"Decided, move ahead\"). Legacy decodes form posts as ISO-8859-1, so non-ASCII text is garbled (stored as 'Jos\u00c3\u00a9'); the new app stores UTF-8 correctly. Intended fix ",
+      "legacyPath": "fresh/legacy/F13/out.txt",
+      "newPath": "fresh/new/F13/out.txt",
+      "legacySha256": "3892dee6ed0844b11a91cd51d5b717c7e2f63f1743ea546733f2183ec2abe8ac",
+      "newSha256": "37ff108bf6acd8f90bdb22ddb02dd6c0b73d181e7c4a5a825671cb8fc4b5eab1",
+      "masked": [],
+      "approvedDifference": "Approved by the user on 2026-10-31 (\"Decided, move ahead\"). Legacy decodes form posts as ISO-8859-1, so non-ASCII text is garbled (stored as 'Jos\u00c3\u00a9'); the new app stores UTF-8 correctly. Intended fix of a legacy defect. Legacy could not log in an admin whose name has an accent.",
+      "note": "",
+      "bytes": {
+        "legacy": 108,
+        "new": 104
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false,
+      "firstDiff": {
+        "offset": 9,
+        "line": 1,
+        "legacy": "message: Invalid ID or Name. Please t",
+        "new": "message: (none)\\npage: welcome\\ngreet",
+        "at": 9
+      }
+    },
+    {
+      "id": "F14-out",
+      "title": "Login: id written with a plus sign",
+      "verdict": "same",
+      "reason": "Identical, 104 bytes.",
+      "legacyPath": "fresh/legacy/F14/out.txt",
+      "newPath": "fresh/new/F14/out.txt",
+      "legacySha256": "a0c32fc8243fb95cfc6f752f87685a6af8ae2144104b8a3f21d992b082af7630",
+      "newSha256": "a0c32fc8243fb95cfc6f752f87685a6af8ae2144104b8a3f21d992b082af7630",
+      "masked": [],
+      "approvedDifference": "",
+      "note": "",
+      "bytes": {
+        "legacy": 104,
+        "new": 104
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false
+    },
+    {
+      "id": "F15-out",
+      "title": "List: empty department and a name with trailing spaces",
+      "verdict": "same",
+      "reason": "Identical, 98 bytes.",
+      "legacyPath": "fresh/legacy/F15/out.txt",
+      "newPath": "fresh/new/F15/out.txt",
+      "legacySha256": "54ec3bfe010a007a244b6d4144fbfeeea6704eeb4f6347d2782a7c40648b78ce",
+      "newSha256": "54ec3bfe010a007a244b6d4144fbfeeea6704eeb4f6347d2782a7c40648b78ce",
+      "masked": [],
+      "approvedDifference": "",
+      "note": "",
+      "bytes": {
+        "legacy": 98,
+        "new": 98
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false
+    }
+  ]
+}

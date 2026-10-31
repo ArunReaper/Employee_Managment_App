@@ -1,0 +1,24 @@
+message: (none)
+page: list
+rows:
+  1 | a | d | 1.0E7
+  2 | b | d | 15000.005
+  3 | c | d | -500.0
+  4 | e | d | 0.0
+  5 | f | d | 0.001
+  6 | g | d | 1.0E-4
+  7 | h | d | NaN
+  8 | i | d | Infinity
+  9 | j | d | -Infinity
+admin_data:
+(empty)
+employee_data:
+1|a|d|10000000
+2|b|d|15000.005
+3|c|d|-500
+4|e|d|0
+5|f|d|0.001
+6|g|d|0.0001
+7|h|d|NaN
+8|i|d|Infinity
+9|j|d|-Infinity

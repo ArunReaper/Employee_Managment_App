@@ -1,0 +1,23 @@
+%% employee-app: data lineage (code to stores). Solid = write, dashed = read.
+graph LR
+  SUS[SignUpServlet] --> ADAO[AdminDAO]
+  LOGJ[Login.jsp] --> ADAO
+  LGS["LoginServlet (unreachable)"] --> ADAO
+  ADAO -->|"INSERT (saveAdmin)"| T1[(admin_data)]
+  T1 -.->|"SELECT (validateAdmin)"| ADAO
+
+  ADDS[AddEmployeeServlet] --> EDAO[EmployeeDAO]
+  EDS[EditEmployeeServlet] --> EDAO
+  DELS[DeleteEmployeeServlet] --> EDAO
+  SHS[ShowEmployeeServlet] --> EDAO
+  EDAO -->|"INSERT / UPDATE salary|department / DELETE id+name"| T2[(employee_data)]
+  T2 -.->|"SELECT all"| EDAO
+
+  LOGJ -->|"adminName"| S[(HttpSession)]
+  LGS -->|"adminName"| S
+  EDS -->|"message (never read)"| S
+  DELS -->|"message (never read)"| S
+  S -.->|"adminName"| WEL[Welcome.jsp]
+
+  DDL[schema.sql] -->|CREATE TABLE| T1
+  DDL -->|CREATE TABLE| T2

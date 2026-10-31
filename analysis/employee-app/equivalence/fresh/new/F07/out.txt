@@ -1,0 +1,6 @@
+message: Employee details updated successfully!
+page: welcome
+admin_data:
+(empty)
+employee_data:
+42|José Müller|Ingeniería y Diseño|5000

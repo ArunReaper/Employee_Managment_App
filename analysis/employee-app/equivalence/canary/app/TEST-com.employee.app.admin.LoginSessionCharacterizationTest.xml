@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="com.employee.app.admin.LoginSessionCharacterizationTest" time="1.566" tests="33" errors="0" skipped="0" failures="4">
+  <properties>
+    <property name="java.specification.version" value="21"/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="java.class.path" value="/private/tmp/claude-501/-Users-arun-Documents-Projects-Code-Modernisation-Employee-Managment-App/372b7262-9384-42f6-b9eb-844d2a5dbcb3/scratchpad/canary-app/backend/target/test-classes:/private/tmp/claude-501/-Users-arun-Documents-Projects-Code-Modernisation-Employee-Managment-App/372b7262-9384-42f6-b9eb-844d2a5dbcb3/scratchpad/canary-app/backend/target/classes:/Users/arun/.m2/repository/org/springframework/boot/spring-boot-starter-web/3.4.13/spring-boot-starter-web-3.4.13.jar:/Users/arun/.m2/repository/org/springframework/boot/spring-boot-starter/3.4.13/spring-boot-starter-3.4.13.jar:/Users/arun/.m2/repository/org/springframework/boot/spring-boot/3.4.13/spring-boot-3.4.13.jar:/Users/arun/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/3.4.13/spring-boot-autoconfigure-3.4.13.jar:/Users/arun/.m2/repository/org/springframework/boot/spring-boot-starter-logging/3.4.13/spring-boot-starter-logging-3.4.13.jar:/Users/arun/.m2/repository/ch/qos/logback/logback-classic/1.5.22/logback-classic-1.5.22.jar:/Users/arun/.m2/repository/ch/qos/logback/logback-core/1.5.22/logback-core-1.5.22.jar:/Users/arun/.m2/repository/org/apache/logging/log4j/log4j-to-slf4j/2.24.3/log4j-to-slf4j-2.24.3.jar:/Users/arun/.m2/repository/org/apache/logging/log4j/log4j-api/2.24.3/log4j-api-2.24.3.jar:/Users/arun/.m2/repository/org/slf4j/jul-to-slf4j/2.0.17/jul-to-slf4j-2.0.17.jar:/Users/arun/.m2/repository/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annotation-api-2.1.1.jar:/Users/arun/.m2/repository/org/yaml/snakeyaml/2.3/snakeyaml-2.3.jar:/Users/arun/.m2/repository/org/springframework/boot/spring-boot-starter-json/3.4.13/spring-boot-starter-json-3.4.13.jar:/Users/arun/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.18.5/jackson-databind-2.18.5.jar:/Users/arun/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.18.5/jackson-annotations-2.18.5.jar:/Users/arun/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.18.5/jackson-core-2.18.5.jar:/Users/arun/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.18.5/jackson-datatype-jdk8-2.18.5.jar:/Users/arun/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.18.5/jackson-datatype-jsr310-2.18.5.jar:/Users/arun/.m2/repository/com/fasterxml/jackson/module/jackson-module-parameter-names/2.18.5/jackson-module-parameter-names-2.18.5.jar:/Users/arun/.m2/repository/org/springframework/boot/spring-boot-starter-tomcat/3.4.13/spring-boot-starter-tomcat-3.4.13.jar:/Users/arun/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/10.1.50/tomcat-embed-core-10.1.50.jar:/Users/arun/.m2/repository/org/apache/tomcat/embed/tomcat-embed-el/10.1.50/tomcat-embed-el-10.1.50.jar:/Users/arun/.m2/repository/org/apache/tomcat/embed/tomcat-embed-websocket/10.1.50/tomcat-embed-websocket-10.1.50.jar:/Users/arun/.m2/repository/org/springframework/spring-web/6.2.15/spring-web-6.2.15.jar:/Users/arun/.m2/repository/org/springframework/spring-beans/6.2.15/spring-beans-6.2.15.jar:/Users/arun/.m2/repository/io/micrometer/micrometer-observation/1.14.14/micrometer-observation-1.14.14.jar:/Users/arun/.m2/repository/io/micrometer/micrometer-commons/1.14.14/micrometer-commons-1.14.14.jar:/Users/arun/.m2/repository/org/springframework/spring-webmvc/6.2.15/spring-webmvc-6.2.15.jar:/Users/arun/.m2/repository/org/springframework/spring-aop/6.2.15/spring-aop-6.2.15.jar:/Users/arun/.m2/repository/org/springframework/spring-context/6.2.15/spring-context-6.2.15.jar:/Users/arun/.m2/repository/org/springframework/spring-expression/6.2.15/spring-expression-6.2.15.jar:/Users/arun/.m2/repository/org/springframework/boot/spring-boot-starter-jdbc/3.4.13/spring-boot-starter-jdbc-3.4.13.jar:/Users/arun/.m2/repository/com/zaxxer/HikariCP/5.1.0/HikariCP-5.1.0.jar:/Users/arun/.m2/repository/org/slf4j/slf4j-api/2.0.17/slf4j-api-2.0.17.jar:/Users/arun/.m2/repository/org/springframework/spring-jdbc/6.2.15/spring-jdbc-6.2.15.jar:/Users/arun/.m2/repository/org/springframework/spring-tx/6.2.15/spring-tx-6.2.15.jar:/Users/arun/.m2/repository/org/postgresql/postgresql/42.7.8/postgresql-42.7.8.jar:/Users/arun/.m2/repository/org/checkerframework/checker-qual/3.49.5/checker-qual-3.49.5.jar:/Users/arun/.m2/repository/org/springframework/boot/spring-boot-starter-test/3.4.13/spring-boot-starter-test-3.4.13.jar:/Users/arun/.m2/repository/org/springframework/boot/spring-boot-test/3.4.13/spring-boot-test-3.4.13.jar:/Users/arun/.m2/repository/org/springframework/boot/spring-boot-test-autoconfigure/3.4.13/spring-boot-test-autoconfigure-3.4.13.jar:/Users/arun/.m2/repository/com/jayway/jsonpath/json-path/2.9.0/json-path-2.9.0.jar:/Users/arun/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/4.0.4/jakarta.xml.bind-api-4.0.4.jar:/Users/arun/.m2/repository/jakarta/activation/jakarta.activation-api/2.1.4/jakarta.activation-api-2.1.4.jar:/Users/arun/.m2/repository/net/minidev/json-smart/2.5.2/json-smart-2.5.2.jar:/Users/arun/.m2/repository/net/minidev/accessors-smart/2.5.2/accessors-smart-2.5.2.jar:/Users/arun/.m2/repository/org/ow2/asm/asm/9.7.1/asm-9.7.1.jar:/Users/arun/.m2/repository/org/assertj/assertj-core/3.26.3/assertj-core-3.26.3.jar:/Users/arun/.m2/repository/net/bytebuddy/byte-buddy/1.15.11/byte-buddy-1.15.11.jar:/Users/arun/.m2/repository/org/awaitility/awaitility/4.2.2/awaitility-4.2.2.jar:/Users/arun/.m2/repository/org/hamcrest/hamcrest/2.2/hamcrest-2.2.jar:/Users/arun/.m2/repository/org/junit/jupiter/junit-jupiter/5.11.4/junit-jupiter-5.11.4.jar:/Users/arun/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.11.4/junit-jupiter-api-5.11.4.jar:/Users/arun/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/arun/.m2/repository/org/junit/platform/junit-platform-commons/1.11.4/junit-platform-commons-1.11.4.jar:/Users/arun/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/arun/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.11.4/junit-jupiter-params-5.11.4.jar:/Users/arun/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.11.4/junit-jupiter-engine-5.11.4.jar:/Users/arun/.m2/repository/org/junit/platform/junit-platform-engine/1.11.4/junit-platform-engine-1.11.4.jar:/Users/arun/.m2/repository/org/mockito/mockito-core/5.14.2/mockito-core-5.14.2.jar:/Users/arun/.m2/repository/net/bytebuddy/byte-buddy-agent/1.15.11/byte-buddy-agent-1.15.11.jar:/Users/arun/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/Users/arun/.m2/repository/org/mockito/mockito-junit-jupiter/5.14.2/mockito-junit-jupiter-5.14.2.jar:/Users/arun/.m2/repository/org/skyscreamer/jsonassert/1.5.3/jsonassert-1.5.3.jar:/Users/arun/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar:/Users/arun/.m2/repository/org/springframework/spring-core/6.2.15/spring-core-6.2.15.jar:/Users/arun/.m2/repository/org/springframework/spring-jcl/6.2.15/spring-jcl-6.2.15.jar:/Users/arun/.m2/repository/org/springframework/spring-test/6.2.15/spring-test-6.2.15.jar:/Users/arun/.m2/repository/org/xmlunit/xmlunit-core/2.10.4/xmlunit-core-2.10.4.jar:"/>
+    <property name="java.vm.vendor" value="Microsoft"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="java.vendor.url" value="https://www.microsoft.com"/>
+    <property name="user.timezone" value="Asia/Kolkata"/>
+    <property name="os.name" value="Mac OS X"/>
+    <property name="java.vm.specification.version" value="21"/>
+    <property name="APPLICATION_NAME" value="employee-app"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="IN"/>
+    <property name="sun.boot.library.path" value="/Users/arun/Library/Java/JavaVirtualMachines/ms-21.0.9/Contents/Home/lib"/>
+    <property name="sun.java.command" value="/private/tmp/claude-501/-Users-arun-Documents-Projects-Code-Modernisation-Employee-Managment-App/372b7262-9384-42f6-b9eb-844d2a5dbcb3/scratchpad/canary-app/backend/target/surefire/surefirebooter-20261031131710070_3.jar /private/tmp/claude-501/-Users-arun-Documents-Projects-Code-Modernisation-Employee-Managment-App/372b7262-9384-42f6-b9eb-844d2a5dbcb3/scratchpad/canary-app/backend/target/surefire 2026-10-31T13-17-10_038-jvmRun1 surefire-20261031131710070_1tmp surefire_0-20261031131710070_2tmp"/>
+    <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="test" value="LoginSessionCharacterizationTest"/>
+    <property name="surefire.test.class.path" value="/private/tmp/claude-501/-Users-arun-Documents-Projects-Code-Modernisation-Employee-Managment-App/372b7262-9384-42f6-b9eb-844d2a5dbcb3/scratchpad/canary-app/backend/target/test-classes:/private/tmp/claude-501/-Users-arun-Documents-Projects-Code-Modernisation-Employee-Managment-App/372b7262-9384-42f6-b9eb-844d2a5dbcb3/scratchpad/canary-app/backend/target/classes:/Users/arun/.m2/repository/org/springframework/boot/spring-boot-starter-web/3.4.13/spring-boot-starter-web-3.4.13.jar:/Users/arun/.m2/repository/org/springframework/boot/spring-boot-starter/3.4.13/spring-boot-starter-3.4.13.jar:/Users/arun/.m2/repository/org/springframework/boot/spring-boot/3.4.13/spring-boot-3.4.13.jar:/Users/arun/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/3.4.13/spring-boot-autoconfigure-3.4.13.jar:/Users/arun/.m2/repository/org/springframework/boot/spring-boot-starter-logging/3.4.13/spring-boot-starter-logging-3.4.13.jar:/Users/arun/.m2/repository/ch/qos/logback/logback-classic/1.5.22/logback-classic-1.5.22.jar:/Users/arun/.m2/repository/ch/qos/logback/logback-core/1.5.22/logback-core-1.5.22.jar:/Users/arun/.m2/repository/org/apache/logging/log4j/log4j-to-slf4j/2.24.3/log4j-to-slf4j-2.24.3.jar:/Users/arun/.m2/repository/org/apache/logging/log4j/log4j-api/2.24.3/log4j-api-2.24.3.jar:/Users/arun/.m2/repository/org/slf4j/jul-to-slf4j/2.0.17/jul-to-slf4j-2.0.17.jar:/Users/arun/.m2/repository/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annotation-api-2.1.1.jar:/Users/arun/.m2/repository/org/yaml/snakeyaml/2.3/snakeyaml-2.3.jar:/Users/arun/.m2/repository/org/springframework/boot/spring-boot-starter-json/3.4.13/spring-boot-starter-json-3.4.13.jar:/Users/arun/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.18.5/jackson-databind-2.18.5.jar:/Users/arun/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.18.5/jackson-annotations-2.18.5.jar:/Users/arun/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.18.5/jackson-core-2.18.5.jar:/Users/arun/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.18.5/jackson-datatype-jdk8-2.18.5.jar:/Users/arun/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.18.5/jackson-datatype-jsr310-2.18.5.jar:/Users/arun/.m2/repository/com/fasterxml/jackson/module/jackson-module-parameter-names/2.18.5/jackson-module-parameter-names-2.18.5.jar:/Users/arun/.m2/repository/org/springframework/boot/spring-boot-starter-tomcat/3.4.13/spring-boot-starter-tomcat-3.4.13.jar:/Users/arun/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/10.1.50/tomcat-embed-core-10.1.50.jar:/Users/arun/.m2/repository/org/apache/tomcat/embed/tomcat-embed-el/10.1.50/tomcat-embed-el-10.1.50.jar:/Users/arun/.m2/repository/org/apache/tomcat/embed/tomcat-embed-websocket/10.1.50/tomcat-embed-websocket-10.1.50.jar:/Users/arun/.m2/repository/org/springframework/spring-web/6.2.15/spring-web-6.2.15.jar:/Users/arun/.m2/repository/org/springframework/spring-beans/6.2.15/spring-beans-6.2.15.jar:/Users/arun/.m2/repository/io/micrometer/micrometer-observation/1.14.14/micrometer-observation-1.14.14.jar:/Users/arun/.m2/repository/io/micrometer/micrometer-commons/1.14.14/micrometer-commons-1.14.14.jar:/Users/arun/.m2/repository/org/springframework/spring-webmvc/6.2.15/spring-webmvc-6.2.15.jar:/Users/arun/.m2/repository/org/springframework/spring-aop/6.2.15/spring-aop-6.2.15.jar:/Users/arun/.m2/repository/org/springframework/spring-context/6.2.15/spring-context-6.2.15.jar:/Users/arun/.m2/repository/org/springframework/spring-expression/6.2.15/spring-expression-6.2.15.jar:/Users/arun/.m2/repository/org/springframework/boot/spring-boot-starter-jdbc/3.4.13/spring-boot-starter-jdbc-3.4.13.jar:/Users/arun/.m2/repository/com/zaxxer/HikariCP/5.1.0/HikariCP-5.1.0.jar:/Users/arun/.m2/repository/org/slf4j/slf4j-api/2.0.17/slf4j-api-2.0.17.jar:/Users/arun/.m2/repository/org/springframework/spring-jdbc/6.2.15/spring-jdbc-6.2.15.jar:/Users/arun/.m2/repository/org/springframework/spring-tx/6.2.15/spring-tx-6.2.15.jar:/Users/arun/.m2/repository/org/postgresql/postgresql/42.7.8/postgresql-42.7.8.jar:/Users/arun/.m2/repository/org/checkerframework/checker-qual/3.49.5/checker-qual-3.49.5.jar:/Users/arun/.m2/repository/org/springframework/boot/spring-boot-starter-test/3.4.13/spring-boot-starter-test-3.4.13.jar:/Users/arun/.m2/repository/org/springframework/boot/spring-boot-test/3.4.13/spring-boot-test-3.4.13.jar:/Users/arun/.m2/repository/org/springframework/boot/spring-boot-test-autoconfigure/3.4.13/spring-boot-test-autoconfigure-3.4.13.jar:/Users/arun/.m2/repository/com/jayway/jsonpath/json-path/2.9.0/json-path-2.9.0.jar:/Users/arun/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/4.0.4/jakarta.xml.bind-api-4.0.4.jar:/Users/arun/.m2/repository/jakarta/activation/jakarta.activation-api/2.1.4/jakarta.activation-api-2.1.4.jar:/Users/arun/.m2/repository/net/minidev/json-smart/2.5.2/json-smart-2.5.2.jar:/Users/arun/.m2/repository/net/minidev/accessors-smart/2.5.2/accessors-smart-2.5.2.jar:/Users/arun/.m2/repository/org/ow2/asm/asm/9.7.1/asm-9.7.1.jar:/Users/arun/.m2/repository/org/assertj/assertj-core/3.26.3/assertj-core-3.26.3.jar:/Users/arun/.m2/repository/net/bytebuddy/byte-buddy/1.15.11/byte-buddy-1.15.11.jar:/Users/arun/.m2/repository/org/awaitility/awaitility/4.2.2/awaitility-4.2.2.jar:/Users/arun/.m2/repository/org/hamcrest/hamcrest/2.2/hamcrest-2.2.jar:/Users/arun/.m2/repository/org/junit/jupiter/junit-jupiter/5.11.4/junit-jupiter-5.11.4.jar:/Users/arun/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.11.4/junit-jupiter-api-5.11.4.jar:/Users/arun/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/arun/.m2/repository/org/junit/platform/junit-platform-commons/1.11.4/junit-platform-commons-1.11.4.jar:/Users/arun/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/arun/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.11.4/junit-jupiter-params-5.11.4.jar:/Users/arun/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.11.4/junit-jupiter-engine-5.11.4.jar:/Users/arun/.m2/repository/org/junit/platform/junit-platform-engine/1.11.4/junit-platform-engine-1.11.4.jar:/Users/arun/.m2/repository/org/mockito/mockito-core/5.14.2/mockito-core-5.14.2.jar:/Users/arun/.m2/repository/net/bytebuddy/byte-buddy-agent/1.15.11/byte-buddy-agent-1.15.11.jar:/Users/arun/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/Users/arun/.m2/repository/org/mockito/mockito-junit-jupiter/5.14.2/mockito-junit-jupiter-5.14.2.jar:/Users/arun/.m2/repository/org/skyscreamer/jsonassert/1.5.3/jsonassert-1.5.3.jar:/Users/arun/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar:/Users/arun/.m2/repository/org/springframework/spring-core/6.2.15/spring-core-6.2.15.jar:/Users/arun/.m2/repository/org/springframework/spring-jcl/6.2.15/spring-jcl-6.2.15.jar:/Users/arun/.m2/repository/org/springframework/spring-test/6.2.15/spring-test-6.2.15.jar:/Users/arun/.m2/repository/org/xmlunit/xmlunit-core/2.10.4/xmlunit-core-2.10.4.jar:"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="/Users/arun"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2025-10-21"/>
+    <property name="java.home" value="/Users/arun/Library/Java/JavaVirtualMachines/ms-21.0.9/Contents/Home"/>
+    <property name="file.separator" value="/"/>
+    <property name="basedir" value="/private/tmp/claude-501/-Users-arun-Documents-Projects-Code-Modernisation-Employee-Managment-App/372b7262-9384-42f6-b9eb-844d2a5dbcb3/scratchpad/canary-app/backend"/>
+    <property name="java.vm.compressedOopsMode" value="Non-zero disjoint base"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="FILE_LOG_CHARSET" value="UTF-8"/>
+    <property name="java.awt.headless" value="true"/>
+    <property name="apple.awt.application.name" value="ForkedBooter"/>
+    <property name="surefire.real.class.path" value="/private/tmp/claude-501/-Users-arun-Documents-Projects-Code-Modernisation-Employee-Managment-App/372b7262-9384-42f6-b9eb-844d2a5dbcb3/scratchpad/canary-app/backend/target/surefire/surefirebooter-20261031131710070_3.jar"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="java.runtime.version" value="21.0.9+10-LTS"/>
+    <property name="user.name" value="arun"/>
+    <property name="stdout.encoding" value="UTF-8"/>
+    <property name="path.separator" value=":"/>
+    <property name="os.version" value="27.0.1"/>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="java.vendor.version" value="Microsoft-12574443"/>
+    <property name="localRepository" value="/Users/arun/.m2/repository"/>
+    <property name="java.vendor.url.bug" value="https://github.com/microsoft/openjdk/issues"/>
+    <property name="java.io.tmpdir" value="/var/folders/0c/qyky9qhn6r5d3rrlpjmhvwzw0000gn/T/"/>
+    <property name="com.zaxxer.hikari.pool_number" value="1"/>
+    <property name="java.version" value="21.0.9"/>
+    <property name="user.dir" value="/private/tmp/claude-501/-Users-arun-Documents-Projects-Code-Modernisation-Employee-Managment-App/372b7262-9384-42f6-b9eb-844d2a5dbcb3/scratchpad/canary-app/backend"/>
+    <property name="os.arch" value="aarch64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="PID" value="30237"/>
+    <property name="CONSOLE_LOG_CHARSET" value="UTF-8"/>
+    <property name="native.encoding" value="UTF-8"/>
+    <property name="java.library.path" value="/Users/arun/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:."/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="stderr.encoding" value="UTF-8"/>
+    <property name="java.vendor" value="Microsoft"/>
+    <property name="java.vm.version" value="21.0.9+10-LTS"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeBig"/>
+    <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="java.class.version" value="65.0"/>
+    <property name="maven.test.failure.ignore" value="true"/>
+    <property name="LOGGED_APPLICATION_NAME" value="[employee-app] "/>
+  </properties>
+  <testcase name="rule015_sessionKeepsAdminNameAcrossLaterRequests" classname="POST /api/auth/login + GET /api/auth/me (legacy Login.jsp, Welcome.jsp)" time="0.469">
+    <system-out><![CDATA[13:17:10.338 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.employee.app.admin.LoginSessionCharacterizationTest]: LoginSessionCharacterizationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+13:17:10.390 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.employee.app.EmployeeApplication for test class com.employee.app.admin.LoginSessionCharacterizationTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::               (v3.4.13)
+
+2026-10-31T13:17:10.572+05:30  INFO 30237 --- [employee-app] [           main] c.e.a.a.LoginSessionCharacterizationTest : Starting LoginSessionCharacterizationTest using Java 21.0.9 with PID 30237 (started by arun in /private/tmp/claude-501/-Users-arun-Documents-Projects-Code-Modernisation-Employee-Managment-App/372b7262-9384-42f6-b9eb-844d2a5dbcb3/scratchpad/canary-app/backend)
+2026-10-31T13:17:10.572+05:30  INFO 30237 --- [employee-app] [           main] c.e.a.a.LoginSessionCharacterizationTest : The following 1 profile is active: "test"
+2026-10-31T13:17:11.086+05:30  INFO 30237 --- [employee-app] [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-10-31T13:17:11.086+05:30  INFO 30237 --- [employee-app] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-10-31T13:17:11.087+05:30  INFO 30237 --- [employee-app] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-10-31T13:17:11.095+05:30  INFO 30237 --- [employee-app] [           main] c.e.a.a.LoginSessionCharacterizationTest : Started LoginSessionCharacterizationTest in 0.661 seconds (process running for 0.993)
+2026-10-31T13:17:11.428+05:30  INFO 30237 --- [employee-app] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-10-31T13:17:11.433+05:30  INFO 30237 --- [employee-app] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+]]></system-out>
+    <system-err><![CDATA[Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build what is described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (/Users/arun/.m2/repository/net/bytebuddy/byte-buddy-agent/1.15.11/byte-buddy-agent-1.15.11.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+]]></system-err>
+  </testcase>
+  <testcase name="rule008_signUpTrimsButLoginDoesNot" classname="POST /api/auth/login + GET /api/auth/me (legacy Login.jsp, Welcome.jsp)" time="0.017">
+    <failure message="Status expected:&lt;401&gt; but was:&lt;200&gt;" type="java.lang.AssertionError"><![CDATA[java.lang.AssertionError: Status expected:<401> but was:<200>
+	at org.springframework.test.util.AssertionErrors.fail(AssertionErrors.java:61)
+	at org.springframework.test.util.AssertionErrors.assertEquals(AssertionErrors.java:128)
+	at org.springframework.test.web.servlet.result.StatusResultMatchers.lambda$matcher$9(StatusResultMatchers.java:640)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:214)
+	at com.employee.app.admin.LoginSessionCharacterizationTest.expectLoginFails(LoginSessionCharacterizationTest.java:63)
+	at com.employee.app.admin.LoginSessionCharacterizationTest.rule008_signUpTrimsButLoginDoesNot(LoginSessionCharacterizationTest.java:142)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+]]></failure>
+    <system-out><![CDATA[
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /api/auth/signup
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=UTF-8", Content-Length:"25"]
+             Body = {"id":"7","name":"Root "}
+    Session Attrs = {}
+
+Handler:
+             Type = com.employee.app.admin.AuthController
+           Method = com.employee.app.admin.AuthController#signUp(Credentials)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 201
+    Error message = null
+          Headers = [Content-Type:"application/json"]
+     Content type = application/json
+             Body = {"message":"Sign up successful! Please log in."}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /api/auth/login
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=UTF-8", Content-Length:"25"]
+             Body = {"id":"7","name":"Root "}
+    Session Attrs = {adminName=Root }
+
+Handler:
+             Type = com.employee.app.admin.AuthController
+           Method = com.employee.app.admin.AuthController#logIn(Credentials, HttpSession)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 200
+    Error message = null
+          Headers = [Content-Type:"application/json"]
+     Content type = application/json
+             Body = {"adminName":"Root ","message":"Welcome, Root !"}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+]]></system-out>
+  </testcase>
+  <testcase name="rule008_untrimmedNameFails(String)[1]" classname="POST /api/auth/login + GET /api/auth/me (legacy Login.jsp, Welcome.jsp)" time="0.012">
+    <failure message="Status expected:&lt;401&gt; but was:&lt;200&gt;" type="java.lang.AssertionError"><![CDATA[java.lang.AssertionError: Status expected:<401> but was:<200>
+	at org.springframework.test.util.AssertionErrors.fail(AssertionErrors.java:61)
+	at org.springframework.test.util.AssertionErrors.assertEquals(AssertionErrors.java:128)
+	at org.springframework.test.web.servlet.result.StatusResultMatchers.lambda$matcher$9(StatusResultMatchers.java:640)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:214)
+	at com.employee.app.admin.LoginSessionCharacterizationTest.expectLoginFails(LoginSessionCharacterizationTest.java:63)
+	at com.employee.app.admin.LoginSessionCharacterizationTest.rule008_untrimmedNameFails(LoginSessionCharacterizationTest.java:177)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ReferencePipeline$2$1.accept(ReferencePipeline.java:179)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.Spliterators$ArraySpliterator.forEachRemaining(Spliterators.java:1024)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:151)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:174)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596)
+	at java.base/java.util.stream.ReferencePipeline$7$1.accept(ReferencePipeline.java:276)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1708)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:151)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:174)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596)
+	at java.base/java.util.stream.ReferencePipeline$7$1.accept(ReferencePipeline.java:276)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1708)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:151)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:174)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596)
+	at java.base/java.util.stream.ReferencePipeline$7$1.accept(ReferencePipeline.java:276)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1708)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:151)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:174)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+]]></failure>
+    <system-out><![CDATA[
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /api/auth/login
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=UTF-8", Content-Length:"27"]
+             Body = {"id":"101","name":" Ravi"}
+    Session Attrs = {adminName= Ravi}
+
+Handler:
+             Type = com.employee.app.admin.AuthController
+           Method = com.employee.app.admin.AuthController#logIn(Credentials, HttpSession)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 200
+    Error message = null
+          Headers = [Content-Type:"application/json"]
+     Content type = application/json
+             Body = {"adminName":" Ravi","message":"Welcome,  Ravi!"}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+]]></system-out>
+  </testcase>
+  <testcase name="rule008_untrimmedNameFails(String)[2]" classname="POST /api/auth/login + GET /api/auth/me (legacy Login.jsp, Welcome.jsp)" time="0.007">
+    <failure message="Status expected:&lt;401&gt; but was:&lt;200&gt;" type="java.lang.AssertionError"><![CDATA[java.lang.AssertionError: Status expected:<401> but was:<200>
+	at org.springframework.test.util.AssertionErrors.fail(AssertionErrors.java:61)
+	at org.springframework.test.util.AssertionErrors.assertEquals(AssertionErrors.java:128)
+	at org.springframework.test.web.servlet.result.StatusResultMatchers.lambda$matcher$9(StatusResultMatchers.java:640)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:214)
+	at com.employee.app.admin.LoginSessionCharacterizationTest.expectLoginFails(LoginSessionCharacterizationTest.java:63)
+	at com.employee.app.admin.LoginSessionCharacterizationTest.rule008_untrimmedNameFails(LoginSessionCharacterizationTest.java:177)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ReferencePipeline$2$1.accept(ReferencePipeline.java:179)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.Spliterators$ArraySpliterator.forEachRemaining(Spliterators.java:1024)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:151)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:174)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596)
+	at java.base/java.util.stream.ReferencePipeline$7$1.accept(ReferencePipeline.java:276)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1708)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:151)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:174)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596)
+	at java.base/java.util.stream.ReferencePipeline$7$1.accept(ReferencePipeline.java:276)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1708)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:151)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:174)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596)
+	at java.base/java.util.stream.ReferencePipeline$7$1.accept(ReferencePipeline.java:276)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1708)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:151)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:174)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+]]></failure>
+    <system-out><![CDATA[
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /api/auth/login
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=UTF-8", Content-Length:"27"]
+             Body = {"id":"101","name":"Ravi "}
+    Session Attrs = {adminName=Ravi }
+
+Handler:
+             Type = com.employee.app.admin.AuthController
+           Method = com.employee.app.admin.AuthController#logIn(Credentials, HttpSession)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 200
+    Error message = null
+          Headers = [Content-Type:"application/json"]
+     Content type = application/json
+             Body = {"adminName":"Ravi ","message":"Welcome, Ravi !"}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+]]></system-out>
+  </testcase>
+  <testcase name="rule008_untrimmedNameFails(String)[3]" classname="POST /api/auth/login + GET /api/auth/me (legacy Login.jsp, Welcome.jsp)" time="0.011">
+    <failure message="Status expected:&lt;401&gt; but was:&lt;200&gt;" type="java.lang.AssertionError"><![CDATA[java.lang.AssertionError: Status expected:<401> but was:<200>
+	at org.springframework.test.util.AssertionErrors.fail(AssertionErrors.java:61)
+	at org.springframework.test.util.AssertionErrors.assertEquals(AssertionErrors.java:128)
+	at org.springframework.test.web.servlet.result.StatusResultMatchers.lambda$matcher$9(StatusResultMatchers.java:640)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:214)
+	at com.employee.app.admin.LoginSessionCharacterizationTest.expectLoginFails(LoginSessionCharacterizationTest.java:63)
+	at com.employee.app.admin.LoginSessionCharacterizationTest.rule008_untrimmedNameFails(LoginSessionCharacterizationTest.java:177)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ReferencePipeline$2$1.accept(ReferencePipeline.java:179)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.Spliterators$ArraySpliterator.forEachRemaining(Spliterators.java:1024)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:151)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:174)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596)
+	at java.base/java.util.stream.ReferencePipeline$7$1.accept(ReferencePipeline.java:276)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1708)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:151)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:174)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596)
+	at java.base/java.util.stream.ReferencePipeline$7$1.accept(ReferencePipeline.java:276)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1708)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:151)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:174)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596)
+	at java.base/java.util.stream.ReferencePipeline$7$1.accept(ReferencePipeline.java:276)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1708)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:151)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:174)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+]]></failure>
+    <system-out><![CDATA[
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /api/auth/login
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=UTF-8", Content-Length:"28"]
+             Body = {"id":"101","name":" Ravi "}
+    Session Attrs = {adminName= Ravi }
+
+Handler:
+             Type = com.employee.app.admin.AuthController
+           Method = com.employee.app.admin.AuthController#logIn(Credentials, HttpSession)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 200
+    Error message = null
+          Headers = [Content-Type:"application/json"]
+     Content type = application/json
+             Body = {"adminName":" Ravi ","message":"Welcome,  Ravi !"}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+]]></system-out>
+  </testcase>
+  <testcase name="rule012_sharedNameLogsInUnderEitherId" classname="POST /api/auth/login + GET /api/auth/me (legacy Login.jsp, Welcome.jsp)" time="0.011"/>
+  <testcase name="rule008_nameIsUsedExactlyAsTyped" classname="POST /api/auth/login + GET /api/auth/me (legacy Login.jsp, Welcome.jsp)" time="0.018"/>
+  <testcase name="rule012_existingSessionSurvivesAdminRowRemoval" classname="POST /api/auth/login + GET /api/auth/me (legacy Login.jsp, Welcome.jsp)" time="0.012"/>
+  <testcase name="rule017_matchingIdAndNameLogsIn" classname="POST /api/auth/login + GET /api/auth/me (legacy Login.jsp, Welcome.jsp)" time="0.006"/>
+  <testcase name="rule017_nullIdOrNameFails" classname="POST /api/auth/login + GET /api/auth/me (legacy Login.jsp, Welcome.jsp)" time="0.009"/>
+  <testcase name="rule017_nonNumericIdFails(String)[1]" classname="POST /api/auth/login + GET /api/auth/me (legacy Login.jsp, Welcome.jsp)" time="0.007"/>
+  <testcase name="rule017_nonNumericIdFails(String)[2]" classname="POST /api/auth/login + GET /api/auth/me (legacy Login.jsp, Welcome.jsp)" time="0.007"/>
+  <testcase name="rule017_nonNumericIdFails(String)[3]" classname="POST /api/auth/login + GET /api/auth/me (legacy Login.jsp, Welcome.jsp)" time="0.007"/>
+  <testcase name="rule017_nonNumericIdFails(String)[4]" classname="POST /api/auth/login + GET /api/auth/me (legacy Login.jsp, Welcome.jsp)" time="0.008"/>
+  <testcase name="rule017_nonNumericIdFails(String)[5]" classname="POST /api/auth/login + GET /api/auth/me (legacy Login.jsp, Welcome.jsp)" time="0.005"/>
+  <testcase name="rule017_meReturnsAdminNameFromTheSameSession" classname="POST /api/auth/login + GET /api/auth/me (legacy Login.jsp, Welcome.jsp)" time="0.005"/>
+  <testcase name="rule017_idIsParsedAsInteger(String)[1]" classname="POST /api/auth/login + GET /api/auth/me (legacy Login.jsp, Welcome.jsp)" time="0.006"/>
+  <testcase name="rule017_idIsParsedAsInteger(String)[2]" classname="POST /api/auth/login + GET /api/auth/me (legacy Login.jsp, Welcome.jsp)" time="0.005"/>
+  <testcase name="rule017_loginDoesNotChangeAdminData" classname="POST /api/auth/login + GET /api/auth/me (legacy Login.jsp, Welcome.jsp)" time="0.009"/>
+  <testcase name="rule008_adminWithNullNameCannotLogIn" classname="POST /api/auth/login + GET /api/auth/me (legacy Login.jsp, Welcome.jsp)" time="0.01"/>
+  <testcase name="rule017_sessionIdIsNotRotatedOnLogin" classname="POST /api/auth/login + GET /api/auth/me (legacy Login.jsp, Welcome.jsp)" time="0.006"/>
+  <testcase name="rule017_idIsTrimmed" classname="POST /api/auth/login + GET /api/auth/me (legacy Login.jsp, Welcome.jsp)" time="0.006"/>
+  <testcase name="rule017_failedLoginKeepsPreviousSessionLogin" classname="POST /api/auth/login + GET /api/auth/me (legacy Login.jsp, Welcome.jsp)" time="0.006"/>
+  <testcase name="rule017_secondLoginOverwritesAdminName" classname="POST /api/auth/login + GET /api/auth/me (legacy Login.jsp, Welcome.jsp)" time="0.007"/>
+  <testcase name="rule018_meWithoutSessionGivesNullAdminName" classname="POST /api/auth/login + GET /api/auth/me (legacy Login.jsp, Welcome.jsp)" time="0.007"/>
+  <testcase name="rule017_nameIsCaseSensitive(String)[1]" classname="POST /api/auth/login + GET /api/auth/me (legacy Login.jsp, Welcome.jsp)" time="0.008"/>
+  <testcase name="rule017_nameIsCaseSensitive(String)[2]" classname="POST /api/auth/login + GET /api/auth/me (legacy Login.jsp, Welcome.jsp)" time="0.006"/>
+  <testcase name="rule017_nameIsCaseSensitive(String)[3]" classname="POST /api/auth/login + GET /api/auth/me (legacy Login.jsp, Welcome.jsp)" time="0.006"/>
+  <testcase name="rule018_meWithFreshSessionGivesNullAdminName" classname="POST /api/auth/login + GET /api/auth/me (legacy Login.jsp, Welcome.jsp)" time="0.008"/>
+  <testcase name="rule008_adminWithEmptyNameLogsInWithEmptyName" classname="POST /api/auth/login + GET /api/auth/me (legacy Login.jsp, Welcome.jsp)" time="0.007"/>
+  <testcase name="rule017_missingIdFails" classname="POST /api/auth/login + GET /api/auth/me (legacy Login.jsp, Welcome.jsp)" time="0.006"/>
+  <testcase name="rule017_missingNameFails" classname="POST /api/auth/login + GET /api/auth/me (legacy Login.jsp, Welcome.jsp)" time="0.008"/>
+  <testcase name="rule017_wrongIdFails" classname="POST /api/auth/login + GET /api/auth/me (legacy Login.jsp, Welcome.jsp)" time="0.007"/>
+</testsuite>

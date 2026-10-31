@@ -1,0 +1,30 @@
+message: (none)
+page: list
+rows:
+  -3 | NegId | Ops | 2.0
+  1 | José Müller | Ingeniería | 999999.99
+  2 | 李雷 | 研发 | 1234567.0
+  3 | O'Brien | Sales | 1.2345678E7
+  4 | Anne-Marie | HR | 0.30000000000000004
+  5 | Zed | Ops | 100.1
+  6 | Tiny | Ops | 2.5E-5
+  7 | Below | Ops | 9999999.0
+  8 | At | Ops | 1.0E7
+  9 | Milli | Ops | 9.999E-4
+  10 | Max | Ops | 1.7976931348623157E308
+  2147483647 | MaxId | Ops | 1.0
+admin_data:
+(empty)
+employee_data:
+-3|NegId|Ops|2
+1|José Müller|Ingeniería|999999.99
+2|李雷|研发|1234567
+3|O'Brien|Sales|12345678
+4|Anne-Marie|HR|0.30000000000000004
+5|Zed|Ops|100.1
+6|Tiny|Ops|2.5e-05
+7|Below|Ops|9999999
+8|At|Ops|10000000
+9|Milli|Ops|0.0009999
+10|Max|Ops|1.7976931348623157e+308
+2147483647|MaxId|Ops|1

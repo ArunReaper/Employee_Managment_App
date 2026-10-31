@@ -1,0 +1,49 @@
+{
+  "date": "2026-10-31",
+  "legacy": {
+    "ran": true,
+    "how": "Legacy WAR built with Ant (JDK 8) from the source, run on a separate Tomcat 9 instance (port 8090) against the local scratch database employee_equiv",
+    "why": ""
+  },
+  "leftOut": [
+    "Malformed records (letters, tabs or blanks in numeric fields beyond the development cases) were not tried: INTENT.md asks for feature parity, not quirk-for-quirk matching."
+  ],
+  "suites": [
+    {
+      "module": "app",
+      "name": "backend characterization tests (JUnit 5 + MockMvc, PostgreSQL employee_test)",
+      "command": "cd modernized/employee-app/app/backend && mvn -B test -Dmaven.test.failure.ignore=true",
+      "junit": [
+        "modernized/employee-app/app/backend/target/surefire-reports"
+      ],
+      "log": [
+        "analysis/employee-app/equivalence/backend.test-output.txt"
+      ],
+      "skippedReason": "",
+      "note": "Run from clean (target/ deleted)."
+    },
+    {
+      "module": "app",
+      "name": "frontend UI tests (Vitest + Testing Library)",
+      "command": "cd modernized/employee-app/app/frontend && npx vitest run --reporter=default --reporter=junit --outputFile.junit=<workspace>/analysis/employee-app/equivalence/frontend-junit/junit.xml",
+      "junit": [
+        "analysis/employee-app/equivalence/frontend-junit"
+      ],
+      "log": [
+        "analysis/employee-app/equivalence/frontend.test-output.txt"
+      ],
+      "skippedReason": "",
+      "note": "Run from clean (Vite/Vitest caches deleted); result file kept outside the code tree."
+    }
+  ],
+  "canaries": [
+    {
+      "module": "app",
+      "change": "AuthService.logIn trims the admin name before matching (breaks RULE-017/RULE-008), scratch copy, LoginSessionCharacterizationTest",
+      "junit": [
+        "analysis/employee-app/equivalence/canary/app"
+      ],
+      "log": []
+    }
+  ]
+}

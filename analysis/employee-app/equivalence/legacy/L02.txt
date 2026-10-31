@@ -1,0 +1,10 @@
+message: (none)
+page: list
+rows:
+  101 | Asha | Finance | 15000.0
+  102 | Bob | HR | 15000.5
+admin_data:
+(empty)
+employee_data:
+101|Asha|Finance|15000
+102|Bob|HR|15000.5

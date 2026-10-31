@@ -1,0 +1,7 @@
+message: Employee ID must be a whole number, e.g. 101.
+page: deleteEmployee
+admin_data:
+(empty)
+employee_data:
+101|Asha|Finance|15000
+102|Bob|HR|15000.5

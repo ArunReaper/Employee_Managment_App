@@ -1,0 +1,6 @@
+message: Salary cannot be negative.
+page: addEmployee
+admin_data:
+(empty)
+employee_data:
+(empty)

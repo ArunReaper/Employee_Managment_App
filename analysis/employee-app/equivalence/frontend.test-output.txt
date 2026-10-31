@@ -1,0 +1,15 @@
+
+ RUN  v2.1.8 /Users/arun/Documents/Projects/Code-Modernisation/Employee_Managment_App/modernized/employee-app/app/frontend
+
+stderr | src/test/pages.test.jsx > Employee list (showEmployee.jsp) > shows every row with salaryText verbatim and null columns as "null"
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ src/test/pages.test.jsx (17 tests) 531ms
+
+ Test Files  1 passed (1)
+      Tests  17 passed (17)
+   Start at  13:23:51
+   Duration  1.16s (transform 50ms, setup 95ms, collect 81ms, tests 531ms, environment 233ms, prepare 46ms)
+
+JUNIT report written to /Users/arun/Documents/Projects/Code-Modernisation/Employee_Managment_App/analysis/employee-app/equivalence/frontend-junit/junit.xml

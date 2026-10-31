@@ -1,0 +1,6 @@
+message: Sign up successful! Please log in.
+page: login
+admin_data:
+7|Ravi
+employee_data:
+(empty)

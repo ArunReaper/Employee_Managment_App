@@ -1,0 +1,7 @@
+message: Employee details updated successfully!
+page: welcome
+admin_data:
+(empty)
+employee_data:
+101|Asha|Finance|18000
+102|Bob|HR|15000.5

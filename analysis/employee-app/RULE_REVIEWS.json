@@ -1,0 +1,36 @@
+{
+  "system": "employee-app",
+  "version": 1,
+  "reviews": {
+    "RULE-016": {
+      "verdict": "confirmed",
+      "at": "2026-10-31T12:38:04+05:30",
+      "title": "Edit employee: only salary or department can change, and the employee is found by ID alone",
+      "note": "Right: keep edit-by-ID only, with no salary checks on edit and no name confirmation (as the code does today)."
+    },
+    "RULE-017": {
+      "verdict": "confirmed",
+      "at": "2026-10-31T12:38:04+05:30",
+      "title": "Admin login by matching ID and name (no password)",
+      "note": "Right: keep ID + name login exactly as today, with no password."
+    },
+    "RULE-018": {
+      "verdict": "confirmed",
+      "at": "2026-10-31T12:38:04+05:30",
+      "title": "Employee operations are not restricted to logged-in admins",
+      "note": "Right: keep employee operations open, with no login required, as today."
+    },
+    "RULE-014": {
+      "verdict": "wrong",
+      "at": "2026-10-31T12:51:45+05:30",
+      "title": "Failed delete still sends the user to the home page as if it worked",
+      "note": "Not wanted. The user asked: \"Please give appropriet messages in case of error\". A failed delete must show \"Employee not found!\"."
+    },
+    "RULE-025": {
+      "verdict": "wrong",
+      "at": "2026-10-31T12:51:45+05:30",
+      "title": "Employee list shows an empty table when the employee data cannot be read",
+      "note": "Not wanted. The user asked: \"Please give appropriet messages in case of error\". A read failure must show an error message, not an empty list."
+    }
+  }
+}

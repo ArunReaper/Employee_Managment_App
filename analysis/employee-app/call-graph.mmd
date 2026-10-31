@@ -1,0 +1,56 @@
+%% employee-app: domain-level call graph. Entry points are highlighted.
+%% Source: topology.json (jdeps + extract_topology.py)
+graph TD
+  subgraph ACCESS["Access & Identity"]
+    IDX["index.jsp (welcome file)"]:::entry
+    SUP[signup.jsp]
+    LOG["Login.jsp (posts to itself)"]
+    SUS["SignUpServlet /SignupServlet"]:::entry
+    LGS["LoginServlet /LoginServlet: no inbound link"]:::dead
+    ADAO[AdminDAO]
+  end
+  subgraph SHELL["Presentation Shell"]
+    WEL["Welcome.jsp (dashboard)"]
+  end
+  subgraph CRUD["Employee CRUD"]
+    PAGES["add / edit / delete Employee.jsp"]
+    SHJ[showEmployee.jsp]
+    ADDS["AddEmployeeServlet"]:::entry
+    EDS["EditEmployeeServlet"]:::entry
+    DELS["DeleteEmployeeServlet"]:::entry
+    SHS["ShowEmployeeServlet"]:::entry
+    EDAO[EmployeeDAO]
+  end
+  subgraph INFRA["Persistence Infrastructure"]
+    DBU[DBUtil]
+    CTX["context.xml jdbc/EmployeeDB"]
+  end
+
+  IDX --> SUP
+  IDX --> LOG
+  SUP -->|POST| SUS
+  SUS --> ADAO
+  SUS -.->|redirect| LOG
+  LOG -->|scriptlet| ADAO
+  LOG -.->|redirect| WEL
+  LGS -.-> ADAO
+  WEL --> PAGES
+  WEL -->|GET| SHS
+  WEL -.->|"Logout (no invalidate)"| IDX
+  PAGES -->|POST| ADDS
+  PAGES -->|POST| EDS
+  PAGES -->|POST| DELS
+  SHS -.->|forward| SHJ
+  ADDS --> EDAO
+  EDS --> EDAO
+  DELS --> EDAO
+  SHS --> EDAO
+  ADDS -.->|redirect| WEL
+  EDS -.->|redirect| WEL
+  DELS -.->|redirect| WEL
+  ADAO --> DBU
+  EDAO --> DBU
+  DBU -->|JNDI| CTX
+
+  classDef entry fill:#cc785c,color:#fff,stroke:#8a4a33
+  classDef dead stroke-dasharray:5 5,fill:#eee,color:#666

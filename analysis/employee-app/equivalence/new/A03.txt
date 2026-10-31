@@ -1,0 +1,6 @@
+message: Please fill in all fields.
+page: addEmployee
+admin_data:
+(empty)
+employee_data:
+(empty)

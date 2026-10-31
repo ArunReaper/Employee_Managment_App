@@ -1,0 +1,1201 @@
+{
+  "system": "employee-app",
+  "generated": "2026-10-31T07:53:52Z",
+  "legacy": {
+    "label": "Servlet/JSP WAR on Tomcat 9, JDK 8",
+    "command": "run_equivalence.py (port 8090)"
+  },
+  "new": {
+    "label": "Spring Boot 3.4 on Java 21, outcomes per React navigation",
+    "command": "run_equivalence.py (port 8091)"
+  },
+  "selfCheck": {
+    "passed": true,
+    "detail": "each legacy output was compared with a copy changed by one byte and reported as different"
+  },
+  "totals": {
+    "cases": 48,
+    "executed": 48,
+    "same": 31,
+    "differs": 0,
+    "differsApproved": 17,
+    "missing": 0
+  },
+  "cases": [
+    {
+      "id": "L01",
+      "title": "List: empty table",
+      "verdict": "same",
+      "reason": "Identical, 85 bytes.",
+      "legacyPath": "equivalence/legacy/L01.txt",
+      "newPath": "equivalence/new/L01.txt",
+      "legacySha256": "49b0f1a19ae548ff94f631be34bac72283f08fa3a582dbfd113f510c2ce513d0",
+      "newSha256": "49b0f1a19ae548ff94f631be34bac72283f08fa3a582dbfd113f510c2ce513d0",
+      "masked": [],
+      "approvedDifference": "",
+      "note": "",
+      "bytes": {
+        "legacy": 85,
+        "new": 85
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false
+    },
+    {
+      "id": "L02",
+      "title": "List: normal rows, no login (RULE-018, RULE-023)",
+      "verdict": "same",
+      "reason": "Identical, 170 bytes.",
+      "legacyPath": "equivalence/legacy/L02.txt",
+      "newPath": "equivalence/new/L02.txt",
+      "legacySha256": "7ec92d01424ebf3f378cd559ab10ed02f859d5809dbf0d3dfcd4d06dfe93d9a0",
+      "newSha256": "7ec92d01424ebf3f378cd559ab10ed02f859d5809dbf0d3dfcd4d06dfe93d9a0",
+      "masked": [],
+      "approvedDifference": "",
+      "note": "",
+      "bytes": {
+        "legacy": 170,
+        "new": 170
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false
+    },
+    {
+      "id": "L03",
+      "title": "List: salary text formats (RULE-002)",
+      "verdict": "same",
+      "reason": "Identical, 373 bytes.",
+      "legacyPath": "equivalence/legacy/L03.txt",
+      "newPath": "equivalence/new/L03.txt",
+      "legacySha256": "989d266f9f2ffb64338f9d8c08eb7f0ccd0cc36d797ea4989c1b47560d49b837",
+      "newSha256": "989d266f9f2ffb64338f9d8c08eb7f0ccd0cc36d797ea4989c1b47560d49b837",
+      "masked": [],
+      "approvedDifference": "",
+      "note": "",
+      "bytes": {
+        "legacy": 373,
+        "new": 373
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false
+    },
+    {
+      "id": "L04",
+      "title": "List: NULL name and department",
+      "verdict": "same",
+      "reason": "Identical, 110 bytes.",
+      "legacyPath": "equivalence/legacy/L04.txt",
+      "newPath": "equivalence/new/L04.txt",
+      "legacySha256": "607408ffb9f41c3423c9582c5c854c3a25c51e4d4b53fb4925ceb483ce858cbb",
+      "newSha256": "607408ffb9f41c3423c9582c5c854c3a25c51e4d4b53fb4925ceb483ce858cbb",
+      "masked": [],
+      "approvedDifference": "",
+      "note": "",
+      "bytes": {
+        "legacy": 110,
+        "new": 110
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false
+    },
+    {
+      "id": "L05",
+      "title": "List: HTML-like name (brief Q4)",
+      "verdict": "same",
+      "reason": "Identical, 108 bytes.",
+      "legacyPath": "equivalence/legacy/L05.txt",
+      "newPath": "equivalence/new/L05.txt",
+      "legacySha256": "912a86b508bac61a48032336593f63c6616691ae904b57926328aaeeae3acaa9",
+      "newSha256": "912a86b508bac61a48032336593f63c6616691ae904b57926328aaeeae3acaa9",
+      "masked": [],
+      "approvedDifference": "",
+      "note": "",
+      "bytes": {
+        "legacy": 108,
+        "new": 108
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false
+    },
+    {
+      "id": "L06",
+      "title": "List: employee data unreadable (RULE-025)",
+      "verdict": "differs-approved",
+      "reason": "The outputs first differ at line 1, byte 9. A person approved this difference: RULE-025 marked wrong by the user. Approved by the user on 2026-10-31: \"Please give appropriet messages in case of error\" (MODERNIZATION_BRIEF.md, approver revision item 2).",
+      "legacyPath": "equivalence/legacy/L06.txt",
+      "newPath": "equivalence/new/L06.txt",
+      "legacySha256": "0981bf136f15d222c3a8cd87c43c382928129ccf0c31ecc9343963889d7b0830",
+      "newSha256": "680fae40f5f9be20180b5606e3657274ac14e994bdd40148008e63c8ece1f8f1",
+      "masked": [],
+      "approvedDifference": "RULE-025 marked wrong by the user. Approved by the user on 2026-10-31: \"Please give appropriet messages in case of error\" (MODERNIZATION_BRIEF.md, approver revision item 2).",
+      "note": "",
+      "bytes": {
+        "legacy": 119,
+        "new": 152
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false,
+      "firstDiff": {
+        "offset": 9,
+        "line": 1,
+        "legacy": "message: (none)\\npage: list\\nrows:\\n ",
+        "new": "message: Something went wrong. Please",
+        "at": 9
+      }
+    },
+    {
+      "id": "A01",
+      "title": "Add: success",
+      "verdict": "same",
+      "reason": "Identical, 110 bytes.",
+      "legacyPath": "equivalence/legacy/A01.txt",
+      "newPath": "equivalence/new/A01.txt",
+      "legacySha256": "9bb9098b9fd3672eb64921548c87a8e289b86e45b13e7eb990711d7b14601946",
+      "newSha256": "9bb9098b9fd3672eb64921548c87a8e289b86e45b13e7eb990711d7b14601946",
+      "masked": [],
+      "approvedDifference": "",
+      "note": "",
+      "bytes": {
+        "legacy": 110,
+        "new": 110
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false
+    },
+    {
+      "id": "A02",
+      "title": "Add: name and department trimmed",
+      "verdict": "same",
+      "reason": "Identical, 110 bytes.",
+      "legacyPath": "equivalence/legacy/A02.txt",
+      "newPath": "equivalence/new/A02.txt",
+      "legacySha256": "9bb9098b9fd3672eb64921548c87a8e289b86e45b13e7eb990711d7b14601946",
+      "newSha256": "9bb9098b9fd3672eb64921548c87a8e289b86e45b13e7eb990711d7b14601946",
+      "masked": [],
+      "approvedDifference": "",
+      "note": "",
+      "bytes": {
+        "legacy": 110,
+        "new": 110
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false
+    },
+    {
+      "id": "A03",
+      "title": "Add: whitespace-only field",
+      "verdict": "same",
+      "reason": "Identical, 97 bytes.",
+      "legacyPath": "equivalence/legacy/A03.txt",
+      "newPath": "equivalence/new/A03.txt",
+      "legacySha256": "943c541f2e3abb00c8aff1421761fd909bf92becc7acc6263be9db23bf70172c",
+      "newSha256": "943c541f2e3abb00c8aff1421761fd909bf92becc7acc6263be9db23bf70172c",
+      "masked": [],
+      "approvedDifference": "",
+      "note": "",
+      "bytes": {
+        "legacy": 97,
+        "new": 97
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false
+    },
+    {
+      "id": "A04",
+      "title": "Add: decimal id",
+      "verdict": "same",
+      "reason": "Identical, 116 bytes.",
+      "legacyPath": "equivalence/legacy/A04.txt",
+      "newPath": "equivalence/new/A04.txt",
+      "legacySha256": "28b74c5fcbd0e63fabea20ae9af4c8a8cab1b85ab577fd0f0b2d6abca281e463",
+      "newSha256": "28b74c5fcbd0e63fabea20ae9af4c8a8cab1b85ab577fd0f0b2d6abca281e463",
+      "masked": [],
+      "approvedDifference": "",
+      "note": "",
+      "bytes": {
+        "legacy": 116,
+        "new": 116
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false
+    },
+    {
+      "id": "A05",
+      "title": "Add: text id",
+      "verdict": "same",
+      "reason": "Identical, 116 bytes.",
+      "legacyPath": "equivalence/legacy/A05.txt",
+      "newPath": "equivalence/new/A05.txt",
+      "legacySha256": "28b74c5fcbd0e63fabea20ae9af4c8a8cab1b85ab577fd0f0b2d6abca281e463",
+      "newSha256": "28b74c5fcbd0e63fabea20ae9af4c8a8cab1b85ab577fd0f0b2d6abca281e463",
+      "masked": [],
+      "approvedDifference": "",
+      "note": "",
+      "bytes": {
+        "legacy": 116,
+        "new": 116
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false
+    },
+    {
+      "id": "A06",
+      "title": "Add: id 0 accepted by the server (RULE-010)",
+      "verdict": "same",
+      "reason": "Identical, 95 bytes.",
+      "legacyPath": "equivalence/legacy/A06.txt",
+      "newPath": "equivalence/new/A06.txt",
+      "legacySha256": "2b8d2cc0682071bae136e55731e0f47f06f1e63c95692454e7f173e85c420752",
+      "newSha256": "2b8d2cc0682071bae136e55731e0f47f06f1e63c95692454e7f173e85c420752",
+      "masked": [],
+      "approvedDifference": "",
+      "note": "",
+      "bytes": {
+        "legacy": 95,
+        "new": 95
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false
+    },
+    {
+      "id": "A07",
+      "title": "Add: negative id accepted by the server (RULE-010)",
+      "verdict": "same",
+      "reason": "Identical, 96 bytes.",
+      "legacyPath": "equivalence/legacy/A07.txt",
+      "newPath": "equivalence/new/A07.txt",
+      "legacySha256": "03ab1820db04f9ce9c36629ae5a5d5bc74b1ffc75ebab5d96f9c58c73a3f9dfa",
+      "newSha256": "03ab1820db04f9ce9c36629ae5a5d5bc74b1ffc75ebab5d96f9c58c73a3f9dfa",
+      "masked": [],
+      "approvedDifference": "",
+      "note": "",
+      "bytes": {
+        "legacy": 96,
+        "new": 96
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false
+    },
+    {
+      "id": "A08",
+      "title": "Add: text salary",
+      "verdict": "same",
+      "reason": "Identical, 107 bytes.",
+      "legacyPath": "equivalence/legacy/A08.txt",
+      "newPath": "equivalence/new/A08.txt",
+      "legacySha256": "d3c2fba27cea07a435f38f40265bda6d5e590ecc1070e76b37232f5e80ab575b",
+      "newSha256": "d3c2fba27cea07a435f38f40265bda6d5e590ecc1070e76b37232f5e80ab575b",
+      "masked": [],
+      "approvedDifference": "",
+      "note": "",
+      "bytes": {
+        "legacy": 107,
+        "new": 107
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false
+    },
+    {
+      "id": "A09",
+      "title": "Add: negative salary",
+      "verdict": "same",
+      "reason": "Identical, 97 bytes.",
+      "legacyPath": "equivalence/legacy/A09.txt",
+      "newPath": "equivalence/new/A09.txt",
+      "legacySha256": "3d27485a1f38757bd45e044c7c40d67138d03c3d5ded4ee38d57fb0b18c500d2",
+      "newSha256": "3d27485a1f38757bd45e044c7c40d67138d03c3d5ded4ee38d57fb0b18c500d2",
+      "masked": [],
+      "approvedDifference": "",
+      "note": "",
+      "bytes": {
+        "legacy": 97,
+        "new": 97
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false
+    },
+    {
+      "id": "A10",
+      "title": "Add: NaN salary passes the negative check",
+      "verdict": "same",
+      "reason": "Identical, 97 bytes.",
+      "legacyPath": "equivalence/legacy/A10.txt",
+      "newPath": "equivalence/new/A10.txt",
+      "legacySha256": "da731ca3df2c91b3c038e8729e0dbeffdb22b82e0092ef951d8a391d523deea1",
+      "newSha256": "da731ca3df2c91b3c038e8729e0dbeffdb22b82e0092ef951d8a391d523deea1",
+      "masked": [],
+      "approvedDifference": "",
+      "note": "",
+      "bytes": {
+        "legacy": 97,
+        "new": 97
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false
+    },
+    {
+      "id": "A11",
+      "title": "Add: exponent salary 1e3",
+      "verdict": "same",
+      "reason": "Identical, 98 bytes.",
+      "legacyPath": "equivalence/legacy/A11.txt",
+      "newPath": "equivalence/new/A11.txt",
+      "legacySha256": "b74ca704564621dbd2fa68a5d853abfd050f3337b7a6ad116be8baa733651bee",
+      "newSha256": "b74ca704564621dbd2fa68a5d853abfd050f3337b7a6ad116be8baa733651bee",
+      "masked": [],
+      "approvedDifference": "",
+      "note": "",
+      "bytes": {
+        "legacy": 98,
+        "new": 98
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false
+    },
+    {
+      "id": "A12",
+      "title": "Add: duplicate id (RULE-005)",
+      "verdict": "same",
+      "reason": "Identical, 171 bytes.",
+      "legacyPath": "equivalence/legacy/A12.txt",
+      "newPath": "equivalence/new/A12.txt",
+      "legacySha256": "41f1453e0b5057ee411279a1ec3e998fae6b30c82e78641aed06c309ca470f28",
+      "newSha256": "41f1453e0b5057ee411279a1ec3e998fae6b30c82e78641aed06c309ca470f28",
+      "masked": [],
+      "approvedDifference": "",
+      "note": "",
+      "bytes": {
+        "legacy": 171,
+        "new": 171
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false
+    },
+    {
+      "id": "A13",
+      "title": "Add: 300-character name",
+      "verdict": "differs-approved",
+      "reason": "The outputs first differ at line 1, byte 9. A person approved this difference: Approved by the user on 2026-10-31: \"Please give appropriet messages in case of error\" (MODERNIZATION_BRIEF.md, approver revision item 2). Legacy showed a generic error for text over 255 characters.",
+      "legacyPath": "equivalence/legacy/A13.txt",
+      "newPath": "equivalence/new/A13.txt",
+      "legacySha256": "a60cb663cf9495447cf02e4879b84584ef1f74de95fa51550247fef96162967c",
+      "newSha256": "d6cade4f10ded14851d9e46131b4251bff16e2da8a8ebe0555c2ee5e53cdf69f",
+      "masked": [],
+      "approvedDifference": "Approved by the user on 2026-10-31: \"Please give appropriet messages in case of error\" (MODERNIZATION_BRIEF.md, approver revision item 2). Legacy showed a generic error for text over 255 characters.",
+      "note": "",
+      "bytes": {
+        "legacy": 117,
+        "new": 123
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false,
+      "firstDiff": {
+        "offset": 9,
+        "line": 1,
+        "legacy": "message: Error while adding employee.",
+        "new": "message: Name and department must be ",
+        "at": 9
+      }
+    },
+    {
+      "id": "E01",
+      "title": "Edit: salary, name ignored (RULE-016)",
+      "verdict": "differs-approved",
+      "reason": "The outputs first differ at line 1, byte 9. A person approved this difference: Approved by the user on 2026-10-31 (\"approve the differences\"). The success message is shown as a toast; legacy stored it in the session but never displayed it (RULE-024).",
+      "legacyPath": "equivalence/legacy/E01.txt",
+      "newPath": "equivalence/new/E01.txt",
+      "legacySha256": "6c5850276536ec680d282d67ca9003cdd5516de31d89f068b8b6f3ea03ff2b7f",
+      "newSha256": "584c7718f18b9562a7eaef7f525e56745078e975e031dce508785ba6d4e9c3ed",
+      "masked": [],
+      "approvedDifference": "Approved by the user on 2026-10-31 (\"approve the differences\"). The success message is shown as a toast; legacy stored it in the session but never displayed it (RULE-024).",
+      "note": "",
+      "bytes": {
+        "legacy": 107,
+        "new": 139
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false,
+      "firstDiff": {
+        "offset": 9,
+        "line": 1,
+        "legacy": "message: (none)\\npage: welcome\\nadmin",
+        "new": "message: Employee details updated suc",
+        "at": 9
+      }
+    },
+    {
+      "id": "E02",
+      "title": "Edit: negative salary accepted (RULE-007/016)",
+      "verdict": "differs-approved",
+      "reason": "The outputs first differ at line 1, byte 9. A person approved this difference: Approved by the user on 2026-10-31 (\"approve the differences\"). The success message is shown as a toast; legacy stored it in the session but never displayed it (RULE-024).",
+      "legacyPath": "equivalence/legacy/E02.txt",
+      "newPath": "equivalence/new/E02.txt",
+      "legacySha256": "e40aab0b580c80f8e44b10e78b3a6034226143475033b71d4357ab7ee6118f8d",
+      "newSha256": "d0b953df7514974261b53e05cbdc935224a77306c98512f5ed72ff8e9ca49bf7",
+      "masked": [],
+      "approvedDifference": "Approved by the user on 2026-10-31 (\"approve the differences\"). The success message is shown as a toast; legacy stored it in the session but never displayed it (RULE-024).",
+      "note": "",
+      "bytes": {
+        "legacy": 107,
+        "new": 139
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false,
+      "firstDiff": {
+        "offset": 9,
+        "line": 1,
+        "legacy": "message: (none)\\npage: welcome\\nadmin",
+        "new": "message: Employee details updated suc",
+        "at": 9
+      }
+    },
+    {
+      "id": "E03",
+      "title": "Edit: field name case-insensitive",
+      "verdict": "differs-approved",
+      "reason": "The outputs first differ at line 1, byte 9. A person approved this difference: Approved by the user on 2026-10-31 (\"approve the differences\"). The success message is shown as a toast; legacy stored it in the session but never displayed it (RULE-024).",
+      "legacyPath": "equivalence/legacy/E03.txt",
+      "newPath": "equivalence/new/E03.txt",
+      "legacySha256": "bc803aa6ca87043d696ddc8674188876a179e5345e9d84b6318045df2ceb8716",
+      "newSha256": "428340a846fd9246ec1d6a62c29efbc2ed1793d55a4ef9e23d757946100955b6",
+      "masked": [],
+      "approvedDifference": "Approved by the user on 2026-10-31 (\"approve the differences\"). The success message is shown as a toast; legacy stored it in the session but never displayed it (RULE-024).",
+      "note": "",
+      "bytes": {
+        "legacy": 103,
+        "new": 135
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false,
+      "firstDiff": {
+        "offset": 9,
+        "line": 1,
+        "legacy": "message: (none)\\npage: welcome\\nadmin",
+        "new": "message: Employee details updated suc",
+        "at": 9
+      }
+    },
+    {
+      "id": "E04",
+      "title": "Edit: department",
+      "verdict": "differs-approved",
+      "reason": "The outputs first differ at line 1, byte 9. A person approved this difference: Approved by the user on 2026-10-31 (\"approve the differences\"). The success message is shown as a toast; legacy stored it in the session but never displayed it (RULE-024).",
+      "legacyPath": "equivalence/legacy/E04.txt",
+      "newPath": "equivalence/new/E04.txt",
+      "legacySha256": "6948b6b6102e43f5d2bc9a8f251854614a886e01a79d3f5335d0be88af87cd7c",
+      "newSha256": "dc9bb6fbce4e7914a7c61035042de95b3d975784dd418b03ac445f17f13a4c0a",
+      "masked": [],
+      "approvedDifference": "Approved by the user on 2026-10-31 (\"approve the differences\"). The success message is shown as a toast; legacy stored it in the session but never displayed it (RULE-024).",
+      "note": "",
+      "bytes": {
+        "legacy": 102,
+        "new": 134
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false,
+      "firstDiff": {
+        "offset": 9,
+        "line": 1,
+        "legacy": "message: (none)\\npage: welcome\\nadmin",
+        "new": "message: Employee details updated suc",
+        "at": 9
+      }
+    },
+    {
+      "id": "E05",
+      "title": "Edit: department stored untrimmed",
+      "verdict": "differs-approved",
+      "reason": "The outputs first differ at line 1, byte 9. A person approved this difference: Approved by the user on 2026-10-31 (\"approve the differences\"). The success message is shown as a toast; legacy stored it in the session but never displayed it (RULE-024).",
+      "legacyPath": "equivalence/legacy/E05.txt",
+      "newPath": "equivalence/new/E05.txt",
+      "legacySha256": "6b9de56d600561c2b237baaeca46e13b0c92756a200366fff26ff517794adf5b",
+      "newSha256": "9a3e4d8b92b5c4e996ccbdb20618ef18bf595b2c6a6e547dc999d39fab089971",
+      "masked": [],
+      "approvedDifference": "Approved by the user on 2026-10-31 (\"approve the differences\"). The success message is shown as a toast; legacy stored it in the session but never displayed it (RULE-024).",
+      "note": "",
+      "bytes": {
+        "legacy": 107,
+        "new": 139
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false,
+      "firstDiff": {
+        "offset": 9,
+        "line": 1,
+        "legacy": "message: (none)\\npage: welcome\\nadmin",
+        "new": "message: Employee details updated suc",
+        "at": 9
+      }
+    },
+    {
+      "id": "E06",
+      "title": "Edit: unknown field",
+      "verdict": "differs-approved",
+      "reason": "The outputs first differ at line 1, byte 9. A person approved this difference: Approved by the user on 2026-10-31: \"Please give appropriet messages in case of error\" (MODERNIZATION_BRIEF.md, approver revision item 2). Legacy showed 'Employee not found or invalid data!' for an in",
+      "legacyPath": "equivalence/legacy/E06.txt",
+      "newPath": "equivalence/new/E06.txt",
+      "legacySha256": "881803e48c0efb8fac75a647cfa5bc83dacf5578f5e6119703284f3a90937fad",
+      "newSha256": "cb5725c51f10bca986910c3ce168b8898a4f44da7fcb6e02afa3b761d7dec7a9",
+      "masked": [],
+      "approvedDifference": "Approved by the user on 2026-10-31: \"Please give appropriet messages in case of error\" (MODERNIZATION_BRIEF.md, approver revision item 2). Legacy showed 'Employee not found or invalid data!' for an invalid field.",
+      "note": "",
+      "bytes": {
+        "legacy": 141,
+        "new": 148
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false,
+      "firstDiff": {
+        "offset": 9,
+        "line": 1,
+        "legacy": "message: Employee not found or invali",
+        "new": "message: Field must be either salary ",
+        "at": 9
+      }
+    },
+    {
+      "id": "E07",
+      "title": "Edit: text salary",
+      "verdict": "differs-approved",
+      "reason": "The outputs first differ at line 1, byte 9. A person approved this difference: Approved by the user on 2026-10-31: \"Please give appropriet messages in case of error\" (MODERNIZATION_BRIEF.md, approver revision item 2). Legacy showed 'Employee not found or invalid data!' for a non",
+      "legacyPath": "equivalence/legacy/E07.txt",
+      "newPath": "equivalence/new/E07.txt",
+      "legacySha256": "881803e48c0efb8fac75a647cfa5bc83dacf5578f5e6119703284f3a90937fad",
+      "newSha256": "0e17477d0e5d0845f8b2822252555b1180c67bb0c3d79ed94d85ac578e0d134b",
+      "masked": [],
+      "approvedDifference": "Approved by the user on 2026-10-31: \"Please give appropriet messages in case of error\" (MODERNIZATION_BRIEF.md, approver revision item 2). Legacy showed 'Employee not found or invalid data!' for a non-numeric salary.",
+      "note": "",
+      "bytes": {
+        "legacy": 141,
+        "new": 142
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false,
+      "firstDiff": {
+        "offset": 9,
+        "line": 1,
+        "legacy": "message: Employee not found or invali",
+        "new": "message: Salary must be a number, e.g",
+        "at": 9
+      }
+    },
+    {
+      "id": "E08",
+      "title": "Edit: unknown id",
+      "verdict": "differs-approved",
+      "reason": "The outputs first differ at line 1, byte 27. A person approved this difference: Approved by the user on 2026-10-31: \"Please give appropriet messages in case of error\" (MODERNIZATION_BRIEF.md, approver revision item 2). Distinct not-found message.",
+      "legacyPath": "equivalence/legacy/E08.txt",
+      "newPath": "equivalence/new/E08.txt",
+      "legacySha256": "881803e48c0efb8fac75a647cfa5bc83dacf5578f5e6119703284f3a90937fad",
+      "newSha256": "84f9ca18df334b03abf41a47966eef9a77ee9d5cb5b7ec21ea47a0c288cad98a",
+      "masked": [],
+      "approvedDifference": "Approved by the user on 2026-10-31: \"Please give appropriet messages in case of error\" (MODERNIZATION_BRIEF.md, approver revision item 2). Distinct not-found message.",
+      "note": "",
+      "bytes": {
+        "legacy": 141,
+        "new": 125
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false,
+      "firstDiff": {
+        "offset": 27,
+        "line": 1,
+        "legacy": "ee not found or invalid data!\\npage: edi",
+        "new": "ee not found!\\npage: editEmployee\\nadmin",
+        "at": 12
+      }
+    },
+    {
+      "id": "E09",
+      "title": "Edit: text id",
+      "verdict": "differs-approved",
+      "reason": "The outputs first differ at line 1, byte 9. A person approved this difference: Approved by the user on 2026-10-31: \"Please give appropriet messages in case of error\" (MODERNIZATION_BRIEF.md, approver revision item 2). Legacy showed Tomcat's HTTP 500 page.",
+      "legacyPath": "equivalence/legacy/E09.txt",
+      "newPath": "equivalence/new/E09.txt",
+      "legacySha256": "e49ae675a4fbd852ff8e10f229aa4d3f3f5d09db91be9e65e20d1e0cf9221561",
+      "newSha256": "0253f6111edc535d8ef457de990c62a2143e7837af2735cd593111b3308687cb",
+      "masked": [],
+      "approvedDifference": "Approved by the user on 2026-10-31: \"Please give appropriet messages in case of error\" (MODERNIZATION_BRIEF.md, approver revision item 2). Legacy showed Tomcat's HTTP 500 page.",
+      "note": "",
+      "bytes": {
+        "legacy": 122,
+        "new": 151
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false,
+      "firstDiff": {
+        "offset": 9,
+        "line": 1,
+        "legacy": "message: (server error page)\\npage: e",
+        "new": "message: Employee ID must be a whole ",
+        "at": 9
+      }
+    },
+    {
+      "id": "E10",
+      "title": "Edit: field missing",
+      "verdict": "same",
+      "reason": "Identical, 137 bytes.",
+      "legacyPath": "equivalence/legacy/E10.txt",
+      "newPath": "equivalence/new/E10.txt",
+      "legacySha256": "a0007a3416f47cca2553b4899d363087c0cc7a075093835d7861154d455844fd",
+      "newSha256": "a0007a3416f47cca2553b4899d363087c0cc7a075093835d7861154d455844fd",
+      "masked": [],
+      "approvedDifference": "",
+      "note": "",
+      "bytes": {
+        "legacy": 137,
+        "new": 137
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false
+    },
+    {
+      "id": "E11",
+      "title": "Edit: NaN salary accepted",
+      "verdict": "differs-approved",
+      "reason": "The outputs first differ at line 1, byte 9. A person approved this difference: Approved by the user on 2026-10-31 (\"approve the differences\"). The success message is shown as a toast; legacy stored it in the session but never displayed it (RULE-024).",
+      "legacyPath": "equivalence/legacy/E11.txt",
+      "newPath": "equivalence/new/E11.txt",
+      "legacySha256": "2db61986af3b559061e1ac9efd128fc7822ffb18ba0c14bb71027e4c6ffdb78e",
+      "newSha256": "db935b2a4a94e6e7c71adb74f2c239270dd7b5aa4267700b8a943b1eb7e404c4",
+      "masked": [],
+      "approvedDifference": "Approved by the user on 2026-10-31 (\"approve the differences\"). The success message is shown as a toast; legacy stored it in the session but never displayed it (RULE-024).",
+      "note": "",
+      "bytes": {
+        "legacy": 105,
+        "new": 137
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false,
+      "firstDiff": {
+        "offset": 9,
+        "line": 1,
+        "legacy": "message: (none)\\npage: welcome\\nadmin",
+        "new": "message: Employee details updated suc",
+        "at": 9
+      }
+    },
+    {
+      "id": "D01",
+      "title": "Delete: exact id and name",
+      "verdict": "differs-approved",
+      "reason": "The outputs first differ at line 1, byte 9. A person approved this difference: Approved by the user on 2026-10-31 (\"approve the differences\"). The success message is shown as a toast; legacy stored it in the session but never displayed it (RULE-024).",
+      "legacyPath": "equivalence/legacy/D01.txt",
+      "newPath": "equivalence/new/D01.txt",
+      "legacySha256": "7a9038b1b16dca58d65e80ee6e14bbadf6f254d0e4194d54b25d6c95d71e9abc",
+      "newSha256": "769a8f6f4f260b1b661fa02ef8bc86d626f189a2ef9a1e2364b54bc846d4117b",
+      "masked": [],
+      "approvedDifference": "Approved by the user on 2026-10-31 (\"approve the differences\"). The success message is shown as a toast; legacy stored it in the session but never displayed it (RULE-024).",
+      "note": "",
+      "bytes": {
+        "legacy": 84,
+        "new": 108
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false,
+      "firstDiff": {
+        "offset": 9,
+        "line": 1,
+        "legacy": "message: (none)\\npage: welcome\\nadmin",
+        "new": "message: Employee deleted successfull",
+        "at": 9
+      }
+    },
+    {
+      "id": "D02",
+      "title": "Delete: name in wrong case (RULE-013/014)",
+      "verdict": "differs-approved",
+      "reason": "The outputs first differ at line 1, byte 9. A person approved this difference: RULE-014 marked wrong by the user. Approved by the user on 2026-10-31: \"Please give appropriet messages in case of error\" (MODERNIZATION_BRIEF.md, approver revision item 2).",
+      "legacyPath": "equivalence/legacy/D02.txt",
+      "newPath": "equivalence/new/D02.txt",
+      "legacySha256": "84610823b68e1811eb816d878fd08d91341cfa0f2d3730e0ffb81f0f118aee41",
+      "newSha256": "ae43e49355c084dd8f37ead020378bdf4f63923f4f02c138973bd23b1d8c1054",
+      "masked": [],
+      "approvedDifference": "RULE-014 marked wrong by the user. Approved by the user on 2026-10-31: \"Please give appropriet messages in case of error\" (MODERNIZATION_BRIEF.md, approver revision item 2).",
+      "note": "",
+      "bytes": {
+        "legacy": 107,
+        "new": 127
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false,
+      "firstDiff": {
+        "offset": 9,
+        "line": 1,
+        "legacy": "message: (none)\\npage: welcome\\nadmin",
+        "new": "message: Employee not found!\\npage: d",
+        "at": 9
+      }
+    },
+    {
+      "id": "D03",
+      "title": "Delete: name with trailing space",
+      "verdict": "differs-approved",
+      "reason": "The outputs first differ at line 1, byte 9. A person approved this difference: RULE-014 marked wrong by the user. Approved by the user on 2026-10-31: \"Please give appropriet messages in case of error\" (MODERNIZATION_BRIEF.md, approver revision item 2).",
+      "legacyPath": "equivalence/legacy/D03.txt",
+      "newPath": "equivalence/new/D03.txt",
+      "legacySha256": "84610823b68e1811eb816d878fd08d91341cfa0f2d3730e0ffb81f0f118aee41",
+      "newSha256": "ae43e49355c084dd8f37ead020378bdf4f63923f4f02c138973bd23b1d8c1054",
+      "masked": [],
+      "approvedDifference": "RULE-014 marked wrong by the user. Approved by the user on 2026-10-31: \"Please give appropriet messages in case of error\" (MODERNIZATION_BRIEF.md, approver revision item 2).",
+      "note": "",
+      "bytes": {
+        "legacy": 107,
+        "new": 127
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false,
+      "firstDiff": {
+        "offset": 9,
+        "line": 1,
+        "legacy": "message: (none)\\npage: welcome\\nadmin",
+        "new": "message: Employee not found!\\npage: d",
+        "at": 9
+      }
+    },
+    {
+      "id": "D04",
+      "title": "Delete: text id",
+      "verdict": "differs-approved",
+      "reason": "The outputs first differ at line 1, byte 9. A person approved this difference: Approved by the user on 2026-10-31: \"Please give appropriet messages in case of error\" (MODERNIZATION_BRIEF.md, approver revision item 2). Legacy showed Tomcat's HTTP 500 page.",
+      "legacyPath": "equivalence/legacy/D04.txt",
+      "newPath": "equivalence/new/D04.txt",
+      "legacySha256": "e49ae675a4fbd852ff8e10f229aa4d3f3f5d09db91be9e65e20d1e0cf9221561",
+      "newSha256": "d5fb983be5568dd04ebef750b08087f029b9c881eb202a7b1c0612016d7615eb",
+      "masked": [],
+      "approvedDifference": "Approved by the user on 2026-10-31: \"Please give appropriet messages in case of error\" (MODERNIZATION_BRIEF.md, approver revision item 2). Legacy showed Tomcat's HTTP 500 page.",
+      "note": "",
+      "bytes": {
+        "legacy": 122,
+        "new": 153
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false,
+      "firstDiff": {
+        "offset": 9,
+        "line": 1,
+        "legacy": "message: (server error page)\\npage: e",
+        "new": "message: Employee ID must be a whole ",
+        "at": 9
+      }
+    },
+    {
+      "id": "D05",
+      "title": "Delete: name missing",
+      "verdict": "same",
+      "reason": "Identical, 139 bytes.",
+      "legacyPath": "equivalence/legacy/D05.txt",
+      "newPath": "equivalence/new/D05.txt",
+      "legacySha256": "f878284abe8264c7a8ec26c0c86987517d9e0243391cbc409d48e324f8c668f0",
+      "newSha256": "f878284abe8264c7a8ec26c0c86987517d9e0243391cbc409d48e324f8c668f0",
+      "masked": [],
+      "approvedDifference": "",
+      "note": "",
+      "bytes": {
+        "legacy": 139,
+        "new": 139
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false
+    },
+    {
+      "id": "S01",
+      "title": "Sign-up: success",
+      "verdict": "same",
+      "reason": "Identical, 98 bytes.",
+      "legacyPath": "equivalence/legacy/S01.txt",
+      "newPath": "equivalence/new/S01.txt",
+      "legacySha256": "dca2e079afbb5fd4d8d25f5bf857fe5df2cbda7f218fcc52eb6ef57f6c390310",
+      "newSha256": "dca2e079afbb5fd4d8d25f5bf857fe5df2cbda7f218fcc52eb6ef57f6c390310",
+      "masked": [],
+      "approvedDifference": "",
+      "note": "",
+      "bytes": {
+        "legacy": 98,
+        "new": 98
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false
+    },
+    {
+      "id": "S02",
+      "title": "Sign-up: name trimmed (RULE-008)",
+      "verdict": "same",
+      "reason": "Identical, 98 bytes.",
+      "legacyPath": "equivalence/legacy/S02.txt",
+      "newPath": "equivalence/new/S02.txt",
+      "legacySha256": "dca2e079afbb5fd4d8d25f5bf857fe5df2cbda7f218fcc52eb6ef57f6c390310",
+      "newSha256": "dca2e079afbb5fd4d8d25f5bf857fe5df2cbda7f218fcc52eb6ef57f6c390310",
+      "masked": [],
+      "approvedDifference": "",
+      "note": "",
+      "bytes": {
+        "legacy": 98,
+        "new": 98
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false
+    },
+    {
+      "id": "S03",
+      "title": "Sign-up: blank name stored as empty (RULE-008)",
+      "verdict": "same",
+      "reason": "Identical, 94 bytes.",
+      "legacyPath": "equivalence/legacy/S03.txt",
+      "newPath": "equivalence/new/S03.txt",
+      "legacySha256": "cf3cbd44f205716ba763717742770568c396440033fbec86573cacd617fac706",
+      "newSha256": "cf3cbd44f205716ba763717742770568c396440033fbec86573cacd617fac706",
+      "masked": [],
+      "approvedDifference": "",
+      "note": "",
+      "bytes": {
+        "legacy": 94,
+        "new": 94
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false
+    },
+    {
+      "id": "S04",
+      "title": "Sign-up: text id",
+      "verdict": "same",
+      "reason": "Identical, 108 bytes.",
+      "legacyPath": "equivalence/legacy/S04.txt",
+      "newPath": "equivalence/new/S04.txt",
+      "legacySha256": "e3a89047c1054a288bab994ba1415a90c6232650fe62389dd48c9b88769f6e7a",
+      "newSha256": "e3a89047c1054a288bab994ba1415a90c6232650fe62389dd48c9b88769f6e7a",
+      "masked": [],
+      "approvedDifference": "",
+      "note": "",
+      "bytes": {
+        "legacy": 108,
+        "new": 108
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false
+    },
+    {
+      "id": "S05",
+      "title": "Sign-up: duplicate id (RULE-009)",
+      "verdict": "same",
+      "reason": "Identical, 128 bytes.",
+      "legacyPath": "equivalence/legacy/S05.txt",
+      "newPath": "equivalence/new/S05.txt",
+      "legacySha256": "a23332f726f59d328ac4fd03c9ce46f359b937cf5fc1752a924ae4f8dbb835a2",
+      "newSha256": "a23332f726f59d328ac4fd03c9ce46f359b937cf5fc1752a924ae4f8dbb835a2",
+      "masked": [],
+      "approvedDifference": "",
+      "note": "",
+      "bytes": {
+        "legacy": 128,
+        "new": 128
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false
+    },
+    {
+      "id": "S06",
+      "title": "Sign-up: name missing, stored as NULL",
+      "verdict": "same",
+      "reason": "Identical, 100 bytes.",
+      "legacyPath": "equivalence/legacy/S06.txt",
+      "newPath": "equivalence/new/S06.txt",
+      "legacySha256": "6bf41a6615c3784ec00700413c0790a9c5bfe3531d785378f3315cb39caa6a11",
+      "newSha256": "6bf41a6615c3784ec00700413c0790a9c5bfe3531d785378f3315cb39caa6a11",
+      "masked": [],
+      "approvedDifference": "",
+      "note": "",
+      "bytes": {
+        "legacy": 100,
+        "new": 100
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false
+    },
+    {
+      "id": "G01",
+      "title": "Login: success, then greeting (RULE-017)",
+      "verdict": "same",
+      "reason": "Identical, 97 bytes.",
+      "legacyPath": "equivalence/legacy/G01.txt",
+      "newPath": "equivalence/new/G01.txt",
+      "legacySha256": "8e327d4da735114462aac59b7028de5f7fa9b83749b7011169513d045c7aced4",
+      "newSha256": "8e327d4da735114462aac59b7028de5f7fa9b83749b7011169513d045c7aced4",
+      "masked": [],
+      "approvedDifference": "",
+      "note": "",
+      "bytes": {
+        "legacy": 97,
+        "new": 97
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false
+    },
+    {
+      "id": "G02",
+      "title": "Login: name in wrong case",
+      "verdict": "same",
+      "reason": "Identical, 101 bytes.",
+      "legacyPath": "equivalence/legacy/G02.txt",
+      "newPath": "equivalence/new/G02.txt",
+      "legacySha256": "95843545939bf129c1eddf4d848ddc26387070353f0cebb2bba2d58e5997d4cf",
+      "newSha256": "95843545939bf129c1eddf4d848ddc26387070353f0cebb2bba2d58e5997d4cf",
+      "masked": [],
+      "approvedDifference": "",
+      "note": "",
+      "bytes": {
+        "legacy": 101,
+        "new": 101
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false
+    },
+    {
+      "id": "G03",
+      "title": "Login: name not trimmed (RULE-008)",
+      "verdict": "same",
+      "reason": "Identical, 101 bytes.",
+      "legacyPath": "equivalence/legacy/G03.txt",
+      "newPath": "equivalence/new/G03.txt",
+      "legacySha256": "95843545939bf129c1eddf4d848ddc26387070353f0cebb2bba2d58e5997d4cf",
+      "newSha256": "95843545939bf129c1eddf4d848ddc26387070353f0cebb2bba2d58e5997d4cf",
+      "masked": [],
+      "approvedDifference": "",
+      "note": "",
+      "bytes": {
+        "legacy": 101,
+        "new": 101
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false
+    },
+    {
+      "id": "G04",
+      "title": "Login: id trimmed",
+      "verdict": "same",
+      "reason": "Identical, 97 bytes.",
+      "legacyPath": "equivalence/legacy/G04.txt",
+      "newPath": "equivalence/new/G04.txt",
+      "legacySha256": "8e327d4da735114462aac59b7028de5f7fa9b83749b7011169513d045c7aced4",
+      "newSha256": "8e327d4da735114462aac59b7028de5f7fa9b83749b7011169513d045c7aced4",
+      "masked": [],
+      "approvedDifference": "",
+      "note": "",
+      "bytes": {
+        "legacy": 97,
+        "new": 97
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false
+    },
+    {
+      "id": "G05",
+      "title": "Login: text id",
+      "verdict": "same",
+      "reason": "Identical, 101 bytes.",
+      "legacyPath": "equivalence/legacy/G05.txt",
+      "newPath": "equivalence/new/G05.txt",
+      "legacySha256": "95843545939bf129c1eddf4d848ddc26387070353f0cebb2bba2d58e5997d4cf",
+      "newSha256": "95843545939bf129c1eddf4d848ddc26387070353f0cebb2bba2d58e5997d4cf",
+      "masked": [],
+      "approvedDifference": "",
+      "note": "",
+      "bytes": {
+        "legacy": 101,
+        "new": 101
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false
+    },
+    {
+      "id": "G06",
+      "title": "Dashboard greeting without login (RULE-018)",
+      "verdict": "differs-approved",
+      "reason": "The outputs first differ at line 3, byte 47. A person approved this difference: Approved by the user on 2026-10-31 (\"approve the differences\"). The anonymous dashboard greeting reads \"Welcome!\" instead of \"Welcome, !\".",
+      "legacyPath": "equivalence/legacy/G06.txt",
+      "newPath": "equivalence/new/G06.txt",
+      "legacySha256": "747eb927d3e2ae0c3aabb9293d43060720d038b4129d7862987db1f1cf019055",
+      "newSha256": "506f5841ad7b09f11a4a7993c076acafd59ff01b120df84e65577f6ebd09489d",
+      "masked": [],
+      "approvedDifference": "Approved by the user on 2026-10-31 (\"approve the differences\"). The anonymous dashboard greeting reads \"Welcome!\" instead of \"Welcome, !\".",
+      "note": "",
+      "bytes": {
+        "legacy": 93,
+        "new": 91
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false,
+      "firstDiff": {
+        "offset": 47,
+        "line": 3,
+        "legacy": "ing: Welcome, !\\nadmin_data:\\n7|Ravi\\nem",
+        "new": "ing: Welcome!\\nadmin_data:\\n7|Ravi\\nempl",
+        "at": 12
+      }
+    },
+    {
+      "id": "G07",
+      "title": "Logout keeps the session (RULE-015)",
+      "verdict": "same",
+      "reason": "Identical, 97 bytes.",
+      "legacyPath": "equivalence/legacy/G07.txt",
+      "newPath": "equivalence/new/G07.txt",
+      "legacySha256": "8e327d4da735114462aac59b7028de5f7fa9b83749b7011169513d045c7aced4",
+      "newSha256": "8e327d4da735114462aac59b7028de5f7fa9b83749b7011169513d045c7aced4",
+      "masked": [],
+      "approvedDifference": "",
+      "note": "",
+      "bytes": {
+        "legacy": 97,
+        "new": 97
+      },
+      "maskedBytes": {
+        "legacy": 0,
+        "new": 0
+      },
+      "empty": false
+    }
+  ]
+}
