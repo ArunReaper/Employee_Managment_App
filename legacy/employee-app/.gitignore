@@ -1,0 +1,5 @@
+.DS_Store
+build/
+dist/
+.idea/workspace.xml
+out/
