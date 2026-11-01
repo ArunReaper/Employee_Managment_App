@@ -1,0 +1,6 @@
+message: Employee added successfully!
+page: welcome
+admin_data:
+(empty)
+employee_data:
+42|José Müller|Ingeniería|99999.99

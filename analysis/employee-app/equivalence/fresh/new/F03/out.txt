@@ -1,0 +1,6 @@
+message: Employee added successfully!
+page: welcome
+admin_data:
+(empty)
+employee_data:
+2147483647|Max|Ops|0.01

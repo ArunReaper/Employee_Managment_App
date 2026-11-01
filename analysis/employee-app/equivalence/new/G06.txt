@@ -1,0 +1,7 @@
+message: (none)
+page: welcome
+greeting: Welcome!
+admin_data:
+7|Ravi
+employee_data:
+(empty)

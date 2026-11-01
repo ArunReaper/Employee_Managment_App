@@ -1,0 +1,128 @@
+{
+  "system": "employee-app",
+  "legacy": {
+    "label": "Servlet/JSP WAR on Tomcat 9, JDK 8",
+    "command": "fresh/run_fresh.py (port 8090)"
+  },
+  "new": {
+    "label": "Spring Boot 3.4 on Java 21, outcomes per React navigation",
+    "command": "fresh/run_fresh.py (port 8091)"
+  },
+  "cases": [
+    {
+      "id": "F01-out",
+      "input": "F01",
+      "title": "List: 12 rows with boundary salaries, non-ASCII names, max and negative ids",
+      "legacy": "fresh/legacy/F01/out.txt",
+      "new": "fresh/new/F01/out.txt"
+    },
+    {
+      "id": "F02-out",
+      "input": "F02",
+      "title": "Add: non-ASCII name and department",
+      "legacy": "fresh/legacy/F02/out.txt",
+      "new": "fresh/new/F02/out.txt"
+    },
+    {
+      "id": "F03-out",
+      "input": "F03",
+      "title": "Add: largest int id, smallest cent salary",
+      "legacy": "fresh/legacy/F03/out.txt",
+      "new": "fresh/new/F03/out.txt"
+    },
+    {
+      "id": "F04-out",
+      "input": "F04",
+      "title": "Add: id one above the largest int",
+      "legacy": "fresh/legacy/F04/out.txt",
+      "new": "fresh/new/F04/out.txt"
+    },
+    {
+      "id": "F05-out",
+      "input": "F05",
+      "title": "Add: padded id, apostrophe in name, zero salary",
+      "legacy": "fresh/legacy/F05/out.txt",
+      "new": "fresh/new/F05/out.txt"
+    },
+    {
+      "id": "F06-out",
+      "input": "F06",
+      "title": "Add: name of exactly 255 characters",
+      "legacy": "fresh/legacy/F06/out.txt",
+      "new": "fresh/new/F06/out.txt"
+    },
+    {
+      "id": "F07-out",
+      "input": "F07",
+      "title": "Edit: non-ASCII department",
+      "legacy": "fresh/legacy/F07/out.txt",
+      "new": "fresh/new/F07/out.txt"
+    },
+    {
+      "id": "F08-out",
+      "input": "F08",
+      "title": "Edit: salary 9999999 (just below the 1.0E7 notation switch)",
+      "legacy": "fresh/legacy/F08/out.txt",
+      "new": "fresh/new/F08/out.txt"
+    },
+    {
+      "id": "F09-out",
+      "input": "F09",
+      "title": "Edit: department of exactly 255 characters",
+      "legacy": "fresh/legacy/F09/out.txt",
+      "new": "fresh/new/F09/out.txt"
+    },
+    {
+      "id": "F10-out",
+      "input": "F10",
+      "title": "Delete: non-ASCII name, exact match",
+      "legacy": "fresh/legacy/F10/out.txt",
+      "new": "fresh/new/F10/out.txt"
+    },
+    {
+      "id": "F11-out",
+      "input": "F11",
+      "title": "Delete: one of two employees with the same name",
+      "legacy": "fresh/legacy/F11/out.txt",
+      "new": "fresh/new/F11/out.txt"
+    },
+    {
+      "id": "F12-out",
+      "input": "F12",
+      "title": "Sign-up: largest int id, non-ASCII name",
+      "legacy": "fresh/legacy/F12/out.txt",
+      "new": "fresh/new/F12/out.txt"
+    },
+    {
+      "id": "F13-out",
+      "input": "F13",
+      "title": "Login: non-ASCII admin name",
+      "legacy": "fresh/legacy/F13/out.txt",
+      "new": "fresh/new/F13/out.txt"
+    },
+    {
+      "id": "F14-out",
+      "input": "F14",
+      "title": "Login: id written with a plus sign",
+      "legacy": "fresh/legacy/F14/out.txt",
+      "new": "fresh/new/F14/out.txt"
+    },
+    {
+      "id": "F15-out",
+      "input": "F15",
+      "title": "List: empty department and a name with trailing spaces",
+      "legacy": "fresh/legacy/F15/out.txt",
+      "new": "fresh/new/F15/out.txt"
+    }
+  ],
+  "approvedInputs": {
+    "F02": "Approved by the user on 2026-10-31 (\"Decided, move ahead\"). Legacy decodes form posts as ISO-8859-1, so non-ASCII text is garbled (stored as 'JosÃ©'); the new app stores UTF-8 correctly. Intended fix of a legacy defect.",
+    "F07": "Approved by the user on 2026-10-31 (\"Decided, move ahead\"). Legacy decodes form posts as ISO-8859-1, so non-ASCII text is garbled (stored as 'JosÃ©'); the new app stores UTF-8 correctly. Intended fix of a legacy defect. Success message shown as a toast after edit/delete; legacy stored it but never displayed it (RULE-024), same as the approved development cases.",
+    "F08": "Approved by the user on 2026-10-31 (\"Decided, move ahead\"). Success message shown as a toast after edit/delete; legacy stored it but never displayed it (RULE-024), same as the approved development cases.",
+    "F09": "Approved by the user on 2026-10-31 (\"Decided, move ahead\"). Success message shown as a toast after edit/delete; legacy stored it but never displayed it (RULE-024), same as the approved development cases.",
+    "F10": "Approved by the user on 2026-10-31 (\"Decided, move ahead\"). Legacy decodes form posts as ISO-8859-1, so non-ASCII text is garbled (stored as 'JosÃ©'); the new app stores UTF-8 correctly. Intended fix of a legacy defect. Legacy could not match the accented name, so nothing was deleted. Success message shown as a toast after edit/delete; legacy stored it but never displayed it (RULE-024), same as the approved development cases.",
+    "F11": "Approved by the user on 2026-10-31 (\"Decided, move ahead\"). Success message shown as a toast after edit/delete; legacy stored it but never displayed it (RULE-024), same as the approved development cases.",
+    "F12": "Approved by the user on 2026-10-31 (\"Decided, move ahead\"). Legacy decodes form posts as ISO-8859-1, so non-ASCII text is garbled (stored as 'JosÃ©'); the new app stores UTF-8 correctly. Intended fix of a legacy defect.",
+    "F13": "Approved by the user on 2026-10-31 (\"Decided, move ahead\"). Legacy decodes form posts as ISO-8859-1, so non-ASCII text is garbled (stored as 'JosÃ©'); the new app stores UTF-8 correctly. Intended fix of a legacy defect. Legacy could not log in an admin whose name has an accent."
+  }
+}

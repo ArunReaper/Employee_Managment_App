@@ -1,0 +1,44 @@
+[
+ {
+  "name": "Access & Identity:small-1",
+  "domain": "Access & Identity",
+  "files": [
+   "servlet/SignUpServlet.java",
+   "servlet/LoginServlet.java",
+   "model/Admin.java",
+   "dao/AdminDAO.java"
+  ],
+  "loc": 183
+ },
+ {
+  "name": "Employee CRUD:small-1",
+  "domain": "Employee CRUD",
+  "files": [
+   "servlet/AddEmployeeServlet.java",
+   "servlet/EditEmployeeServlet.java",
+   "servlet/DeleteEmployeeServlet.java",
+   "servlet/ShowEmployeeServlet.java",
+   "model/Employee.java",
+   "dao/EmployeeDAO.java"
+  ],
+  "loc": 345
+ },
+ {
+  "name": "Presentation Shell:small-1",
+  "domain": "Presentation Shell",
+  "files": [
+   "webapp/styles.css"
+  ],
+  "loc": 79
+ },
+ {
+  "name": "Persistence Infrastructure:small-1",
+  "domain": "Persistence Infrastructure",
+  "files": [
+   "util/DBUtil.java",
+   "webapp/META-INF/context.xml",
+   "schema.sql"
+  ],
+  "loc": 61
+ }
+]

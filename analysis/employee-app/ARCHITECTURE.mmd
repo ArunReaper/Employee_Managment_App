@@ -1,0 +1,75 @@
+graph TD
+  subgraph D1["D1 Access & Identity"]
+    IDX[index.jsp]
+    SUP[signup.jsp]
+    LOG[Login.jsp]
+    SUS[SignUpServlet /SignupServlet]
+    LGS["LoginServlet /LoginServlet (ORPHAN)"]
+    ADM[model/Admin]
+    ADAO[dao/AdminDAO]
+  end
+  subgraph D3["D3 Presentation Shell"]
+    WEL["Welcome.jsp (dashboard)"]
+    CSS[styles.css]
+    JSTL[jstl-1.2.jar]
+  end
+  subgraph D2["D2 Employee CRUD"]
+    ADDJ[addEmployee.jsp]
+    EDJ[editEmployee.jsp]
+    DELJ[deleteEmployee.jsp]
+    SHJ[showEmployee.jsp]
+    ADDS[AddEmployeeServlet]
+    EDS[EditEmployeeServlet]
+    DELS[DeleteEmployeeServlet]
+    SHS[ShowEmployeeServlet]
+    EMP[model/Employee]
+    EDAO[dao/EmployeeDAO]
+  end
+  subgraph D4["D4 Persistence Infra"]
+    DBU[util/DBUtil]
+    CTX["META-INF/context.xml jdbc/EmployeeDB"]
+    T1[(admin_data)]
+    T2[(employee_data)]
+  end
+  subgraph D5["D5 Build & Docs"]
+    ANT[build.xml]
+    RDM[README.md]
+  end
+
+  IDX --> SUP
+  IDX --> LOG
+  SUP -->|POST| SUS
+  SUS -->|saveAdmin| ADAO
+  SUS -.->|alert redirect| LOG
+  LOG -->|POST self, validateAdmin| ADAO
+  LOG -->|session adminName| WEL
+  LGS -.->|validateAdmin, unreachable| ADAO
+  ADAO --> ADM
+  ADAO --> DBU
+  ADAO --> T1
+  WEL --> ADDJ
+  WEL --> DELJ
+  WEL --> EDJ
+  WEL -->|GET| SHS
+  WEL -.->|"Logout POST, no invalidate"| IDX
+  WEL --> JSTL
+  ADDJ -->|POST| ADDS
+  EDJ -->|POST| EDS
+  DELJ -->|POST| DELS
+  SHS -->|forward employeeList| SHJ
+  ADDS --> EDAO
+  EDS --> EDAO
+  DELS --> EDAO
+  SHS --> EDAO
+  EDS -.->|"session message, never read"| WEL
+  DELS -.->|"session message, never read"| WEL
+  EDAO --> EMP
+  EDAO --> DBU
+  EDAO --> T2
+  SHJ --> EMP
+  ADDJ --> CSS
+  SHJ --> CSS
+  DBU -->|JNDI lookup| CTX
+  ANT -.->|packages| WEL
+  ANT -.->|compiles| DBU
+  RDM -.->|"documents (stale)"| EDAO

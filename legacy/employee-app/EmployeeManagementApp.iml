@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/dao" isTestSource="false" packagePrefix="com.employee.dao" />
+      <sourceFolder url="file://$MODULE_DIR$/model" isTestSource="false" packagePrefix="com.employee.model" />
+      <sourceFolder url="file://$MODULE_DIR$/servlet" isTestSource="false" packagePrefix="com.employee.servlet" />
+      <sourceFolder url="file://$MODULE_DIR$/util" isTestSource="false" packagePrefix="com.employee.util" />
+      <excludeFolder url="file://$MODULE_DIR$/build" />
+      <excludeFolder url="file://$MODULE_DIR$/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/out" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" scope="PROVIDED" name="provided" level="project" />
+    <orderEntry type="library" name="webapp-lib" level="project" />
+  </component>
+</module>

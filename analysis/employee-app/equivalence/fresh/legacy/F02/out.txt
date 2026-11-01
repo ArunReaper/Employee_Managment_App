@@ -1,0 +1,6 @@
+message: Employee added successfully!
+page: welcome
+admin_data:
+(empty)
+employee_data:
+42|JosÃ© MÃ¼ller|IngenierÃ­a|99999.99

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="17" failures="0" errors="0" time="1.161">
+    <testsuite name="src/test/pages.test.jsx" timestamp="2026-10-31T07:53:52.473Z" hostname="Aruns-MacBook-Air.local" tests="17" failures="0" errors="0" skipped="0" time="0.530688167">
+        <testcase classname="src/test/pages.test.jsx" name="Employee list (showEmployee.jsp) &gt; shows every row with salaryText verbatim and null columns as &quot;null&quot;" time="0.046434917">
+            <system-err>
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+            </system-err>
+        </testcase>
+        <testcase classname="src/test/pages.test.jsx" name="Employee list (showEmployee.jsp) &gt; shows an HTML-like name as plain text" time="0.0050175">
+        </testcase>
+        <testcase classname="src/test/pages.test.jsx" name="Employee list (showEmployee.jsp) &gt; shows the database-unavailable message instead of an empty table" time="0.004768041">
+        </testcase>
+        <testcase classname="src/test/pages.test.jsx" name="Employee list (showEmployee.jsp) &gt; shows a connection message when the server cannot be reached" time="0.003939834">
+        </testcase>
+        <testcase classname="src/test/pages.test.jsx" name="Employee list (showEmployee.jsp) &gt; shows an empty state for no employees" time="0.003623416">
+        </testcase>
+        <testcase classname="src/test/pages.test.jsx" name="Add employee (addEmployee.jsp) &gt; posts the form as strings, toasts the message and goes to the dashboard" time="0.081846917">
+        </testcase>
+        <testcase classname="src/test/pages.test.jsx" name="Add employee (addEmployee.jsp) &gt; shows the server message and stays on the form on error" time="0.045623083">
+        </testcase>
+        <testcase classname="src/test/pages.test.jsx" name="Add employee (addEmployee.jsp) &gt; keeps the JSP browser constraints on id and salary" time="0.003236708">
+        </testcase>
+        <testcase classname="src/test/pages.test.jsx" name="Edit employee (editEmployee.jsp) &gt; sends PATCH /api/employees/{id} and goes to the dashboard on success" time="0.064440417">
+        </testcase>
+        <testcase classname="src/test/pages.test.jsx" name="Edit employee (editEmployee.jsp) &gt; shows &quot;Employee not found!&quot; and stays on the form" time="0.039412417">
+        </testcase>
+        <testcase classname="src/test/pages.test.jsx" name="Delete employee (deleteEmployee.jsp) &gt; shows &quot;Employee not found!&quot; on a miss instead of going to the dashboard" time="0.045375833">
+        </testcase>
+        <testcase classname="src/test/pages.test.jsx" name="Delete employee (deleteEmployee.jsp) &gt; goes to the dashboard with a toast on success" time="0.037828417">
+        </testcase>
+        <testcase classname="src/test/pages.test.jsx" name="Sign up, login and dashboard &gt; sign-up success shows the message and goes to login" time="0.033524">
+        </testcase>
+        <testcase classname="src/test/pages.test.jsx" name="Sign up, login and dashboard &gt; login failure shows the legacy message and sends the untrimmed name" time="0.037736125">
+        </testcase>
+        <testcase classname="src/test/pages.test.jsx" name="Sign up, login and dashboard &gt; login success goes to the dashboard, which greets the admin by name" time="0.040239292">
+        </testcase>
+        <testcase classname="src/test/pages.test.jsx" name="Sign up, login and dashboard &gt; logout returns home without calling the server" time="0.017269625">
+        </testcase>
+        <testcase classname="src/test/pages.test.jsx" name="Sign up, login and dashboard &gt; dashboard works for a visitor who has not logged in" time="0.0196855">
+        </testcase>
+    </testsuite>
+</testsuites>

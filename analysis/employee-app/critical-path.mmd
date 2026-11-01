@@ -1,0 +1,14 @@
+%% employee-app: primary flow. An administrator logs in and adds an employee.
+%% No telemetry available, so no p50/p99 timings.
+flowchart TD
+  A[index.jsp] -->|Login link| B[Login.jsp form: id + name]
+  B -->|POST to Login.jsp itself| C{"AdminDAO.validateAdmin<br/>SELECT 1 FROM admin_data<br/>WHERE id=? AND name=?"}
+  C -->|no match / bad id| B2["inline error: Invalid ID or Name"]
+  C -->|match| D["session.adminName = name<br/>redirect Welcome.jsp"]
+  D --> E["Welcome.jsp: Welcome, adminName!"]
+  E -->|Add Employee| F[addEmployee.jsp form]
+  F -->|POST /AddEmployeeServlet| G{"validate: all fields, integer id,<br/>numeric salary >= 0"}
+  G -->|invalid| F2["alert + back to addEmployee.jsp"]
+  G -->|valid| H["EmployeeDAO.addEmployee<br/>INSERT employee_data"]
+  H -->|SQLState 23505| F3["alert: ID already exists"]
+  H -->|ok| I["alert: Employee added successfully!<br/>back to Welcome.jsp"]

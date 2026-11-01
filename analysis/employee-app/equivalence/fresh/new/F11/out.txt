@@ -1,0 +1,6 @@
+message: Employee deleted successfully!
+page: welcome
+admin_data:
+(empty)
+employee_data:
+10|Sam|A|1

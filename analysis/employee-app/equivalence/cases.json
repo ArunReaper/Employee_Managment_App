@@ -1,0 +1,318 @@
+{
+  "system": "employee-app",
+  "legacy": {
+    "label": "Servlet/JSP WAR on Tomcat 9, JDK 8",
+    "command": "run_equivalence.py (port 8090)"
+  },
+  "new": {
+    "label": "Spring Boot 3.4 on Java 21, outcomes per React navigation",
+    "command": "run_equivalence.py (port 8091)"
+  },
+  "cases": [
+    {
+      "id": "L01",
+      "title": "List: empty table",
+      "legacy": "legacy/L01.txt",
+      "new": "new/L01.txt"
+    },
+    {
+      "id": "L02",
+      "title": "List: normal rows, no login (RULE-018, RULE-023)",
+      "legacy": "legacy/L02.txt",
+      "new": "new/L02.txt"
+    },
+    {
+      "id": "L03",
+      "title": "List: salary text formats (RULE-002)",
+      "legacy": "legacy/L03.txt",
+      "new": "new/L03.txt"
+    },
+    {
+      "id": "L04",
+      "title": "List: NULL name and department",
+      "legacy": "legacy/L04.txt",
+      "new": "new/L04.txt"
+    },
+    {
+      "id": "L05",
+      "title": "List: HTML-like name (brief Q4)",
+      "legacy": "legacy/L05.txt",
+      "new": "new/L05.txt"
+    },
+    {
+      "id": "L06",
+      "title": "List: employee data unreadable (RULE-025)",
+      "legacy": "legacy/L06.txt",
+      "new": "new/L06.txt",
+      "approvedDifference": "RULE-025 marked wrong by the user. Approved by the user on 2026-10-31: \"Please give appropriet messages in case of error\" (MODERNIZATION_BRIEF.md, approver revision item 2)."
+    },
+    {
+      "id": "A01",
+      "title": "Add: success",
+      "legacy": "legacy/A01.txt",
+      "new": "new/A01.txt"
+    },
+    {
+      "id": "A02",
+      "title": "Add: name and department trimmed",
+      "legacy": "legacy/A02.txt",
+      "new": "new/A02.txt"
+    },
+    {
+      "id": "A03",
+      "title": "Add: whitespace-only field",
+      "legacy": "legacy/A03.txt",
+      "new": "new/A03.txt"
+    },
+    {
+      "id": "A04",
+      "title": "Add: decimal id",
+      "legacy": "legacy/A04.txt",
+      "new": "new/A04.txt"
+    },
+    {
+      "id": "A05",
+      "title": "Add: text id",
+      "legacy": "legacy/A05.txt",
+      "new": "new/A05.txt"
+    },
+    {
+      "id": "A06",
+      "title": "Add: id 0 accepted by the server (RULE-010)",
+      "legacy": "legacy/A06.txt",
+      "new": "new/A06.txt"
+    },
+    {
+      "id": "A07",
+      "title": "Add: negative id accepted by the server (RULE-010)",
+      "legacy": "legacy/A07.txt",
+      "new": "new/A07.txt"
+    },
+    {
+      "id": "A08",
+      "title": "Add: text salary",
+      "legacy": "legacy/A08.txt",
+      "new": "new/A08.txt"
+    },
+    {
+      "id": "A09",
+      "title": "Add: negative salary",
+      "legacy": "legacy/A09.txt",
+      "new": "new/A09.txt"
+    },
+    {
+      "id": "A10",
+      "title": "Add: NaN salary passes the negative check",
+      "legacy": "legacy/A10.txt",
+      "new": "new/A10.txt"
+    },
+    {
+      "id": "A11",
+      "title": "Add: exponent salary 1e3",
+      "legacy": "legacy/A11.txt",
+      "new": "new/A11.txt"
+    },
+    {
+      "id": "A12",
+      "title": "Add: duplicate id (RULE-005)",
+      "legacy": "legacy/A12.txt",
+      "new": "new/A12.txt"
+    },
+    {
+      "id": "A13",
+      "title": "Add: 300-character name",
+      "legacy": "legacy/A13.txt",
+      "new": "new/A13.txt",
+      "approvedDifference": "Approved by the user on 2026-10-31: \"Please give appropriet messages in case of error\" (MODERNIZATION_BRIEF.md, approver revision item 2). Legacy showed a generic error for text over 255 characters."
+    },
+    {
+      "id": "E01",
+      "title": "Edit: salary, name ignored (RULE-016)",
+      "legacy": "legacy/E01.txt",
+      "new": "new/E01.txt",
+      "approvedDifference": "Approved by the user on 2026-10-31 (\"approve the differences\"). The success message is shown as a toast; legacy stored it in the session but never displayed it (RULE-024)."
+    },
+    {
+      "id": "E02",
+      "title": "Edit: negative salary accepted (RULE-007/016)",
+      "legacy": "legacy/E02.txt",
+      "new": "new/E02.txt",
+      "approvedDifference": "Approved by the user on 2026-10-31 (\"approve the differences\"). The success message is shown as a toast; legacy stored it in the session but never displayed it (RULE-024)."
+    },
+    {
+      "id": "E03",
+      "title": "Edit: field name case-insensitive",
+      "legacy": "legacy/E03.txt",
+      "new": "new/E03.txt",
+      "approvedDifference": "Approved by the user on 2026-10-31 (\"approve the differences\"). The success message is shown as a toast; legacy stored it in the session but never displayed it (RULE-024)."
+    },
+    {
+      "id": "E04",
+      "title": "Edit: department",
+      "legacy": "legacy/E04.txt",
+      "new": "new/E04.txt",
+      "approvedDifference": "Approved by the user on 2026-10-31 (\"approve the differences\"). The success message is shown as a toast; legacy stored it in the session but never displayed it (RULE-024)."
+    },
+    {
+      "id": "E05",
+      "title": "Edit: department stored untrimmed",
+      "legacy": "legacy/E05.txt",
+      "new": "new/E05.txt",
+      "approvedDifference": "Approved by the user on 2026-10-31 (\"approve the differences\"). The success message is shown as a toast; legacy stored it in the session but never displayed it (RULE-024)."
+    },
+    {
+      "id": "E06",
+      "title": "Edit: unknown field",
+      "legacy": "legacy/E06.txt",
+      "new": "new/E06.txt",
+      "approvedDifference": "Approved by the user on 2026-10-31: \"Please give appropriet messages in case of error\" (MODERNIZATION_BRIEF.md, approver revision item 2). Legacy showed 'Employee not found or invalid data!' for an invalid field."
+    },
+    {
+      "id": "E07",
+      "title": "Edit: text salary",
+      "legacy": "legacy/E07.txt",
+      "new": "new/E07.txt",
+      "approvedDifference": "Approved by the user on 2026-10-31: \"Please give appropriet messages in case of error\" (MODERNIZATION_BRIEF.md, approver revision item 2). Legacy showed 'Employee not found or invalid data!' for a non-numeric salary."
+    },
+    {
+      "id": "E08",
+      "title": "Edit: unknown id",
+      "legacy": "legacy/E08.txt",
+      "new": "new/E08.txt",
+      "approvedDifference": "Approved by the user on 2026-10-31: \"Please give appropriet messages in case of error\" (MODERNIZATION_BRIEF.md, approver revision item 2). Distinct not-found message."
+    },
+    {
+      "id": "E09",
+      "title": "Edit: text id",
+      "legacy": "legacy/E09.txt",
+      "new": "new/E09.txt",
+      "approvedDifference": "Approved by the user on 2026-10-31: \"Please give appropriet messages in case of error\" (MODERNIZATION_BRIEF.md, approver revision item 2). Legacy showed Tomcat's HTTP 500 page."
+    },
+    {
+      "id": "E10",
+      "title": "Edit: field missing",
+      "legacy": "legacy/E10.txt",
+      "new": "new/E10.txt"
+    },
+    {
+      "id": "E11",
+      "title": "Edit: NaN salary accepted",
+      "legacy": "legacy/E11.txt",
+      "new": "new/E11.txt",
+      "approvedDifference": "Approved by the user on 2026-10-31 (\"approve the differences\"). The success message is shown as a toast; legacy stored it in the session but never displayed it (RULE-024)."
+    },
+    {
+      "id": "D01",
+      "title": "Delete: exact id and name",
+      "legacy": "legacy/D01.txt",
+      "new": "new/D01.txt",
+      "approvedDifference": "Approved by the user on 2026-10-31 (\"approve the differences\"). The success message is shown as a toast; legacy stored it in the session but never displayed it (RULE-024)."
+    },
+    {
+      "id": "D02",
+      "title": "Delete: name in wrong case (RULE-013/014)",
+      "legacy": "legacy/D02.txt",
+      "new": "new/D02.txt",
+      "approvedDifference": "RULE-014 marked wrong by the user. Approved by the user on 2026-10-31: \"Please give appropriet messages in case of error\" (MODERNIZATION_BRIEF.md, approver revision item 2)."
+    },
+    {
+      "id": "D03",
+      "title": "Delete: name with trailing space",
+      "legacy": "legacy/D03.txt",
+      "new": "new/D03.txt",
+      "approvedDifference": "RULE-014 marked wrong by the user. Approved by the user on 2026-10-31: \"Please give appropriet messages in case of error\" (MODERNIZATION_BRIEF.md, approver revision item 2)."
+    },
+    {
+      "id": "D04",
+      "title": "Delete: text id",
+      "legacy": "legacy/D04.txt",
+      "new": "new/D04.txt",
+      "approvedDifference": "Approved by the user on 2026-10-31: \"Please give appropriet messages in case of error\" (MODERNIZATION_BRIEF.md, approver revision item 2). Legacy showed Tomcat's HTTP 500 page."
+    },
+    {
+      "id": "D05",
+      "title": "Delete: name missing",
+      "legacy": "legacy/D05.txt",
+      "new": "new/D05.txt"
+    },
+    {
+      "id": "S01",
+      "title": "Sign-up: success",
+      "legacy": "legacy/S01.txt",
+      "new": "new/S01.txt"
+    },
+    {
+      "id": "S02",
+      "title": "Sign-up: name trimmed (RULE-008)",
+      "legacy": "legacy/S02.txt",
+      "new": "new/S02.txt"
+    },
+    {
+      "id": "S03",
+      "title": "Sign-up: blank name stored as empty (RULE-008)",
+      "legacy": "legacy/S03.txt",
+      "new": "new/S03.txt"
+    },
+    {
+      "id": "S04",
+      "title": "Sign-up: text id",
+      "legacy": "legacy/S04.txt",
+      "new": "new/S04.txt"
+    },
+    {
+      "id": "S05",
+      "title": "Sign-up: duplicate id (RULE-009)",
+      "legacy": "legacy/S05.txt",
+      "new": "new/S05.txt"
+    },
+    {
+      "id": "S06",
+      "title": "Sign-up: name missing, stored as NULL",
+      "legacy": "legacy/S06.txt",
+      "new": "new/S06.txt"
+    },
+    {
+      "id": "G01",
+      "title": "Login: success, then greeting (RULE-017)",
+      "legacy": "legacy/G01.txt",
+      "new": "new/G01.txt"
+    },
+    {
+      "id": "G02",
+      "title": "Login: name in wrong case",
+      "legacy": "legacy/G02.txt",
+      "new": "new/G02.txt"
+    },
+    {
+      "id": "G03",
+      "title": "Login: name not trimmed (RULE-008)",
+      "legacy": "legacy/G03.txt",
+      "new": "new/G03.txt"
+    },
+    {
+      "id": "G04",
+      "title": "Login: id trimmed",
+      "legacy": "legacy/G04.txt",
+      "new": "new/G04.txt"
+    },
+    {
+      "id": "G05",
+      "title": "Login: text id",
+      "legacy": "legacy/G05.txt",
+      "new": "new/G05.txt"
+    },
+    {
+      "id": "G06",
+      "title": "Dashboard greeting without login (RULE-018)",
+      "legacy": "legacy/G06.txt",
+      "new": "new/G06.txt",
+      "approvedDifference": "Approved by the user on 2026-10-31 (\"approve the differences\"). The anonymous dashboard greeting reads \"Welcome!\" instead of \"Welcome, !\"."
+    },
+    {
+      "id": "G07",
+      "title": "Logout keeps the session (RULE-015)",
+      "legacy": "legacy/G07.txt",
+      "new": "new/G07.txt"
+    }
+  ]
+}

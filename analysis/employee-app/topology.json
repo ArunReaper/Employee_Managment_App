@@ -1,0 +1,776 @@
+{
+  "system": "Employee Management App (employee-app)",
+  "root": {
+    "id": "sys",
+    "name": "employee-app",
+    "kind": "system",
+    "children": [
+      {
+        "id": "dom:access",
+        "name": "Access & Identity",
+        "kind": "domain",
+        "children": [
+          {
+            "id": "index.jsp",
+            "name": "index.jsp",
+            "kind": "screen",
+            "language": "jsp",
+            "loc": 84,
+            "file": "webapp/index.jsp",
+            "description": "index.jsp is the application's public home page and an entry point. It greets visitors with a short welcome message and asks them to join or log in. It holds no business logic, reads no data and writes none. Its only job is navigation. It links out to signup.jsp so new users can register, and to Login.jsp so existing users can sign in. On the inbound side, Welcome.jsp dispatches to this page, which sends users back home after a logout."
+          },
+          {
+            "id": "signup.jsp",
+            "name": "signup.jsp",
+            "kind": "screen",
+            "language": "jsp",
+            "loc": 63,
+            "file": "webapp/signup.jsp",
+            "description": "signup.jsp is the Admin Sign Up screen, where a new administrator registers by entering a numeric Admin ID and an Admin Name. The form posts to SignupServlet, which is handled by SignUpServlet. SignUpServlet also dispatches back to this page, and index.jsp links to it. A Log In link calls Login.jsp for existing users. The page itself reads and writes no data, despite importing java.sql.*."
+          },
+          {
+            "id": "Login.jsp",
+            "name": "Login.jsp",
+            "kind": "screen",
+            "language": "jsp",
+            "loc": 97,
+            "file": "webapp/Login.jsp",
+            "sessionWrites": [
+              "adminName"
+            ],
+            "description": "Login.jsp is the Admin Login screen: an administrator enters an Admin ID and Admin Name, the form posts back to the page itself, and AdminDAO checks whether that admin exists. On success it writes adminName to the HttpSession and sends the user to Welcome.jsp; otherwise it shows an Invalid ID or Name error. LoginServlet and SignUpServlet dispatch to it, and index.jsp and signup.jsp call it."
+          },
+          {
+            "id": "SignUpServlet",
+            "name": "SignUpServlet",
+            "kind": "module",
+            "language": "java",
+            "loc": 50,
+            "file": "servlet/SignUpServlet.java",
+            "route": "/SignupServlet",
+            "description": "SignUpServlet is the entry point for administrator self-registration. It is mapped to the /SignupServlet route and is reached from signup.jsp. It reads an admin ID and name, and if the ID is not a whole number it shows an alert and sends the user back to signup.jsp. It builds an Admin object and calls AdminDAO to save it, then sends the user to Login.jsp on success. If saving fails, it returns to signup.jsp, with a duplicate-ID message when the database reports error 23505."
+          },
+          {
+            "id": "LoginServlet",
+            "name": "LoginServlet",
+            "kind": "module",
+            "language": "java",
+            "loc": 35,
+            "file": "servlet/LoginServlet.java",
+            "route": "/LoginServlet",
+            "sessionWrites": [
+              "adminName"
+            ],
+            "description": "LoginServlet handles administrator sign-in. It is an entry point mapped to the /LoginServlet route. When the login form is posted, it reads an id and a name, then calls AdminDAO to check whether they match an administrator. If they match, it writes the admin name into the HttpSession and sends the user to Welcome.jsp. If they do not, it shows an error alert and sends the user back to Login.jsp. The map shows no inbound connections, so it is a dead end."
+          },
+          {
+            "id": "Admin",
+            "name": "Admin",
+            "kind": "module",
+            "language": "java",
+            "loc": 32,
+            "file": "model/Admin.java",
+            "description": "Admin is a simple data model in model/Admin.java that holds one administrator account's details. It stores only an int id and a String name, with a no-arg constructor and getters and setters for each (getId, setId, getName, setName). It contains no business logic, database access or validation of its own, and it has no outbound connections. AdminDAO and SignUpServlet both call it to carry admin data between the sign-up flow and the data-access layer."
+          },
+          {
+            "id": "AdminDAO",
+            "name": "AdminDAO",
+            "kind": "module",
+            "language": "java",
+            "loc": 66,
+            "file": "dao/AdminDAO.java",
+            "description": "AdminDAO is the data-access module for administrator accounts. It registers a new admin at sign-up by inserting an id and name into the admin_data table, checks a login by looking for a row in admin_data with a matching id and name, and looks up one admin by id. It calls DBUtil for database connections and builds Admin objects. It is called by Login.jsp, LoginServlet and SignUpServlet. Login checks match on id and name only, with no password."
+          }
+        ]
+      },
+      {
+        "id": "dom:crud",
+        "name": "Employee CRUD",
+        "kind": "domain",
+        "children": [
+          {
+            "id": "addEmployee.jsp",
+            "name": "addEmployee.jsp",
+            "kind": "screen",
+            "language": "jsp",
+            "loc": 37,
+            "file": "webapp/addEmployee.jsp",
+            "description": "addEmployee.jsp is the Add Employee data-entry screen, where a user records a new employee's ID, name, department and salary through a required-field form that rejects an ID below 1 and negative salaries in the browser. It submits that form by post to AddEmployeeServlet, links back to Welcome.jsp as the home page, and is styled by styles.css. Inbound, Welcome.jsp calls it and AddEmployeeServlet dispatches to it, presumably to redisplay the form after a submission, though the packet does not show why."
+          },
+          {
+            "id": "editEmployee.jsp",
+            "name": "editEmployee.jsp",
+            "kind": "screen",
+            "language": "jsp",
+            "loc": 40,
+            "file": "webapp/editEmployee.jsp",
+            "description": "editEmployee.jsp is the Edit Employee screen, where a user changes one detail of an existing employee record. The form asks for the employee ID, the employee name, the field to edit (Department or Salary) and the new value. It then posts everything to EditEmployeeServlet, which also dispatches back to this page. The page uses styles.css for styling and has a Back to Home link to Welcome.jsp, which links back here. The page does not read or write any data itself. Applying the update is left to the servlet."
+          },
+          {
+            "id": "deleteEmployee.jsp",
+            "name": "deleteEmployee.jsp",
+            "kind": "screen",
+            "language": "jsp",
+            "loc": 30,
+            "file": "webapp/deleteEmployee.jsp",
+            "description": "deleteEmployee.jsp is the Delete Employee screen. A user enters the Employee ID and Employee Name of the employee to remove, and both fields are required. Submitting the form posts the values to DeleteEmployeeServlet, which presumably performs the deletion, though this packet does not show that logic. The page itself has no data access. It gets its styling from styles.css and has a Back to Home link to Welcome.jsp. Welcome.jsp links to this page, and DeleteEmployeeServlet dispatches back to it."
+          },
+          {
+            "id": "showEmployee.jsp",
+            "name": "showEmployee.jsp",
+            "kind": "screen",
+            "language": "jsp",
+            "loc": 45,
+            "file": "webapp/showEmployee.jsp",
+            "description": "showEmployee.jsp is the Employee List screen. It shows staff records in a table with ID, Name, Department and Salary columns. It opens only when ShowEmployeeServlet dispatches to it. It reads the employee list that the servlet puts in the request attribute employeeList, then prints those four fields for each Employee object. If the list is missing, the table shows only its headers. It uses styles.css for layout and has a Back to Home link to Welcome.jsp. It does not write any data."
+          },
+          {
+            "id": "AddEmployeeServlet",
+            "name": "AddEmployeeServlet",
+            "kind": "module",
+            "language": "java",
+            "loc": 83,
+            "file": "servlet/AddEmployeeServlet.java",
+            "route": "/AddEmployeeServlet",
+            "description": "AddEmployeeServlet is the entry point at /AddEmployeeServlet that records a new employee. The addEmployee.jsp form posts to it with name, ID, salary and department. It checks that every field is filled in, that the ID is a whole number, and that the salary is a number and not negative. It then builds an Employee and passes it to EmployeeDAO to save. On success the browser goes to Welcome.jsp. On any error, including a duplicate ID (SQL state 23505), it shows an alert and returns the user to addEmployee.jsp."
+          },
+          {
+            "id": "EditEmployeeServlet",
+            "name": "EditEmployeeServlet",
+            "kind": "module",
+            "language": "java",
+            "loc": 45,
+            "file": "servlet/EditEmployeeServlet.java",
+            "route": "/EditEmployeeServlet",
+            "sessionWrites": [
+              "message"
+            ],
+            "description": "EditEmployeeServlet is the entry point at /EditEmployeeServlet that updates a single field on one employee record. It is reached from editEmployee.jsp, reads the submitted id, name, field and newValue, and calls EmployeeDAO to apply the change. On success it stores a confirmation message in the HttpSession and sends the user to Welcome.jsp. If data is missing or no employee is updated, it shows a browser alert and returns to editEmployee.jsp."
+          },
+          {
+            "id": "DeleteEmployeeServlet",
+            "name": "DeleteEmployeeServlet",
+            "kind": "module",
+            "language": "java",
+            "loc": 39,
+            "file": "servlet/DeleteEmployeeServlet.java",
+            "route": "/DeleteEmployeeServlet",
+            "sessionWrites": [
+              "message"
+            ],
+            "description": "DeleteEmployeeServlet is an entry point mapped to /DeleteEmployeeServlet that removes an employee record. It is reached from deleteEmployee.jsp, reads the submitted id and name, and calls EmployeeDAO to delete the matching employee. On success it writes a confirmation message to the HttpSession and redirects to Welcome.jsp. If the employee is not found, or the input is missing, it writes a browser alert that sends the user back to deleteEmployee.jsp, although the not-found path still also attempts the Welcome.jsp redirect."
+          },
+          {
+            "id": "ShowEmployeeServlet",
+            "name": "ShowEmployeeServlet",
+            "kind": "module",
+            "language": "java",
+            "loc": 31,
+            "file": "servlet/ShowEmployeeServlet.java",
+            "route": "/ShowEmployeeServlet",
+            "description": "ShowEmployeeServlet is the entry point for listing all employees. It is mapped to the URL route /ShowEmployeeServlet and is reached from Welcome.jsp. When requested, it creates an EmployeeDAO and calls getAllEmployees to read the full list of employee records. It puts that list on the request as employeeList and dispatches to showEmployee.jsp to display it. It writes nothing itself. Any data access happens inside EmployeeDAO, which this packet does not show. No error handling is visible in the 31 lines."
+          },
+          {
+            "id": "Employee",
+            "name": "Employee",
+            "kind": "module",
+            "language": "java",
+            "loc": 25,
+            "file": "model/Employee.java",
+            "description": "Employee is the app's core data record for one staff member. It holds an id, name, department and salary, with a no-argument constructor, a constructor that takes name, department and salary, and getters and setters for each field. It has no outbound connections, so it calls nothing and does not read or write storage itself. Three nodes call it: AddEmployeeServlet, EmployeeDAO and showEmployee.jsp, which use it to carry employee data between the web layer, persistence and display."
+          },
+          {
+            "id": "EmployeeDAO",
+            "name": "EmployeeDAO",
+            "kind": "module",
+            "language": "java",
+            "loc": 122,
+            "file": "dao/EmployeeDAO.java",
+            "description": "EmployeeDAO is the data-access module for employee records. It adds a new employee, changes an employee's salary or department, deletes an employee matched by ID and name, lists all employees, and checks whether an ID and name pair exists, apparently for login. It calls DBUtil to get database connections and builds Employee objects, and it reads from and writes to the employee_data table. It is called by AddEmployeeServlet, DeleteEmployeeServlet, EditEmployeeServlet and ShowEmployeeServlet."
+          }
+        ]
+      },
+      {
+        "id": "dom:shell",
+        "name": "Presentation Shell",
+        "kind": "domain",
+        "children": [
+          {
+            "id": "Welcome.jsp",
+            "name": "Welcome.jsp",
+            "kind": "screen",
+            "language": "jsp",
+            "loc": 68,
+            "file": "webapp/Welcome.jsp",
+            "description": "Welcome.jsp is the administrator's home screen after login. It greets the admin by the adminName stored in the HttpSession and offers links to add, remove, list and update employees, plus a Logout button. It links to addEmployee.jsp, deleteEmployee.jsp and editEmployee.jsp, sends the employee list request to ShowEmployeeServlet, and posts logout to index.jsp. Users reach it after signing in through Login.jsp, and after each change through AddEmployeeServlet, DeleteEmployeeServlet and EditEmployeeServlet. The employee pages and showEmployee.jsp link back to it."
+          },
+          {
+            "id": "styles.css",
+            "name": "styles.css",
+            "kind": "module",
+            "language": "css",
+            "loc": 79,
+            "file": "webapp/styles.css",
+            "description": "styles.css is the shared stylesheet that gives the employee screens a consistent look: a gradient page background, a centred white container card, stacked form labels and inputs, blue action buttons and a red back button. It calls, reads and writes nothing, having no outbound connections. It is pulled in by the pages addEmployee.jsp, deleteEmployee.jsp, editEmployee.jsp and showEmployee.jsp, so any change to it alters the add, delete, edit and show employee screens together."
+          }
+        ]
+      },
+      {
+        "id": "dom:persist",
+        "name": "Persistence Infrastructure",
+        "kind": "domain",
+        "children": [
+          {
+            "id": "DBUtil",
+            "name": "DBUtil",
+            "kind": "module",
+            "language": "java",
+            "loc": 28,
+            "file": "util/DBUtil.java",
+            "description": "DBUtil is the application's shared database gateway: it hands out connections to the employee database from the Tomcat-managed pool rather than opening its own. When the class first loads, it performs a JNDI lookup of the pool named jdbc/EmployeeDB, which is defined in context.xml; if that lookup fails, it logs the error and throws ExceptionInInitializerError, so no data access can proceed. Its single getConnection method is called by AdminDAO and EmployeeDAO."
+          },
+          {
+            "id": "context.xml",
+            "name": "context.xml (JNDI pool jdbc/EmployeeDB)",
+            "kind": "module",
+            "language": "xml",
+            "loc": 18,
+            "file": "webapp/META-INF/context.xml",
+            "description": "This Tomcat configuration file sets up the shared database connection pool, published as jdbc/EmployeeDB. Through it, the employee-management web app reaches its PostgreSQL employee database using a DataSource that the server manages. The file names the org.postgresql.Driver and a localhost database address on port 5432. It allows at most 20 connections (maxTotal), keeps up to 5 idle (maxIdle), waits up to 10000 milliseconds for a free one, and checks connections with SELECT 1. Its only inbound connection is DBUtil, which reads it to get database connections."
+          },
+          {
+            "id": "schema.sql",
+            "name": "schema.sql",
+            "kind": "module",
+            "language": "sql",
+            "loc": 15,
+            "file": "schema.sql",
+            "description": "schema.sql is the one-time database setup script for the app. It is meant to be run against the \"employee\" PostgreSQL database before deploying. It writes the structure of two tables. The first is admin_data, which stores administrator records: an auto-generated id and a name. The second is employee_data, which stores the staff roster: an id, a name, a department and a required salary. It is an entry point with no inbound connections, so nothing in the app calls it. Its only outbound links are its writes to admin_data and employee_data."
+          }
+        ]
+      },
+      {
+        "id": "dom:data",
+        "name": "Data stores",
+        "kind": "domain",
+        "children": [
+          {
+            "id": "ds:HttpSession",
+            "name": "HttpSession",
+            "kind": "datastore",
+            "description": "HttpSession is the per-user web session store that carries short-lived state between requests: the logged-in administrator's name (adminName) and a status message (message) that no component reads back. It calls nothing outbound. LoginServlet and Login.jsp write to it, probably when an administrator signs in. EditEmployeeServlet and DeleteEmployeeServlet also write to it, apparently to record the result of employee changes. Welcome.jsp reads it through ${sessionScope.adminName} to greet the administrator. The packet does not show which component writes which attribute."
+          },
+          {
+            "id": "ds:admin_data",
+            "name": "admin_data",
+            "kind": "datastore",
+            "description": "admin_data is a database table that appears to hold administrator records for the employee-management app. The packet shows only two columns: an auto-generated id that serves as the primary key, and a name of up to 255 characters. Its exact business role is inferred from naming alone. It makes no outbound calls. AdminDAO both reads from and writes to it, and schema.sql writes to it by creating the table if it does not already exist. The packet says nothing more about how administrator records are used."
+          },
+          {
+            "id": "ds:employee_data",
+            "name": "employee_data",
+            "kind": "datastore",
+            "description": "The employee_data table is the app's single store of employee records. For each person it holds an auto-generated id as the primary key, a name and a department (each VARCHAR(255)), and a required salary stored as DOUBLE PRECISION. It is a passive datastore with no outbound connections. EmployeeDAO both reads from it and writes to it, and is the only application component the map shows touching it. schema.sql also writes to it by creating the table if it does not already exist."
+          }
+        ]
+      }
+    ]
+  },
+  "edges": [
+    {
+      "source": "AddEmployeeServlet",
+      "target": "Employee",
+      "kind": "call"
+    },
+    {
+      "source": "AddEmployeeServlet",
+      "target": "EmployeeDAO",
+      "kind": "call"
+    },
+    {
+      "source": "AddEmployeeServlet",
+      "target": "Welcome.jsp",
+      "kind": "dispatch"
+    },
+    {
+      "source": "AddEmployeeServlet",
+      "target": "addEmployee.jsp",
+      "kind": "dispatch"
+    },
+    {
+      "source": "AdminDAO",
+      "target": "Admin",
+      "kind": "call"
+    },
+    {
+      "source": "AdminDAO",
+      "target": "DBUtil",
+      "kind": "call"
+    },
+    {
+      "source": "AdminDAO",
+      "target": "ds:admin_data",
+      "kind": "read"
+    },
+    {
+      "source": "AdminDAO",
+      "target": "ds:admin_data",
+      "kind": "write"
+    },
+    {
+      "source": "DBUtil",
+      "target": "context.xml",
+      "kind": "read"
+    },
+    {
+      "source": "DeleteEmployeeServlet",
+      "target": "EmployeeDAO",
+      "kind": "call"
+    },
+    {
+      "source": "DeleteEmployeeServlet",
+      "target": "Welcome.jsp",
+      "kind": "dispatch"
+    },
+    {
+      "source": "DeleteEmployeeServlet",
+      "target": "deleteEmployee.jsp",
+      "kind": "dispatch"
+    },
+    {
+      "source": "DeleteEmployeeServlet",
+      "target": "ds:HttpSession",
+      "kind": "write"
+    },
+    {
+      "source": "EditEmployeeServlet",
+      "target": "EmployeeDAO",
+      "kind": "call"
+    },
+    {
+      "source": "EditEmployeeServlet",
+      "target": "Welcome.jsp",
+      "kind": "dispatch"
+    },
+    {
+      "source": "EditEmployeeServlet",
+      "target": "ds:HttpSession",
+      "kind": "write"
+    },
+    {
+      "source": "EditEmployeeServlet",
+      "target": "editEmployee.jsp",
+      "kind": "dispatch"
+    },
+    {
+      "source": "EmployeeDAO",
+      "target": "DBUtil",
+      "kind": "call"
+    },
+    {
+      "source": "EmployeeDAO",
+      "target": "Employee",
+      "kind": "call"
+    },
+    {
+      "source": "EmployeeDAO",
+      "target": "ds:employee_data",
+      "kind": "read"
+    },
+    {
+      "source": "EmployeeDAO",
+      "target": "ds:employee_data",
+      "kind": "write"
+    },
+    {
+      "source": "Login.jsp",
+      "target": "AdminDAO",
+      "kind": "call"
+    },
+    {
+      "source": "Login.jsp",
+      "target": "Welcome.jsp",
+      "kind": "dispatch"
+    },
+    {
+      "source": "Login.jsp",
+      "target": "ds:HttpSession",
+      "kind": "write"
+    },
+    {
+      "source": "LoginServlet",
+      "target": "AdminDAO",
+      "kind": "call"
+    },
+    {
+      "source": "LoginServlet",
+      "target": "Login.jsp",
+      "kind": "dispatch"
+    },
+    {
+      "source": "LoginServlet",
+      "target": "Welcome.jsp",
+      "kind": "dispatch"
+    },
+    {
+      "source": "LoginServlet",
+      "target": "ds:HttpSession",
+      "kind": "write"
+    },
+    {
+      "source": "ShowEmployeeServlet",
+      "target": "EmployeeDAO",
+      "kind": "call"
+    },
+    {
+      "source": "ShowEmployeeServlet",
+      "target": "showEmployee.jsp",
+      "kind": "dispatch"
+    },
+    {
+      "source": "SignUpServlet",
+      "target": "Admin",
+      "kind": "call"
+    },
+    {
+      "source": "SignUpServlet",
+      "target": "AdminDAO",
+      "kind": "call"
+    },
+    {
+      "source": "SignUpServlet",
+      "target": "Login.jsp",
+      "kind": "dispatch"
+    },
+    {
+      "source": "SignUpServlet",
+      "target": "signup.jsp",
+      "kind": "dispatch"
+    },
+    {
+      "source": "Welcome.jsp",
+      "target": "ShowEmployeeServlet",
+      "kind": "dispatch"
+    },
+    {
+      "source": "Welcome.jsp",
+      "target": "addEmployee.jsp",
+      "kind": "call"
+    },
+    {
+      "source": "Welcome.jsp",
+      "target": "deleteEmployee.jsp",
+      "kind": "call"
+    },
+    {
+      "source": "Welcome.jsp",
+      "target": "ds:HttpSession",
+      "kind": "read"
+    },
+    {
+      "source": "Welcome.jsp",
+      "target": "editEmployee.jsp",
+      "kind": "call"
+    },
+    {
+      "source": "Welcome.jsp",
+      "target": "index.jsp",
+      "kind": "dispatch"
+    },
+    {
+      "source": "addEmployee.jsp",
+      "target": "AddEmployeeServlet",
+      "kind": "dispatch"
+    },
+    {
+      "source": "addEmployee.jsp",
+      "target": "Welcome.jsp",
+      "kind": "call"
+    },
+    {
+      "source": "addEmployee.jsp",
+      "target": "styles.css",
+      "kind": "call"
+    },
+    {
+      "source": "deleteEmployee.jsp",
+      "target": "DeleteEmployeeServlet",
+      "kind": "dispatch"
+    },
+    {
+      "source": "deleteEmployee.jsp",
+      "target": "Welcome.jsp",
+      "kind": "call"
+    },
+    {
+      "source": "deleteEmployee.jsp",
+      "target": "styles.css",
+      "kind": "call"
+    },
+    {
+      "source": "editEmployee.jsp",
+      "target": "EditEmployeeServlet",
+      "kind": "dispatch"
+    },
+    {
+      "source": "editEmployee.jsp",
+      "target": "Welcome.jsp",
+      "kind": "call"
+    },
+    {
+      "source": "editEmployee.jsp",
+      "target": "styles.css",
+      "kind": "call"
+    },
+    {
+      "source": "index.jsp",
+      "target": "Login.jsp",
+      "kind": "call"
+    },
+    {
+      "source": "index.jsp",
+      "target": "signup.jsp",
+      "kind": "call"
+    },
+    {
+      "source": "schema.sql",
+      "target": "ds:admin_data",
+      "kind": "write"
+    },
+    {
+      "source": "schema.sql",
+      "target": "ds:employee_data",
+      "kind": "write"
+    },
+    {
+      "source": "showEmployee.jsp",
+      "target": "Employee",
+      "kind": "call"
+    },
+    {
+      "source": "showEmployee.jsp",
+      "target": "Welcome.jsp",
+      "kind": "call"
+    },
+    {
+      "source": "showEmployee.jsp",
+      "target": "styles.css",
+      "kind": "call"
+    },
+    {
+      "source": "signup.jsp",
+      "target": "Login.jsp",
+      "kind": "call"
+    },
+    {
+      "source": "signup.jsp",
+      "target": "SignUpServlet",
+      "kind": "dispatch"
+    }
+  ],
+  "entryPoints": [
+    "index.jsp",
+    "AddEmployeeServlet",
+    "DeleteEmployeeServlet",
+    "EditEmployeeServlet",
+    "LoginServlet",
+    "ShowEmployeeServlet",
+    "SignUpServlet",
+    "schema.sql"
+  ],
+  "deadEnds": [
+    "LoginServlet"
+  ],
+  "observations": [
+    "No access guard anywhere: all 6 @WebServlet routes and all 8 JSPs are public URLs (no web.xml, no Filter). HttpSession.adminName is written at login but only read for display by Welcome.jsp.",
+    "LoginServlet (/LoginServlet) has no inbound edge: Login.jsp posts to itself and authenticates in a scriptlet calling AdminDAO directly, so login logic exists twice and the live copy is in a JSP.",
+    "HttpSession is written by Edit/DeleteEmployeeServlet (attribute 'message') but no node reads 'message': a write-only store, so success feedback is lost.",
+    "EmployeeDAO is the single writer and reader of employee_data (4 servlets fan in); AdminDAO likewise owns admin_data (SignUpServlet, Login.jsp, LoginServlet). Clean seams: each DAO maps 1:1 to a Spring repository.",
+    "DBUtil is a single point of failure: a failed JNDI lookup of jdbc/EmployeeDB in its static initialiser breaks every DAO until redeploy.",
+    "Dead methods (never called): AdminDAO.addAdmin, AdminDAO.getAdminById, EmployeeDAO.validateEmployee.",
+    "Welcome.jsp is the hub: every CRUD page links back to it and every success path redirects to it."
+  ],
+  "flows": [
+    {
+      "name": "Register as an administrator",
+      "persona": "A new administrator",
+      "description": "A new administrator signs up with an ID and a name so they can log in later.",
+      "steps": [
+        {
+          "label": "Open the home page and choose Sign Up",
+          "nodes": [
+            "index.jsp",
+            "signup.jsp"
+          ]
+        },
+        {
+          "label": "Submit admin ID and name",
+          "nodes": [
+            "signup.jsp",
+            "SignUpServlet"
+          ]
+        },
+        {
+          "label": "Check the ID is a whole number and save the admin",
+          "nodes": [
+            "SignUpServlet",
+            "AdminDAO",
+            "ds:admin_data"
+          ]
+        },
+        {
+          "label": "See 'Sign up successful' and go to login",
+          "nodes": [
+            "SignUpServlet",
+            "Login.jsp"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Log in to the dashboard",
+      "persona": "An administrator",
+      "description": "An administrator logs in with their ID and name and lands on the dashboard greeting them by name.",
+      "steps": [
+        {
+          "label": "Open the login page",
+          "nodes": [
+            "index.jsp",
+            "Login.jsp"
+          ]
+        },
+        {
+          "label": "Submit ID and name (the page posts to itself)",
+          "nodes": [
+            "Login.jsp"
+          ]
+        },
+        {
+          "label": "Match ID and name against registered admins",
+          "nodes": [
+            "Login.jsp",
+            "AdminDAO",
+            "ds:admin_data"
+          ]
+        },
+        {
+          "label": "Remember the admin's name for this visit",
+          "nodes": [
+            "Login.jsp",
+            "ds:HttpSession"
+          ]
+        },
+        {
+          "label": "Show the dashboard 'Welcome, <name>!'",
+          "nodes": [
+            "Welcome.jsp",
+            "ds:HttpSession"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Add an employee and see the list",
+      "persona": "An administrator",
+      "description": "An administrator records a new employee and then checks the full employee list.",
+      "steps": [
+        {
+          "label": "Choose Add Employee on the dashboard",
+          "nodes": [
+            "Welcome.jsp",
+            "addEmployee.jsp"
+          ]
+        },
+        {
+          "label": "Submit ID, name, department and salary",
+          "nodes": [
+            "addEmployee.jsp",
+            "AddEmployeeServlet"
+          ]
+        },
+        {
+          "label": "Validate: all fields filled, whole-number ID, salary a number and not negative",
+          "nodes": [
+            "AddEmployeeServlet"
+          ]
+        },
+        {
+          "label": "Save the employee (duplicate ID is reported)",
+          "nodes": [
+            "AddEmployeeServlet",
+            "EmployeeDAO",
+            "ds:employee_data"
+          ]
+        },
+        {
+          "label": "Back to the dashboard, open the employee list",
+          "nodes": [
+            "Welcome.jsp",
+            "ShowEmployeeServlet"
+          ]
+        },
+        {
+          "label": "Load every employee and show the table",
+          "nodes": [
+            "ShowEmployeeServlet",
+            "EmployeeDAO",
+            "ds:employee_data",
+            "showEmployee.jsp"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Update or remove an employee",
+      "persona": "An administrator",
+      "description": "An administrator changes an employee's department or salary, or removes an employee by ID and name.",
+      "steps": [
+        {
+          "label": "Choose Update Employee Details",
+          "nodes": [
+            "Welcome.jsp",
+            "editEmployee.jsp"
+          ]
+        },
+        {
+          "label": "Submit ID, name, field (department or salary) and new value",
+          "nodes": [
+            "editEmployee.jsp",
+            "EditEmployeeServlet"
+          ]
+        },
+        {
+          "label": "Update that one field by ID",
+          "nodes": [
+            "EditEmployeeServlet",
+            "EmployeeDAO",
+            "ds:employee_data"
+          ]
+        },
+        {
+          "label": "Choose Remove Employee and submit ID and name",
+          "nodes": [
+            "Welcome.jsp",
+            "deleteEmployee.jsp",
+            "DeleteEmployeeServlet"
+          ]
+        },
+        {
+          "label": "Delete only when ID and name both match",
+          "nodes": [
+            "DeleteEmployeeServlet",
+            "EmployeeDAO",
+            "ds:employee_data"
+          ]
+        },
+        {
+          "label": "Return to the dashboard",
+          "nodes": [
+            "DeleteEmployeeServlet",
+            "Welcome.jsp"
+          ]
+        }
+      ]
+    }
+  ]
+}

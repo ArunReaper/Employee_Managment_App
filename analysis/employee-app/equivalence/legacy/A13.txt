@@ -1,0 +1,6 @@
+message: Error while adding employee. Please try again.
+page: addEmployee
+admin_data:
+(empty)
+employee_data:
+(empty)

@@ -1,0 +1,6 @@
+message: Admin ID must be a whole number, e.g. 101.
+page: signup
+admin_data:
+(empty)
+employee_data:
+(empty)

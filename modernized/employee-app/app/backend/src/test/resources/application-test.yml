@@ -1,0 +1,6 @@
+# Tests run against the dedicated employee_test database (built from the unchanged schema.sql).
+spring:
+  datasource:
+    url: ${TEST_DATASOURCE_URL:jdbc:postgresql://localhost:5432/employee_test}
+    username: ${TEST_DATASOURCE_USERNAME:employee_app}
+    password: ${TEST_DATASOURCE_PASSWORD:}

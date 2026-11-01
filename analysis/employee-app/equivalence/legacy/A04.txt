@@ -1,0 +1,6 @@
+message: Employee ID must be a whole number, e.g. 101.
+page: addEmployee
+admin_data:
+(empty)
+employee_data:
+(empty)
